@@ -4,7 +4,6 @@ author: "Alvaro J. Flórez"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
-        bookdown::pdf_document2
         always_allow_html: true
 bibliography: [ModeloLinealGeneralizado.bib]
 biblio-style: apalike
