@@ -1,5 +1,5 @@
 --- 
-title: "Notas de clase Modelo lineal generalizado"
+title: "Modelo lineal generalizado"
 author: "Alvaro J. Flórez"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
