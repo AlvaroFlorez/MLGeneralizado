@@ -7,7 +7,7 @@ output: bookdown::gitbook
         bookdown::pdf_document2
 bibliography: [ModeloLinealGeneralizado.bib]
 biblio-style: apalike
-link-citations: yes
+link-citations: TRUE
 
 header-includes:
   - \newcommand{\bepsilon}{\boldsymbol \epsilon}
