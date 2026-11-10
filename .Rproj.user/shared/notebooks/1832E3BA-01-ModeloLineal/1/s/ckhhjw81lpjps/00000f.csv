@@ -1,0 +1,3 @@
+"0","par(mfrow=c(1,3))"
+"0","plot(x1,abs(e1),xlab='valores ajustados',ylab='valor absoluto de los residuos estudentizados',xaxt='n',yaxt='n',main='(a)',"
+"0","     ylim=c(0,3))"

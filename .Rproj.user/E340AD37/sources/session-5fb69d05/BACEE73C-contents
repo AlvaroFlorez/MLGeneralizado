@@ -1,0 +1,20 @@
+n = 5
+y = 0.2
+
+ll = function(x,n,y){
+  log(choose(n,n*y)) + n*y*log(x) + n*(1-y)*log(1-x)
+}
+Sco = function(x,n,y){
+  n * (y/x - (1 - y)/(1 - x))
+}
+Sco2 = function(x,n,y){
+  n * (y-x)/(x*(1-x))
+}
+
+Sco(0.5,10,0.2)
+Sco2(0.5,10,0.2)
+
+ll(0.5,n,y)
+library(Deriv) 
+Deriv(ll,'x')
+Deriv(Sco,'x')

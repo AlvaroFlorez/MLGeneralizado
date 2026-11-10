@@ -1,0 +1,1 @@
+"0","plot(impair ~ ses,data=Mental,ylab='deterioro mental',xlab='Nivel socioeconómico')"

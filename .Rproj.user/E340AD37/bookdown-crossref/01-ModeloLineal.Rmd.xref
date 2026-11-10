@@ -1,0 +1,81 @@
+h1:modelo-lineal Modelo lineal
+h2:datos-de-peso-al-nacer Datos de peso al nacer
+fig:pesoNacerFigure1 Gráfico de dispersion del la edad gestional y el peso al nacer. Punto rojos corresponden a niños y los negros a niñas.
+fig:Rectas1 Efecto de la interacción entre variable continua e indicadora. Modelo general (izquierda) y modelo de líneas paralelas (derecha).
+h2:datos-de-grasa-corporal Datos de grasa corporal
+fig:fatFigure Gráfico de dispersion del \\% de grasa corporal (brozek), la edad (age), la circunferencia del abdomen (abdom) y el índice de masa corporal (adipos).
+h2:datos-de-las-naciones-unidas Datos de las Naciones Unidas
+fig:UNdataFig Datos de la ONU. Relación entre las variables.
+h2:datos-de-cemento Datos de cemento
+fig:CementFigure Datos de cemento. Diagrama de dispersión de las variables.
+h2:definición-del-modelo Definición del modelo
+h3:inclusión-de-covariables-categóricas Inclusión de covariables categóricas
+h2:estimación-de-los-parámetros-por-mínimos-cuadrados-ordinarios Estimación de los parámetros por mínimos cuadrados ordinarios
+h3:propiedades-de-los-estimadores-por-mco Propiedades de los estimadores por MCO
+h3:teorema-de-gauss-markov Teorema de Gauss-Markov
+h3:estimador-de-máxima-verosimilitud Estimador de máxima verosimilitud
+h3:interpretación-de-parámetros-e-implementación-en-r Interpretación de parámetros e implementación en R
+h4:datos-de-peso-al-nacer-1 Datos de peso al nacer
+fig:pesoNacerMedia Media del peso al nacer según la edad gestacional para niños (línea roja) y niñas (línea negra). Punto rojos corresponden a niños y los negros a niñas.
+h4:datos-de-grasa-corporal-1 Datos de grasa corporal
+h2:inferencias-sobre-los-parámetros-del-modelo Inferencias sobre los parámetros del modelo
+h3:análisis-de-varianza Análisis de varianza
+h3:pruebas-individuales-sobre-los-coeficientes Pruebas individuales sobre los coeficientes
+h3:prueba-de-hipótesis-para-subconjuntos-de-bbeta Prueba de hipótesis para subconjuntos de 
+h3:intervalos-de-confianza Intervalos de confianza
+h4:intervalos-de-confianza-para-beta_j Intervalos de confianza para 
+h4:intervalos-de-confianza-para-el-valor-esperado-de-y-y-una-observación-futura Intervalos de confianza para el valor esperado de  y una observación futura
+h3:implementación-en-r Implementación en R
+h4:datos-de-peso-al-nacer-2 Datos de peso al nacer
+fig:birthweightIC Intervalos del 95\\% de confianza (línea discontinua) y predicción (línea punteada) para el peso al nacer en función de la edad gestional.
+h4:datos-de-grasa-corporal-2 Datos de grasa corporal
+h2:evaluación-de-supuestos-del-modelo Evaluación de supuestos del modelo
+h2:efectos-del-incumplimiento-de-los-supuestos Efectos del incumplimiento de los supuestos
+h3:sesgo-por-omisión-de-variables-relevantes Sesgo por omisión de variables relevantes
+h3:incorrecta-matriz-de-varianzas-de-los-errores Incorrecta matriz de varianzas de los errores
+h3:distribución-no-normal-de-los-errores Distribución no normal de los errores
+h2:residuos-del-modelo Residuos del modelo
+h3:residuos-estudentizados Residuos estudentizados
+h3:residuos-press-y-r-student Residuos PRESS y R-student
+h2:evaluación-del-cumplimiento-de-los-supuestos Evaluación del cumplimiento de los supuestos
+h3:gráficos-de-residuos Gráficos de residuos
+fig:PatronesResiduos Ejemplos de posibles patrones de residuos
+fig:patronesResiduos2 Ejemplos de posibles patrones de residuos (graficando el valor absoluto de los residuos).
+fig:qqplots Gráficos de normalidad para datos aleatorios generados a partir de una distribución normal estándar (izquierda), exponencial (centro), y t-Student con 2 grados de libertad (derecha).
+h3:pruebas-de-bondad-de-ajuste Pruebas de bondad de ajuste
+h4:implementación-en-r-1 Implementación en R
+h4:datos-de-grasa-corporal-3 Datos de grasa corporal
+fig:residuosfatdata Datos de grasa corporal. Gráfico de los residuos estudentizados contra los valores ajustados.
+fig:qqnormfatdata1 Datos de grasa corporal. Gráfico cuantil-cuantil para normalidad.
+h4:datos-de-las-naciones-unidas-1 Datos de las Naciones Unidas
+fig:Un11res Datos de la ONU. Gráfico de los residuos estudentizados.
+h3:transformaciones-para-corregir-problemas-con-los-supuestos Transformaciones para corregir problemas con los supuestos
+h4:funciones-linealizables Funciones linealizables
+tab:funciones Funciones linealizables
+fig:linealPat Diferentes patrones linealizables.
+h4:transformaciones-para-estabilizar-la-varianza Transformaciones para estabilizar la varianza
+tab:funcionesVar Algunas transformaciones para estabilizar la varianza
+h2:método-de-box-cox Método de Box-Cox
+h4:implementación-en-r-2 Implementación en R
+h4:datos-de-las-naciones-unidas-2 Datos de las Naciones Unidas
+fig:UNtransFig Datos de las Naciones Unidas. Relación entre las variables.
+fig:UNtrans2Fig Datos de las Naciones Unidas. Gráficos de los residuos para el modelo transformado.
+fig:UNtrans3Fig1 Datos de las Naciones Unidas. Obtención del valor de la potencia óptima por medio del método de Box-Cox.
+fig:UNtrans4Fig Datos de las Naciones Unidas. Gráficos de los residuos para el modelo utilizando la potencia obtenida por el método de Box-Cox.
+h2:puntos-de-influencia Puntos de influencia
+fig:puntosAIw Efecto de los puntos inusuales. En cada gráfico, la línea continua es la estimación por MCO con todos los datos, mientras que la línea discontinua es la estimación por MCO omitiendo el punto inusual (circulo rojo). Izquierda: efecto de un punto atípico. Centro: efecto de un punto de balanceo. Derecha: efecto de un punto influyente.
+h3:distancia-de-cook Distancia de Cook
+h3:implementación-en-r-3 Implementación en R
+h4:datos-de-las-naciones-unidas. Datos de las Naciones Unidas.
+fig:UNtrans3Fig Datos de las Naciones Unidas. Gráfico de influencia.
+fig:Un11CookFig Datos de las Naciones Unidas. Distancia de Cook.
+fig:UNdataDfBetas Datos de la ONU. DFBetas.
+fig:UNdataOtros Datos de la ONU. DFFITS y COVRATIO.
+h2:multicolinealidad Multicolinealidad
+h3:factores-de-inflación-de-varianza Factores de inflación de varianza
+h3:valores-propios-de-bzbz Valores propios de 
+h3:valores-singulares-de-bz Valores singulares de 
+h3:solución-al-problema-de-multicolinealidad Solución al problema de multicolinealidad
+h3:implementación-en-r-4 Implementación en R
+h4:datos-de-cemento-1 Datos de cemento
+

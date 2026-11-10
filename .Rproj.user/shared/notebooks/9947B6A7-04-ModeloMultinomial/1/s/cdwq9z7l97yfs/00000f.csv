@@ -1,0 +1,4 @@
+"0","Mental$impair = as.factor(Mental$impair)"
+"0","Mental$ses = as.factor(Mental$ses)"
+"0","par(mfrow=c(1,2))"
+"0","plot(impair ~ life,data=Mental,ylab='deterioro mental',xlab='Índice acont. de vida')"

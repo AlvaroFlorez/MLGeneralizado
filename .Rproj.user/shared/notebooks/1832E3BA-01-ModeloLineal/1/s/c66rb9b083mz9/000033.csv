@@ -1,0 +1,7 @@
+"0",""
+"0","### Figura 4"
+"0","x4=seq(from=0.4,to=2,length.out = 1000)"
+"0","y41 = x4/(0.5*x4-0.2)"
+"0","y42 = x4/(-0.5*x4+1)"
+"0","plot(x4,y41,type='l',lwd=2,ylim=c(0,100),xaxt='n',yaxt='n',main='(d)',"
+"0","     xlab='covariable = X',ylab = 'variable respuesta = Y')"

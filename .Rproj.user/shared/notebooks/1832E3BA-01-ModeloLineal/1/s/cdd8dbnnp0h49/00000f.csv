@@ -1,0 +1,8 @@
+"0","library(car)"
+"0","qqPlot(mod.fat,xlab='cuantiles teóricos',ylab='residuos estudentizados',"
+"0","       distribution = 'norm')"
+"1","[1]"
+"1","  39"
+"1"," 207"
+"1","
+"

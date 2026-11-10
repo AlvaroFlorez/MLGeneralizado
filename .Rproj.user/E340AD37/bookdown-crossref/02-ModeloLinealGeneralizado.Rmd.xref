@@ -1,0 +1,50 @@
+h1:modelo-lineal-geralizado Modelo lineal geralizado
+h2:datos-de-escarabajos Datos de escarabajos
+tab:TmortEsc Número de escarabajos expuestos y muertos a diferentes dosis (escala logarítmica) de disulfuro de carbono gaseoso.
+fig:grafMortEsc Datos de mortalidad de escarabajos. Relación entre la concentración de disulfuro de carbono gaseoso (en escala logarítmica) y la proporción de muertes (muertos/expuestos) de los escarabajos.
+h2:datos-de-ataques-de-epilepsia Datos de Ataques de epilepsia
+fig:seizurePlot Datos de epilepsia. Relación entre el número de ataques epilépticos con la edad, ataques previos (izquierda) y el tratamiento (derecha).
+h2:familia-exponencial Familia exponencial
+h3:relación-media-varianza Relación media-varianza:
+h2:definición-del-modelo-lineal-generalizado Definición del modelo lineal generalizado
+h3:componente-aleatorio Componente aleatorio
+h3:predictor-lineal Predictor lineal
+h3:función-de-enlace Función de enlace
+h3:ejemplos Ejemplos
+h4:datos-de-escarabajos-1 Datos de escarabajos
+fig:logfun Función logit.
+h4:modelo-poisson-para-el-número-de-ataque-epilépticos Modelo Poisson para el número de ataque epilépticos
+h4:otros-ejemplos Otros ejemplos
+h3:especificación-del-modelo Especificación del modelo
+h2:estimador-de-máxima-verosimilitud Estimador de máxima verosimilitud
+h3:mínimos-cuadrados-iterativamente-reponderados Mínimos cuadrados iterativamente reponderados
+h3:distribución-del-mle Distribución del MLE
+h3:implementación-en-r Implementación en R
+h4:ajuste-e-interpretación-de-parámetros-del-modelo-logístico Ajuste e interpretación de parámetros del modelo logístico
+fig:escarabajosEstFig Datos de mortalidad de escarabajos. Estimación de la probabilidad de que el escarabajo muera en función del logarítmo de la dosis de disulfuro de carbono gaseoso.
+h4:ajuste-e-interpretación-de-parámetros-del-modelo-poisson Ajuste e interpretación de parámetros del modelo Poisson
+fig:ajusteSeizureFig Datos de epilepsia. Estimación de la media de ataques epilépticos (por dos semanas) luego de cuatro semanas de tratamiento. La línea negra representa la media de ataques para el grupo placebo, mientras que, la linea roja la media de ataques para el tratamiento con Progabide.
+h2:pruebas-de-hipótesis Pruebas de hipótesis
+h3:prueba-de-razón-de-verosimilitud Prueba de razón de verosimilitud
+h3:prueba-del-score Prueba del Score
+h3:prueba-de-wald Prueba de Wald
+fig:pruebaHipotesis Diferencias conceptuales de las pruebas de hipótesis
+h3:implementación-en-r-1 Implementación en R
+h4:datos-de-ataques-de-epilepsia-1 Datos de ataques de epilepsia
+h2:intervalos-de-confianza Intervalos de confianza
+h3:intervalo-de-confianza-para-los-coeficientes-de-regresión Intervalo de confianza para los coeficientes de regresión
+fig:perfilverosimilitud Gráfica de contorno de la función de verosimilitud para un modelo con dos parámetros $(\\theta_1,\\theta_2)$. El punto está ubicado en la máxima verosimilitud y la línea solida el camino del perfil de verosimilitud.
+fig:perfilverosimilitud2 Gráfica del perfil de verosimilitud para $\\theta_1$. La línea solida es estimación por máxima verosimilitud de $\\theta_1$ y las líneas cortadas negras y rojas los límites del intervalo del 95% de confianza usando le método del perfil de verosimilitud y el de Wald, respectivamente.
+h3:intervalo-de-confianza-para-la-media Intervalo de confianza para la media
+h3:implementación-en-r-2 Implementación en R
+h4:datos-de-escarabajos-2 Datos de escarabajos
+fig:grafICesc Datos de mortalidad de escarabajos. Intervalo del 95% de confianza para la probabilidad de que el escarabajo muera.
+h4:datos-de-ataque-de-epilepsia Datos de ataque de epilepsia
+fig:grafICepilep Datos de epilépsia. Estimación de la media de ataques epilépticos por dos semanas en el grupo placebo (línea negra) y el grupo tratamiento (línea roja).
+h2:devianza Devianza
+h3:relación-la-prueba-de-razón-de-verosimilitud Relación la prueba de razón de verosimilitud
+h3:modelo-binomial Modelo binomial
+h3:modelo-poisson Modelo Poisson
+h2:estadístico-chi2-de-pearson Estadístico  de Pearson
+h2:residuos-de-un-glm Residuos de un GLM
+

@@ -1,0 +1,1 @@
+"0","plot(NULL,NULL,ylim=c(0,1),xlim=c(0,1),xlab='covariable = X',ylab = 'variable respuesta = Y')"

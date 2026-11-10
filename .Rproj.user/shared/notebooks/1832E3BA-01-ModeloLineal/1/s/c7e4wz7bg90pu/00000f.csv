@@ -1,0 +1,6 @@
+"0","library(MASS)"
+"0","res.stud.fat = stdres(mod.fat)"
+"0","mod.fit.fat = mod.fat$fitted.values"
+"0","par(mfrow=c(1,2))"
+"0","plot(mod.fit.fat,res.stud.fat, ylab='residuos estudentizados',"
+"0","     xlab='valores ajustados',main='(a)')"

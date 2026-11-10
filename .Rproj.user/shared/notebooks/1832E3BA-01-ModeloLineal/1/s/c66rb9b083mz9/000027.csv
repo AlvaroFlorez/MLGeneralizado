@@ -1,0 +1,7 @@
+"0",""
+"0","### Figura 3"
+"0","x3=seq(from=0,to=1,length.out = 1000)"
+"0","y31 = 0.5 + log(x3)"
+"0","y32 = -2 + log(x3)*-1"
+"0","plot(x3,y31,type='l',ylim=c(-6,4.5),xaxt='n',yaxt='n',main='(c)',"
+"0","     xlab='covariable = X',ylab = 'variable respuesta = Y',lwd=2)"

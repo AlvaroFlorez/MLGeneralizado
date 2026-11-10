@@ -1,0 +1,47 @@
+library(collapse)
+library(ggplot2)
+caimanes = read.csv('caimanes.csv')
+caimanes$lake = as.factor(caimanes$lake)
+caimanes$lake = relevel(caimanes$lake,ref ='Hancock')
+caimanes$size = as.factor(caimanes$size)
+caimanes
+
+
+
+frq = caimanes[,3:7]
+library(data.table)
+caimanes.long <- reshape(caimanes, idvar = c("lake","size"),varying=list(3:7),
+                direction='long',v.names='frec',timevar='foodchoice')
+for(i in 1:5){
+  caimanes.long$foodchoice[caimanes.long$foodchoice==i] = names(caimanes)[i+2] 
+}
+
+#### tabla según lago
+caimanesLake = collap(caimanes.long,~lake+foodchoice,fsum)
+caimanesLake$frecRel = NA
+for(i in 1:4){
+  lake.name = levels(caimanesLake$lake)[i]
+  frec.lake = sum(caimanesLake$frec[caimanesLake$lake==lake.name])
+  caimanesLake$frecRel[caimanesLake$lake==lake.name] = 
+    caimanesLake$frec[caimanesLake$lake==lake.name]/frec.lake
+}
+### barras 
+p = ggplot(caimanesLake, aes(x=lake, y=frecRel*100,fill=foodchoice)) + 
+  geom_bar(stat = "identity",position="dodge") +xlab('lago') + ylab('porcentaje')+
+  labs(fill = "Preferencia en dieta")
+p
+
+#### según tamaño
+caimanesSize = collap(caimanes.long,~size+foodchoice,fsum)
+caimanesSize$frecRel = NA
+for(i in 1:4){
+  lake.name = levels(caimanesSize$lake)[i]
+  frec.size = sum(caimanesSize$frec[caimanesSize$lake==lake.name])
+  caimanesSize$frecRel[caimanesSize$lake==lake.name] = 
+    caimanesSize$frec[caimanesSize$lake==lake.name]/frec.size
+}
+
+
+p2 = ggplot(caimanesSize, aes(x=size, y=frecRel*100,fill=foodchoice)) + 
+  geom_bar(stat = "identity",position="dodge") +xlab('tamaño') + ylab('porcentaje')+
+  labs(fill = "Preferencia en dieta")

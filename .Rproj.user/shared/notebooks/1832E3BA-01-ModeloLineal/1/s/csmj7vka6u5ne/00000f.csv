@@ -1,0 +1,18 @@
+"0","tb1 = data.frame("
+"0","  x1 = c('$\\sigma^{2} \\propto C$','$\\sigma^{2} \\propto E(y)$','$\\sigma^{2} \\propto E(y)[1-E(y)]$',"
+"0","         '$\\sigma^{2} \\propto E(y)^{2}$','$\\sigma^{2} \\propto E(y)^{3}$',"
+"0","         '$\\sigma^{2} \\propto E(y)^{4}$'),"
+"0","  x2 = c('$y^{*}=y$', '$y^{*}=\\sqrt{y}$','$y^{*}=\\sin^{-1}\\sqrt{y} (0 \\leq y_{i} \\leq 1)$',"
+"0","         '$y^{*}=\\log y$  o también  $y^{*}=\\log (y+1)$ (si $y \\geq 0$)',"
+"0","         '$y^{*}=\\frac{1}{\\sqrt{y}}$','$y^{*}=\\frac{1}{y}$'))"
+"0",""
+"0","colnames(tb1) = c('Relación entre $\\sigma^{2}$ y $E(Y)$','Transformación')"
+"0","knitr::kable(tb1, escape = FALSE,caption ='Algunas transformaciones para estabilizar la varianza', booktabs = TRUE)"
+"1","[WARNING] Could not convert TeX math y^{*}=\sqrt{y}, rendering as TeX
+"
+"1","[WARNING] Could not convert TeX math y^{*}=\sin^{-1}\sqrt{y} (0 \leq y_{i} \leq 1), rendering as TeX
+"
+"1","[WARNING] Could not convert TeX math y^{*}=\frac{1}{\sqrt{y}}, rendering as TeX
+"
+"1","[WARNING] Could not convert TeX math y^{*}=\frac{1}{y}, rendering as TeX
+"

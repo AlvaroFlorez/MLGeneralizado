@@ -1,0 +1,2 @@
+"0","plot(log(UN11$ppgdp),log(UN11$fertility),xlab='log PNB per cápita (dólares)',ylab='log # esperado de nacidos vivos por mujer',"
+"0","     cex.lab=0.8)"

@@ -1,0 +1,8 @@
+"0","x0 = data.frame(age=40,abdom=99, adipos=27)"
+"0","predict(mod.fat,x0)"
+"1","       1 "
+"1","
+"
+"1","22.40622 "
+"1","
+"

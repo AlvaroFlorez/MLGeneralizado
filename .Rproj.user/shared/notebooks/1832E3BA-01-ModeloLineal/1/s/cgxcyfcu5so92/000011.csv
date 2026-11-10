@@ -1,0 +1,1 @@
+"0","lines(lowess(res.UN11.trans~mod.UN11.trans$fitted.values),col=2)"

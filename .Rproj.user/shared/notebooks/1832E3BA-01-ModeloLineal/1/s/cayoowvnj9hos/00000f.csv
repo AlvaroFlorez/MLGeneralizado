@@ -1,0 +1,10 @@
+"0","tb1 = data.frame(x1=c(""(a)"",""(b)"",""(c)"",'(d)'),"
+"0","           x2= c(""$y = \\beta_{0}x^{\\beta_{1}}$"",""$y = \\beta_{0}e^{\\beta_{1}x}$"",""$y = \\beta_{0}+\\beta_{1}ln(x)$"",'$y = \\frac{x}{\\beta_{0}x+\\beta_{1}}$'),"
+"0","           x3=c(""$y^{*}= \\log(y), x^{*} = \\log(x)$"",""$y^{*}= \\log(y)$"",""$x^{*}= \\log(x)$"",'$x^{*}= \\frac{1}{x}, y^{*}= \\frac{1}{y}$'),"
+"0","           x4=c('$y^{*} =  \\log(\\beta_{0}) + \\beta_{1} x^{*}$','$y^{*} = \\log(\\beta_{0}) + \\beta_{1} x$', '$y^{*} = \\beta_{0} + \\beta_{1} x^{*}$','$y^{*} = \\beta_{0} - \\beta_{1} x^{*}$') )"
+"0","colnames(tb1) = c('','Función','Transformación','Forma lineal' )"
+"0","knitr::kable(tb1, escape = FALSE,caption ='Funciones linealizables', booktabs = TRUE)"
+"1","[WARNING] Could not convert TeX math y = \frac{x}{\beta_{0}x+\beta_{1}}, rendering as TeX
+"
+"1","[WARNING] Could not convert TeX math x^{*}= \frac{1}{x}, y^{*}= \frac{1}{y}, rendering as TeX
+"

@@ -1,0 +1,596 @@
+#    Modelos para respuestas binarias
+```{r preamble3, include=FALSE}
+library(MASS)
+library(knitr)
+library(kableExtra)
+library(aod)
+library(pROC)
+data(birthwt)
+```
+## Casos de estudio
+
+### Mortalidad de escarabajos
+Vamos a continuar con los datos del estudio sobre los escarabajos del capítulo anterior.
+
+```{r datosEscarabajos}
+logdose <- c(1.6907, 1.7242, 1.7552, 1.7842, 1.8113, 1.8369, 1.8610, 1.8839)
+dead <- c(6, 13, 18, 28, 52, 53, 61, 60) 
+n <- c(59, 60, 62, 56, 63, 59, 62, 60) 
+Datos.esc=data.frame(logdose,n,dead)
+```
+
+### Bajo peso al nacer
+Con los datos `birthwt` de la librería `MASS`, se quiere indentificar factores de riesgo asociados con el nacimiento de niños con bajo peso (es decir, un peso al nacer menor de $2.5$kgs). Se tiene información de 189 recién nacidos y sus madres atendidos en una hospital (Baystate Medical Center, Springfield, Mass en 1986). Para ilustración de los modelos, vamos a utilizar las siguientes covariables:
+
+* ```age```: edad de la madre (años),
+
+* ```lwt```: peso de la madre antes del embarazo (libras),
+
+* ```smoke```: estado de tabaquismo durante el embarazo (0 no, 1 si),
+
+* ```ftv```: número de visitas prenatales durante el primer trimestre.
+
+Mientras que la variable de respuesta es si el bebé nace con bajo peso (1 si peso $<$ 2.5 kgs, 0 si peso $\geq$ 2.5 kgs, ```low```).
+
+Sea $y_i=1$ si el $i$-ésimo bebé nace con bajo peso, $y_i=0$ si lo contrario. Por lo que $y_i$ sigue una distribución Bernoulli con función de densidad:
+$$
+f(y_i;\pi_i)=\pi_i^{y_i}(1-\pi_i)^{(1-y_i)},
+$$
+donde $\pi_i$ es la probabilidad de que el $i$-ésimo bebé nazca con bajo peso. La función de enlace puede definirse como:
+$$
+\log\begin{pmatrix} \frac{\pi_i}{1-\pi_i} \end{pmatrix}=\beta_0+\beta_1\text{age}_i+\beta_2\text{lwt}_i+\beta_3\text{smoke}_i+\beta_4\text{ftv}_i.
+$$
+Sin embargo, se puede considerar alguna función de enlace diferente, como veremos adelante.
+
+### Estudio de teratología
+
+Los datos \texttt{lirat} de la librería \texttt{VGAM} son de un estudio para investigar los efectos de unos régimenes alimenticio  en el desarrollo fetal de ratas. En este experimento, 58 ratas hembras con dietas deficientes en hierro se dividieron en cuatro grupos.  Tres grupos recibieron inyecciones semanales de suplementos de hierro, a diferentes dosis, para normalizar sus niveles de hierro. Mientras que, el grupo restante no recibieron ningún suplemento (placebo). Luego, las ratas fueron preñadas, sacrificadas luego de 3 semanas, y se contó el número de fetos muertos en cada camada.
+
+En la Figura \@ref(fig:liratFig) se puede observar la relación entre el número de fetos muertos por tratamiento, y también, la relación con los niveles de hemoglobina de las ratas hembras.
+
+```{r liratFig,  fig.height = 4, fig.width = 6, fig.align='center',fig.cap="Datos de teratoligía. Relación entre la proporción de fetos muertos por camada con los tratamientos (izquierda) y los niveles de hemoglobina de la madra (derecha) "}
+data(lirat,package = 'VGAM')
+par(mfrow=c(1,2))
+#Proporcion de fetos muestos vs tratamiento
+plot(lirat$grp,lirat$R/lirat$N,xlab="Tratamiento",ylab="Proporción de fetos muertos")
+#Proporcion de fetos muestos vs Hemoglobina
+plot(lirat$hb,lirat$R/lirat$N,xlab="Hemoglobina",ylab="Proporción de fetos muertos")
+```
+
+Si consideramos:
+\[
+y_{ij} = \begin{cases}
+1 & \mbox{ si el feto } j \mbox{ de la camada }i\mbox{ está muerto}, \\
+0 & \mbox{ si lo contrario}, \\
+ \end{cases}
+\]
+la variable número de fetos muertos se puede asociar a una distribución binomial:
+\[
+y_i = \sum_{j=1}^{n_i} y_{ij} \sim \mbox{binomial}(n_i, \pi_i),
+\]
+donde $n_i$ es el tamaño de la camada y $\pi_i$ es la probabilidad de que el feto muera. Dado que $\pi_i$ depende del tratamiento y de los niveles de hemoglobina de la rata hembra, se propone que:
+\[
+\log\begin{pmatrix} \frac{\pi_i}{1-\pi_i} \end{pmatrix}=\beta_0+\beta_1\text{grp1}_{i}+\beta_2\text{grp2}_{i}+\beta_3\text{grp3}_{i}+\beta_4\text{hb}_i,
+\]
+donde: $\text{grp1}_{i}=1$ si la $i$-ésima hembra pertenece al grupo 1, $\text{grp1}_{i}=0$ si lo contrario; $\text{grp2}_{i}=1$ si la $i$-ésima hembra pertenece al grupo 2, $\text{grp2}_{i}=0$ si lo contrario; $\text{grp3}_{i}=1$ si la $i$-ésima hembra pertenece al grupo 3, $\text{grp3}_{i}=0$ si lo contrario; y ``hb_i`` es el nivel de hemoglobina de la hembra $i$.
+
+## Datos agrupados o datos no agrupados
+Sea $(y_1,\ldots,y_N)$ el número de éxitos de $\bn = (n_1,\ldots,n_N)$ ensayos independientes. Por lo que, $y_i\sim$binomial$(n_i,\pi_i)$. Además, se tiene que $n = \sum_{i=1}^{N}$ es el número total de observaciones binarias.
+
+Los datos en estos casos pueden tener dos formatos. Decimos que tenemos datos no agrupados si $\bn = (1,1,\ldots,1)$. Es decir, cada observación $y_i$ resulta de un único ensayo de Bernoulli y, por tanto, es igual a $0$ o $1$ (como los datos de bajo peso al nacer). En este caso, resultan aplicables los métodos de inferencia estadística para muestras grandes a medida que $N \to \infty$.
+
+En caso que $n_i > 1$ tenemos datos agrupados, como en los datos de los escarabajos. Aquí un grupo de escarbajos $(n_i)$ fueron sometidos a la misma dosis $(x_i)$. Esto ocurre con frecuencia cuando se tienen covariables de tipo categórico. En tal caso, $n_i$ representa el número de observaciones correspondientes a la $i$-esima configuración de variables explicativas. Para datos agrupados, las propiedades asintóticas de las inferencias aplican a medida que cada $n_i \to \infty$ para $i=1,\ldots,N$.
+
+Las propiedades de las medidas de bondad de ajuste, como la devianza $(D)$ y la $X^2$ de Pearson, difieren entre ambos formatos. Para datos agrupados, ambos indicadores siguen, de forma asintótica, una distribución $\chi^2_{n-p}$. Por lo que podemos utilizarlos para evaluar si el ajuste es bueno o no. Mientras que para datos no agrupados, esto no aplica. Tampoco para datos agrupados con $N$ grande y algunos $n_i$ muy pequeños. Se puede aproximar $D$ y $X^2$ agrupando $(\bx_i,\hat{\by})$ por particiones del espacio de covariables o por particiones de $\hat{\pi}$. 
+
+## Variables binarias como variables latentes - Funciones de enlace
+Asuma el siguiente modelo para una variable respuesta $(y_i^*)$ no observable:
+\[
+y_i^* = \bx_i'\bbeta + \varepsilon_i^* = \eta_i + \varepsilon_i^*,
+\]
+donde $\bx_i$ es el vector de covariables asociadas al $i$-esimo individuo y $\varepsilon_i^*$ es el componente del error con media cero y con una función de distribución acumulada (fda) $F()$. Además, se asume independencia entre los errores. 
+
+Ahora, hay un umbral $\tau$ tal que $y_i=0$ si $y_{i}^* \leq \tau$ y $y_i=1$ si $y_{i}^* > \tau$ (ver Figura \@ref(fig:figvarlatente)). Entonces, se tiene que:
+\begin{equation}
+\begin{split}
+P(y_i=1) =& P(y^{*}_i > \tau) = P\left(\eta_i + \varepsilon_i > \tau\right) = 1- P\left(\varepsilon_i \leq \tau- \eta_i  \right) \\
+=& 1 -  F\left(\tau- \eta_i\right)
+\end{split}
+\nonumber
+\end{equation}
+Dado que los datos no tienen ninguna información sobre $\tau$, podemos asumir que $\tau=0$. También, que $F$ tiene una forma estándar con varianza fija.
+
+```{r figvarlatente,echo=FALSE, fig.height = 4, fig.width = 6,fig.align='center',fig.cap="Modelo de variable latente con umbral, en el cual observamos que $y_i = 1$ cuando $y^*_i > \tau$."}
+k = 2.5
+SD=1
+x = seq(-k,k,length.out=200)
+y = dnorm(x,0,SD)
+
+plot(NA,NA,xlim=c(-2,5),ylim=c(-5,5),,xaxt='n',yaxt='n',
+     xlab='x',ylab='y*',las=1)
+abline(a=0,b=1)
+lines(c(0,0),range(x))
+lines(y,x)
+lines(c(0,max(y)),c(0,0),lty=2)
+polygon(c(0,y[x>1],0),c(1,x[x>1],4),col = "darkgrey")
+abline(h=1,col=2)
+axis(2,1,expression(tau),las=1)
+axis(2,4,"y=1",lty=0,las=1)
+axis(2,-1,"y=0",lty=0,las=1)
+text(1,2,'P(Y=1)',col='darkgrey')
+text(3,2.5,expression(E(y)==beta[0]+beta[1]*x),pos=4)
+```
+
+Los modelos mas comunes asumen que $F$ es una distribución simétrica alrededor de cero (entonces, $F(z)=1-F(-z)$), como la distribución normal estándar. Así que se tiene que:
+$$
+P(y_i=1) = F(\eta_i) \mbox{ y } F^{-1}[P(y_i=1)] = \eta_i.
+$$
+De aquí podeos determinar que en los modelos para datos binarios, la función de enlace se define naturalmente como la inversa de la función de distribución acumulada estándar de una familia de distribuciones continuas para una variable latente.
+
+Si asumimos que $F$ es la fda de una normal estándar $\Phi()$, entonces la función de enlace $\Phi^{-1}()$ es llamada función probit. En este modelo la probabilidad de  $y_i=1$ es estimada de la siguiente forma:
+
+$$
+\pi_{i} = \Phi(\eta_i) = \frac{1}{\sqrt{2\pi}}\int^{\eta_i}_{-\infty} \exp(-t^2/2)dt.
+$$
+El modelo logístico parte de asumir que $F$ es la fda de una distribución logística:
+$$
+F(z) = \frac{e^z}{1+e^z},
+$$
+y la función de enlace corresponde a la función logit $F^{-1}(z) = \log \left( \frac{z}{1-z}\right)$.
+
+Hay otras funciones de enlace que se utilizan que parten de fda de distribuciones conocidas. Por ejemplo, la función de enlace log-log complementaria:
+$$
+\log[-\log(1-\pi_i)]=\eta_i.
+$$
+Parte del complemento de la fda de la distribución Gumbel estándar:
+$$
+F(z)=\exp[-\exp(z)].
+$$
+En la Figura \@ref(fig:fdaEnlace) podemos ver la función de densidad y la fda de las tres distribuciones descritas anteriormente. La figura de la derecha muestra como se estaría modelando la probabilidad basada en estas distribuciones. Note que la fda de la logit y la probit tiene forma de 'S' simétrica, caso contrario de la que genera a partir de la distribución Gumbel, que tiene un comportamiento asimétrico.
+
+```{r fdaEnlace,echo=FALSE, fig.height = 4, fig.width = 8,fig.align='center',fig.cap="Función de densidad (izquierda) y fda de las distribuciones normal estándar (línea negra), logística estándar (línea roja) y Gumbel (línea verde)."}
+library(evd)
+par(mfrow=c(1,2))
+x = seq(-4,4,length.out=100)
+plot(x,dnorm(x),lwd=2,type='l')
+lines(x,dlogis(x),col=2,lwd=2)
+lines(x,dgumbel(x),col=3,lwd=2)
+plot(x,pnorm(x),lwd=2,type='l')
+lines(x,plogis(x),col=2,lwd=2)
+lines(x,pgumbel(x),col=3,lwd=2)
+```
+
+### Modelo logístico
+El modelo logístico se expresa como:
+$$
+\pi_i  = \frac{\exp(\bx_i'\bbeta)}{1+\exp(\bx_i'\bbeta)} \mbox{ o } \mbox{logit}(\pi_i) = \log \left( \frac{\pi_i}{(1-\pi_i)} \right) = \bx_i'\bbeta.
+$$
+Dado que la función de $\pi_i$ es monótona, podemos decir que si $\beta_j > 0$ entonces el efecto de la $j$-esima covariable es positivo (o es negativo si $\beta_j < 0$), manteniendo las demás covariables constantes. Si $\beta_j=0$, entonces la $j$-esima covariable no tiene efecto sobre la respuesta, cuando las demás covariables están dentro del modelo.
+
+Para evaluar la magnitud del efecto de $\beta_j$ debemos evaluar la tasa de cambio con la que aumenta (o disminuye) $\pi_i$. La cuál está dada por:
+$$
+\frac{\delta \pi_i}{\delta x_{ij}} = \beta_j \frac{\exp(\bx_i'\bbeta)}{[1+\exp(\bx_i'\bbeta)]^2} = \beta_j \pi_i(1-\pi_i).
+$$
+La pendiente es máxima (e igual a $\beta_j/4$) en el valor de $x_{ij}$ para el cual $\pi_i = 0.5$, y disminuye hacia $0$ a medida que $\pi_i$ se acerca a 0 o a 1. Como se mencionó en la sección anterior, la interpretación de los coeficientes se realiza a través del odd ratio.
+
+### Modelo probit
+En el modelo probit, $\pi_i$ está determinada como:
+$$
+\pi_i = \Phi(\bx_i'\bbeta) =  \mbox{ o }  \Phi^{-1}(\pi_i) = \bx_i'\bbeta,
+$$
+donde $\Phi()$ es la fda de la distribución normal estándar.
+
+Para est e modelo, la tasa de cambio en $\pi_i$ asociada a la $j$-esima covariable está dada por:
+$$
+\frac{\delta \pi_i}{\delta x_{ij}} = \beta_j \phi(\bx_i'\bbeta),
+$$
+donde $\phi()$ es la función de densidad de la normal estándar. La pendientes máxima (igual a $0.4\beta_j$) cuando $\pi=0.5$ (es decir, $\bx_i'\bbeta=0$). En función de la $j$-esima covariable, la curva de respuesta probit para $\pi$ (o para $1 − \pi_i$, cuando $\beta-j< 0$) tiene la apariencia de una función de fda de una normal con desviación estándar $1/|\beta_j|$.
+
+Las tasas de cambio en $\pi_i=0.5$ son iguales para las fda correspondientes a las curvas probit y logística cuando el parámetro $\beta_j$ de la curva logística es $0.40/0.25 = 1.60$ veces el parámetro $\beta_j$ de la curva probit, esta diferencia aumenta a medida que $\pi_i$ se aleja de $0.5$. De aquí podemos decir que las estimaciones de los coeficients de regresión en la regresión logística son aproximadamente $1.6$ a $1.8$ veces mayores que las obtenidas en los modelos probit. 
+
+### Modelo log-log complementario
+Las funciones de enlace logit y probit son simétricas alrededor de $0.5$, en el sentido que logit$(\phi_i) =-$logit$(1-\phi_i)$ y $\Phi^{-1}(\pi) = - \Phi^{-1}(-\pi)$, respectivamente. En los casos en donde $\pi_i$ no presente este comportamiento simétrico, como puede ser que esta aumente lentamente para valores bajos o moderados, pero bruscamente con valores cerca de $1$, estas funciones de enlace no son adecuadas.
+
+Con la función de enlace log-log complementaria, la probabilidad es modelada de la siguiente forma:
+$$
+\pi_i = 1 - \exp[-\exp(\bx_i'\bbeta)].
+$$
+En situaciones de comportamiento asimétrico de la probabilidad, esta función de enlace es preferible. Como lo muestra la Figura \@ref(fig:loglogCompl), esta función se aproxima a cero relativamente despacio y se acerca a 1 rápidamente.
+
+```{r loglogCompl,echo=FALSE, fig.height = 4, fig.width = 6,fig.align='center',fig.cap="Probabilidades modeladas con función de enlace log-log complementarias con $\\beta > 0$ (línea negra) y $\beta < 0$ (línea roja) ."}
+x = seq(-3,3,length.out=100)
+eta1 = -2 + 2*x
+pi1 = 1 - exp(-exp(eta1))
+eta2 = -2 - 2*x
+pi2 = 1 - exp(-exp(eta2))
+
+plot(x,pi1,type='l',lwd=2,ylab=expression(pi))
+lines(x,pi2,type='l',col=2,lwd=2)
+```
+
+### Estimación de parámetros
+La estimación de los parámetros se hacen a través de máxima verosimilitud a través del algoritmo de Newton-Raphson, Fisher scoring o mínimos cuadrados iterativamente reponderados. Del capítulo anterior, sabemos que la función score está dada por:
+\[
+u(\beta_j)= \sum_{i=1}^{n}\frac{(y_i-\mu_i)x_{ij}}{V(y_i)}\frac{\partial \mu_i}{\partial \eta_i}, j=0,\ldots,p-1.
+\]
+Mientras que la matriz de información es $\bI(\bbeta) = \bX'\bW\bX$, donde $\bW$ es una matriz diagonal con $w_{ii} = \frac{(\delta\mu_j/\delta\eta_i)^2}{V(y_i)}$. Por lo que, la varianza asintótica de $\hatbbeta$ es $V(\hatbbeta) = (\bX'\bW\bX)^{-1}$.
+
+Asumiendo que $n_i y_i \sim \mbox{binomial}(n_i,\pi_i)$, tenemos que $\pi_i = F(\eta)$, $V(y_i) = \pi_i (1-\pi_i)/n_i$, y $\delta\mu_j/\delta\eta_i= f(\eta_i)$. Entonces, la función score toma la forma:
+$$
+u(\beta_j)= \sum_{i=1}^{N}\frac{n_i(y_i-\pi_i)x_{ij}}{\pi_i (1-\pi_i)}f(\eta_i) = \sum_{i=1}^{N}\frac{n_i[y_i-F(\eta_i)]x_{ij}}{F(\eta_i) [1-F(\eta_i)]}f(\eta_i),
+$$
+Por ejemplo, para el modelo logístico se tiene que $F(z) = e^z/(1+e^z)$ y $f(z) = e^z/(1+e^z)^{2} = F(z)[1-F(z)]$. Por lo que la función score está dada por:
+$$
+u(\beta_j)= \sum_{i=1}^{n}n_i(y_i-\pi_i)x_{ij} =0.
+$$
+Además, $w_{ii} = n_i\pi(1-\pi)$. 
+
+Para el modelo probit se tiene que 
+
+$$w_{jj} = n_i \frac{\Phi(\eta_i)^{2}}{\Phi(\eta_i)\left[1- \Phi(\eta_i)\right]}.$$ 
+### Devianza
+Para estos modelos, la devianza está dada por:
+$$
+D=2\sum_{i=1}^n\left[y_i\log \left(\frac{y_i}{\widehat{\mu}_i}\right)+(n_i-y_i)\log\left(\frac{n_i-y_i}{n_i-\widehat{\mu}_i}\right)\right],
+$$
+donde $\widehat{\mu}_i=n_i\widehat{\pi}_i.$
+
+Para datos agrupados, la base de datos puede presentarse en formato agrupado o no agrupado. La desviación difiere en ambos casos. En el caso de los datos agrupados, el modelo saturado incluye un parámetro para cada combinación de valores de las variables explicativas. En el caso de los datos no agrupados, el modelo incluye un parámetro para cada sujeto.
+
+Para datos agrupados, el estadístico de Pearson está determinado como:
+\begin{equation}
+\begin{split}
+X^2 &= \sum_{i=1}^{N} \frac{(n_i y_i - n_i \hat{\pi}_i)^2}{n_i \hat{\pi}_i}
++ \sum_{i=1}^{N}\frac{\left[(n_i - n_i y_i) - (n_i - n_i \hat{\pi}_i)\right]^2}{n_i(1-\hat{\pi}_i)} \\
+&= \sum_{i=1}^{N}\frac{(n_i y_i - n_i \hat{\pi}_i)^2}{n_i \hat{\pi}_i(1-\hat{\pi}_i)}= \sum_{i=1}^{N}\frac{(y_i-\hat{\pi}_i)^2}{\hat{\pi}_i(1-\hat{\pi}_i)/n_i}
+\end{split}
+\nonumber
+\end{equation}
+Como se mencionó anteriormente, para datos agrupados $D$ y $X^2$ pueden ser usados para realizar pruebas de bondad de ajuste. En caso de datos no agrupados, estos indicadores son útiles para la comparación de modelos. Tanto para datos agrupados como no agrupados, es posible comparar dos modelos anidados utilizando la diferencia de sus devianzas. Supongamos que el modelo $M_0$ tiene $p_0$ parámetros y que el modelo $M_1$ tiene $p_1 > p_0$ parámetros. En este caso, la diferencia de las desviaciones constituye el estadístico de la prueba de razón de verosimilitud. Si el modelo $M_0$ es correcto, esta diferencia sigue, de forma aproximada, una distribución $\chi^2$ con $p_1 − p_0$ grados de libertad. Asimismo, los modelos pueden compararse empleando el estadístico de Pearson.
+
+
+### Comparación de funciones de enlace
+Para evaluar que función de enlace presenta mejor comportamiento podemos comparar la log-versomilitud (si los modelos tienen las mismas covariables), la devianza o criterios de información.
+
+Para los datos de mortalidad de escarabajos, la Figura \@ref(fig:linkEsc) muestra la estimación de la probabilidad de que el escarabajo muera utilizando diferentes funciones de enlace (logit, probit, log-log complementaria). Aquí podemos ver que la función log-log complementaria parece mostrar mejores estimaciones que las otras.
+
+```{r linkEsc,echo=FALSE, fig.height = 4, fig.width = 6,fig.align='center',fig.cap="Datos de mortalidad de escarabajos. Estimaciones de la probabilidad de que el escarabajo muera en función del logaritmo de la dosis de disulfuro de carbono gaseoso utilizando diferentes funciones de enlace: logit(negro), probit(rojo) y cloglog(verde)."}
+
+pred.x = data.frame(logdose = seq(min(logdose),max(logdose),length.out = 50))
+
+modEsc.logit = glm(cbind(dead,n-dead)~logdose,family=binomial(logit))
+modEsc.probit = glm(cbind(dead,n-dead)~logdose,family=binomial(probit))
+modEsc.cloglog = glm(cbind(dead,n-dead)~logdose,family=binomial(cloglog))
+
+pred.logit = predict(modEsc.logit,pred.x,type='response')
+pred.probit = predict(modEsc.probit,pred.x,type='response')
+pred.cloglog = predict(modEsc.cloglog,pred.x,type='response')
+
+plot(logdose,dead/n,xlim=c(1.69,1.88),ylim=c(0,1),xlab='log dosis',ylab='proporción de escarabajos muertos')
+lines(pred.x$logdose,pred.logit,lwd=2)
+lines(pred.x$logdose,pred.probit,col=2,lwd=2)
+lines(pred.x$logdose,pred.cloglog,col=3,lwd=2)
+```
+
+Este resultado se puede comprobar comparando las log-verosimilitudes:
+```{r linkEscAIC,echo=T}
+logLik(modEsc.logit)
+logLik(modEsc.probit)
+logLik(modEsc.cloglog)
+```
+
+## Problema de separación
+Para GLM, la matriz Hessiana es negativa-definida, y la función de log-versomilitud es concava. Por lo que las estimaciones por máxima verosimilitud existen y son finitas, excepto en el caso en que un hiperplano separa el conjunto de valores de $\bx$ para los cuales $y = 0$ del conjunto para los cuales $y = 1$, como lo ilustra la Figura \@ref(fig:separacion).
+
+```{r separacion,echo=FALSE, fig.height = 4, fig.width = 6,fig.align='center',fig.cap="Caso de separación completa. $y=1$ cuando $x < 3.5$ y $y=0$ cuando $x >3.5$."}
+x = c(1,2,3,4,5,6)
+y = c(1,1,1,0,0,0)
+
+plot(x,y)
+abline(v=3.5,lwd=2)
+```
+Al ajustar un modelo de la forma logit$(\pi_i) = \beta_0 + x_i\beta_1$, las funciones score son:
+$$
+\sum_{i=1}^{n}\hatpi_i = \sum_{i=1}^{n} y_i \mbox{ y } \sum_{i=1}^{n}x_i\hatpi_i = \sum_{i=1}^{n} x_iy_i.
+$$
+En el ejemplo, $\sum_{i=1}^{6}\hatpi_i=3$ y $\sum_{i=1}^{6}i\hatpi_i=6$. La solución es $\hatpi = 1$, para $i=1,2,3$ y $\hatpi = 0$ para $i=4,5,6$. Al hacer que $\hatbeta_1$ tienda a $\infty$ y estableciendo $\hatbeta_0 = -3.5\hatbeta_1$, de modo que $\hatpi=0.5$ cuando $x=3.5$, podemos generar una secuencia de estimaciones con valores de la verosimilitud siempre creciente, la cual se aproxima progresivamente a satisfacer estas ecuaciones y a lograr un ajuste perfecto. Los sofware generalmente fallan en detectar que la solución de $\hatbeta_1$ es $\infty$. Esto porque, luego de un número de iteraciones, la función de log-verosimilitud empieza a tener un aspecto plano, y en consecuencia, se cumplen los criterios de convergencia y el software reporta la estimación. Esto lo podemos ver en el siguiente ejemplo:
+
+```{r linkEscAIC2,echo=T}
+x <- c(1,2,3,4,5,6); y <- c(1,1,1,0,0,0)
+fit <- glm(y ~ x, family = binomial(link = logit))
+summary(fit)
+```
+Dado que la función de log-verosimilitud es tan plana y $V(\hatbeta_j)$ se calcula a partir de su curvatura —el negativo de la inversa de la matriz hessiana—, el software suele reportar errores estándar extremadamente elevados (que en teoría debería ser $\infty$).
+
+Cuando existe ese hiperplano que sepera los valores de $\bx$ correspondientes a $y_=1$ de los correspondientes a $y_i=0$, pero existen algunos casos con ambos resultados $(y_i=0$ o $y_i=1)$ sobre dicho hiperplano, se habla de cuasi-separación. Por ejemplo, si en los datos de la Figura \@ref(fig:separacion) añadimos dos observaciones en $x=2.5$; una con $y=1$ y la otra con $y=0$. Este problema es común cuando se tienen covariables de tipo cualitativos. Si alguna categoría de la covariable carece de casos con $y = 0$ (o $y=1$), surge una separación cuasi-completa al incluir dicha covariable en el modelo. En presencia de separación cuasi-completa, no existe una discriminación perfecta para todas las observaciones. Sin embargo, se pueden encontrar errores estándar que resultan inusualmente grandes. 
+
+A pesar de este problema que se presentan cuando hay separación o cuasi-separación, es posible realizar pruebas de razón de verosimilitud. Esto porque la log-verosimilitud alcanza su valor máximo en la estimación infinita de un parámetro, lo que permite compararla con el valor obtenido cuando dicho parámetro se fija en un valor determinado, como cero. En el caso de una separación cuasi-completa, es posible que algunas estimaciones de los parámetros y sus errores estándar no se vean afectadas, permitiendo incluso el uso realizar pruebas de hipótesis por el método de Wald.
+
+
+## Curva característica operativa del receptor(ROC)
+Los modelos para datos binarios pueden utilizarse para clasificación de individuos. Por ejemplo, se puede clasificar un nonato como recién nacido con bajo peso $(\haty_o = 1)$ tomando en cuenta características de la madre ($\bx_0$). Esto de acuerdo con las probabilidades estimadas por medio del modelo $(\hatpi_i)$. Entonces, para evaluar el poder clasificatorio del modelo se puede construir una tabla de contingencia  comparando los valores observados $(y_i)$ con la clasificación a través del modelo $(\haty_i)$. La clacificación $\haty_i$ se define como:
+\[
+\haty_i = \begin{cases}
+1 & \mbox{si } \hatpi_i > \pi_0, \\
+0 & \mbox{si } \hatpi_i \leq \pi_0, \\
+\end{cases}
+\]
+para un punto de corte $\pi_0$ definido por el investigador, por ejemplo $\pi_0 = 0.2$. Con esto podemos construir la siguiente tabla de clasificación:
+
+```{r tabcont, echo=FALSE, include=TRUE, caption = 'Tabla de contingencia.'}
+mathy.df <- data.frame(b0=c("$y=0$","$y=1$"), 
+                       b1=c('a','b'),
+                       b2=c('c','d'))
+
+colnames(mathy.df)<-NULL
+
+kable(mathy.df, escape=FALSE,format = "html", booktabs = T) %>%
+  kable_styling(bootstrap_options = "striped",
+                full_width = F) %>%add_header_above(c("","$\\hat{y}=0$","$\\hat{y}=1$"))
+```
+donde $a$ y $b$ corresponde al conteo de predicciones negativas $(\haty = 0)$ correctas (cuando $y=0$) e incorrectas (cuando $y=1$), respectivamente. Mientras que $c$ y $d$ son los contenos de predicciones positivas $(\haty = 1)$ incorrectas (cuando $y=0$) y correctas (cuando $y=1$), respectivamente.
+
+El recuento de casillas en esta tabla permite estimar la sensibilidad, definida como la probabilidad de identificar correctamente un caso positivo, esto es: 
+\[
+P(\haty=1|y=1) = \frac{d}{b+d},
+\]
+y la especificidad, definida como la probabilidad de identificar correctamente un caso negativo,
+\[
+P(\haty=0|y=0) = \frac{a}{a+c}.
+\]
+Si el objetivo del modelo es realizar predicciones es preferible obtener valores altos para estas métricas. Sin embargo, estos valores dependen de $\pi_0$.
+
+Consideremos los datos de peso al nacer. Se propone el siguiente modelo para la probabilidad de nacer con bajo peso:
+\[
+\mbox{logit } \pi_i = \beta_0+  \mbox{age}_i\beta_1+  \mbox{lwt}_i\beta_2 +  \mbox{smoke}_i\beta_3 + \mbox{ptl}_i\beta_4,
+\]
+El ajuste del modelo es:
+
+```{r lbwfit, echo=TRUE, include=TRUE}
+mod.lbw = glm(low ~ age + lwt + smoke + ptl, data= birthwt,family=binomial)
+summary(mod.lbw)
+```
+Estos resultados muestran que el estado de tabaquismo y el historial de partos prematuros son factores de riesgo para el bajo peso al nacer. Sin embargo, el primero no tiene un aporte significativo dentro del modelo. Ahora vamos a evaluar el poder predictivo del modelo. Si definimos $\pi_0=0.5$, tenemos los siguientes resultados:
+
+```{r roc1, echo=FALSE, include=TRUE, results="asis"}
+obs = birthwt$low
+pred = mod.lbw$fitted.values > 0.5
+tab1 = table(obs,pred)
+
+mathy.df <- data.frame(b0=c("$y=0$","$y=1$"), 
+                       b1=c(tab1[1,1],tab1[2,1]),
+                       b2=c(tab1[1,2],tab1[2,2]))
+
+colnames(mathy.df)<-NULL
+
+kable(mathy.df, escape=FALSE,format = "html", booktabs = T) %>%
+  kable_styling(bootstrap_options = "striped",
+                full_width = F) %>%add_header_above(c("","$\\hat{y}=0$","$\\hat{y}=1$"))
+
+```
+Por lo tanto, la sensibilidad es $10/59 = 0,169$ y la especificidad es $123/130 = 0.946$. Con este punto de corte, el modelo tiene una predictividad alta para los recién nacidos con peso adecuado (alta especificidad). Sin embargo, la probabilidad de falsos positivos es alta (baja sensibilidad). Ahora, si definimos $\pi_0= 0,3$ obtenemos lo siguiente:
+
+```{r, echo=FALSE, include=TRUE, results="asis"}
+obs = birthwt$low
+pred = mod.lbw$fitted.values > 0.3
+tab1 = table(obs,pred)
+
+mathy.df <- data.frame(b0=c("$y=0$","$y=1$"), 
+                       b1=c(tab1[1,1],tab1[2,1]),
+                       b2=c(tab1[1,2],tab1[2,2]))
+
+colnames(mathy.df)<-NULL
+
+kable(mathy.df, escape=FALSE,format = "html", booktabs = T) %>%
+  kable_styling(bootstrap_options = "striped",
+                full_width = F) %>%add_header_above(c("","$\\hat{y}=0$","$\\hat{y}=1$"))
+
+```
+
+En este caso la sensibilidad aumentó $(40/59 = 0,678)$, pero la especificidad disminuye $(79/130 = 0,607)$. En la Figura \@ref(fig:sensespc) podemos observar que a medida que aumenta $\pi_0$ la sensibilidad disminuye y la especificidad aumenta.
+
+```{r sensespc, fig.align = 'center', fig.height = 4, fig.width = 6,echo=FALSE, fig.cap="Datos de bajo peso al nacer. Sensibilidad (linea negra) y especificidad (linea roja) para diferentes puntos de corte."}
+tab.fun = function(obs,fit,pi0){
+pred0 = fit > pi0
+tab = table(obs,pred0)
+senc = tab[2,2]/sum(tab[2,])
+espc = tab[1,1]/sum(tab[1,])
+c(senc,espc)
+}
+pi0 = seq(0.1,0.8,length.out=500)
+sens.espc = mapply(function(x){tab.fun(obs,mod.lbw$fitted.values,pi0[x])},x=1:500)
+
+plot(pi0,sens.espc[1,],lwd=2,type = 'l',xlab=expression(pi[0]),ylab='Sensibilidad y especificidad')
+lines(pi0,sens.espc[2,],lwd=2,col=2)
+```
+
+Dado que la sensibilidad y especificidad tiene una alta dependencia del punto de corte, lo preferible es calcular estas cantidades para muchos valores de $\pi_0$ y buscar un valor 'óptimo'. 
+
+La sensibilidad es la tasa de verdaderos positivos (tvp), mientras que, el complemento de la especificidad $(P(\haty = 1 | y=0))$ es la tasa de falsos positivos (tfp). El gráfico de la tasa de verdaderos positivos en función de la tasa de falsos positivos para diferentes valores de $\pi_0$, entre $0$ y $1$, lleva el nombre de curva característica operativa del receptor (ROC). Cuando $\pi_0$ es muy cercano a $1$, casi todas las predicciones son $\haty =0$; entonces tenemos (tvp,tfp)$\approx(0,0)$. Mientras que, cuando $\pi_0$ es muy cercano a $0$, casi todas las predicciones son $\haty =1$; entonces tenemos (tvp,tfp)$\approx(1,1)$. esto lo podemos ver en la Figura \@ref(fig:sensespc2).
+
+```{r sensespc2, fig.align = 'center', fig.height = 4, fig.width = 6,echo=FALSE,fig.cap="Datos de bajo peso al nacer. Sensibilidad (linea negra) y especificidad (linea roja) para diferentes puntos de corte."}
+plot(1-sens.espc[2,],sens.espc[1,],lwd=2,xlab='1 - especificidad',
+     ylab='sensibilidad')
+```
+Si el modelo realiza buenas predicciones, para un valor de especificidad dado, se espera que la sensibilidad también sea alta. Por lo tanto, el poder predictivo del modelo se puede medir a través del área bajo la curva del gráfico ROC. Esta medida es llamada índice de concordancia.
+
+En R, las curvas ROC se puede realizar por medio de la función `roc` de la librería `pROC` de la siguiente forma:
+```{r ROClbwdata,eval=T,fig.cap="Datos de bajo peso al nacer. Curva ROC para predecir bajo peso al nacer usando el modelo logístico (negro) y el probit (rojo)",fig.height = 4, fig.width = 6}
+library(pROC)
+modbw.logit = glm(low~age+lwt+ptl+smoke,family=binomial(logit),data=birthwt)
+modbw.probit = glm(low~age+lwt+smoke+ptl,family=binomial(probit),data=birthwt)
+
+ROCbw.logit = roc(birthwt$low~modbw.logit$fitted.values)
+ROCbw.probit = roc(birthwt$low~modbw.probit$fitted.values)
+plot(ROCbw.logit,xlab='especificidad',ylab='sensibilidad')
+lines(ROCbw.probit,col=2)
+```
+En la Figura \@ref(fig:ROClbwdata) se puede observar que ambas funciones de enlace proporcionan el mismo poder predictivo. El índice de concordancia es de $AUC= 0,6884$ para el modelo logístico y $AUC= 0,6866$ para el modelo probit.    
+
+Para datos agrupados, la base de datos se debe desagrupar para obtener la curva ROC. Por ejemplo para los datos de escarabajos, la curva ROC se obtiene de la siguiente forma:
+
+```{r ROCescarabajos,eval=T,fig.cap="Datos de mortalidad de escarabajos. Curva ROC para el modelo logístico",fig.height = 4, fig.width = 6}
+obs.morir = unlist(apply(Datos.esc,1,function(x){rep(c(1,0),c(x[3],x[2]-x[3]))}))
+prob.morir =rep(modEsc.logit$fitted.values,Datos.esc$n)
+ROCesc = roc(obs.morir~prob.morir)
+plot(ROCesc,print.auc=T)
+```
+### Obtención de un valor óptimo
+Hay varios criterios para determinar un valor $\pi_0$, sin embargo este valor está a discreción del usuario, dependiendo del objetivo del modelo. En algunos casos es preferible una mayor sensibilidad que especificación, en otros lo contrario. Algunos de estos son, el criterio de Youden definido como:
+$$
+\max_{\pi} (\mbox{sensibilidad}(\pi) + r \mbox{especificidad}(\pi)),
+$$
+donde $r= \frac{1-\mbox{prevanlencia}}{\mbox{costo}\times \mbox{prevanlencia}}$, la prevalencia (proporción de $y=1$ en la población) y el costo relativo de una clasificación falsa negativos (con respecto a los falsos positivos). Si asumimos que la prevalencia es igual a $0.5$ y el costo igual a $1$ (consideramos que ambos malas clasificaciones son igualmente graves), tenemos $r=1$.
+
+Otra alternativa es encontrar el punto más cercano a la esquina superior izquierda:
+$$
+\min_{\pi} [(1-\mbox{sensibilidad}(\pi))^2 + r(1-\mbox{especificidad}(\pi))^2].
+$$
+
+Para el caso de bajo peso al nacer, si asumimos una prevalencia de recién nacidos con bajo peso de $0.5$ y asumimos un costo igual a 1 (consideramos igual de graves los falsos postivos que los falsos negativos) tenemos que:
+
+```{r ROClbwdata2,echo=T}
+coords(ROCbw.logit,"best",best.weights=c(1, 0.5))
+```
+El punto óptimo está dado por $\pi_0=0.503$, obteniendo una especificidad de $0.961$ y una sensibilidad de $0.169$. Ahora si consideramos que los falsos negativos son más graves que los falsos positivos, podemos considerar un costo de $2$:
+
+```{r ROClbwdata3,echo=T}
+coords(ROCbw.logit,"best",best.weights=c(2, 0.5))
+```
+En este caso tenemos un punto de corte más bajo, favorenciendo una mayor sensibilidad (reduciendo la probabilidad de falsos negativos)
+
+## Sobredispersión
+En un experimento Bernoulli se asume que los $n_i$ ensayos para la observación $i,\quad (y_{i1},...y_{in_i})$, son independientes. Por lo tanto, para $y_i = \sum_{j=1}^{n_i}y_{ij}/n_i$,tenemos que:
+
+$$
+E(y_i)=\pi_i \quad \text{y} \quad V(y_i)=\pi_i(1-\pi_i)\frac{1}{n_i}.
+$$
+
+Pero, hay casos donde las observaciones $(y_{i1},...y_{in_i})$ están positivamente correlacionadas, lo que hace que $V(y_{i}) \neq V(y_i)=\pi_i(1-\pi_i)\frac{1}{n_i}$. Si asumimos que $cor(y_{is},y_{it})=\phi$, para todo $s\ne t$, tenemos que:
+
+$$
+V(y_{it})=\pi_i(1-\pi_i)\quad \text{y} \quad cov(y_{it},y_{is})=\phi\pi_i(1-\pi_i).
+$$
+
+En este caso, la varianza de $y_i$ es:
+
+$$
+V(y_i)=V\begin{pmatrix} \sum_{j=1}^{n_i}\frac{y_{ij}}{n_i}\end{pmatrix}=\frac{1}{n_i^2} \left[ \sum_{j=1}^{n_i}V(y_{it})+2\sum\sum_{s<t}cov(y_{is},y_{it}) \right]=[1+\phi(n_i-1)]\frac{\pi_i(1-\pi_i)}{n_i}.
+$$
+Dependiendo del valor de $\phi$, la varianza de $y_i$ puede ser mayor o menor a la esperada bajo una distribución binomial. Si $\phi_i > 0$, tenemos un problema de sobredispersión (los datos tienen una varianza superior a la que se asume bajo un modelo binomial). Mientras que, si $-(n_i-1)^{-1}<\phi<0$, hay presencia de subdispersión. El segunda caso es menos frecuenta en datos reales.
+
+### Evaluación de sobredispersión
+En el caso del modelo binomial, el estadístico de $\chi^2$ de Pearson está definido como:
+$$
+X^2=\sum_{i=1}^n\frac{(y_i-\widehat{\pi}_i)^2}{\widehat{\pi}_i(1-\widehat{\pi}_1)/n_i}.
+$$
+Si el modelo binomial proporciona buen ajuste, $X^2$ sigue (asintóticamente) una distribución $\chi^2$ con $n-p$ grados de libertad. Por lo tanto, un indicador de posible inflación de varianza es:
+$$
+\widehat{\phi}=\frac{X^2}{n-p}.
+$$
+Si hay problemas de sobredispersión, entonces $\widehat{\phi} > 1$.
+
+## Distribución beta-binomial
+El modelo beta-binomial es una alternativa para modelar datos binomial con sobredispersión. Esta distribución parte de una mezcla de una distribución binomial con una distribución beta. Sea $y^{*}$ el número de éxitos de $n$ ensayos Bernoulli. Se puede suponer la siguiente distribución de $y^{*}$:
+$$
+y^{*}|\pi\sim \mbox{binomial}(n,\pi), \mbox{ donde } \pi\sim \mbox{beta}(\alpha_1,\alpha_2).
+$$
+La función de densidad de $\pi$ es:
+$$
+f(\pi;\alpha_1,\alpha_2)=\frac{\Gamma(\alpha_1+\alpha_2)}{\Gamma(\alpha_1)\Gamma(\alpha_2)}\pi^{\alpha_1-1}(1-\pi)^{\alpha_2-1},
+$$
+con $\alpha_1>0$ y $\alpha_2>0$. Asumiendo $\mu=\frac{\alpha_1}{\alpha_1+\alpha_2}$ y $\theta=1/(\alpha_1+\alpha_2)$, tenemos:
+
+$$
+E(\pi)=\mu\quad\text{y}\quad V(\pi)=\mu(1-\mu)\frac{\theta}{1+\theta}.
+$$
+
+La distribución beta-binomial se obtiene al marginalizar $y^{*}$. Esto es:
+
+$$
+f(y^{*};n,\mu,\theta)=\int f(y^{*}|\pi)f(\pi)d\pi.
+$$
+Al resolver la integral anterior, encontramos la función de densidad de la distribución beta-binomial es:
+
+$$
+f(y^{*};n,\mu,\theta)=\begin{pmatrix} n \\ y^{*} \end{pmatrix}\frac{\begin{bmatrix} \Pi_{k=0}^{y^{*}-1}(\mu+k\theta)\end{bmatrix} \begin{bmatrix} \Pi_{k=0}^{n-y^{*}-1}(1-\mu+k\theta)\end{bmatrix}}{\begin{bmatrix} \Pi_{k=0}^{n-1}(1+k\theta) \end{bmatrix}},
+$$
+
+para $y^{*}=0,1,...,n.$ El valor esperado y varianza de $y = \frac{y^{*}}{n}$ son:
+
+$$
+E(y)=\mu\quad\text{y}\quad V(y)=\left[ 1+(n-1)\frac{\theta}{1+\theta} \right]\frac{\mu(1-\mu)}{n} = \left[ 1+(n-1)\phi \right]\frac{\mu(1-\mu)}{n}.
+$$
+
+Por lo cual, $\phi > 0$ es la correlación entre ensayos Bernoulli. La distribución de probabilidad de la distribución beta-binomial se puede observar en la Figura \@ref(fig:betabinomialdensidad). Aquí vemos que la dispersión de la distribución beta-binomial aumenta con el parámetro $\phi$.
+
+
+```{r betabinomialdensidad, echo=FALSE,fig.align='center', fig.cap="Distribución de probabilidad de Binomial(15,0.3) (negro), beta-binomial(15,0.3,0.1) (rojo), beta-binomial(15,0.3,0.4) (verde)", fig.height = 4, fig.width = 6}
+library(VGAM)
+x = 0:15
+y0 = dbinom(x, 15, 0.3)
+y1 = dbetabinom(x, 15, 0.3, rho = 0.1)
+y2 = dbetabinom(x, 15, 0.3, rho = 0.4)
+plot(x,y0,type='l',xlab='y',ylab='probabilidad',lwd=2)
+lines(x,y1,col=2,lwd=2)
+lines(x,y2,col=3,lwd=2)
+```
+
+### Modelo beta-binomial
+El modelo beta-binomial para $y_i^{*}$ se define como:
+$$
+y_i^{*}|\pi_i\sim \mbox{binomial}(n_i,\pi_i), \mbox{ donde } \pi_i\sim \mbox{beta}(\mu_i,\phi),
+$$
+donde $\mbox{logit } \mu_i = \bx_{i}'\bbeta$ (si usamos una función de enlace logit). Por lo cuál, para $y_i = \frac{y_i^{*}}{n_i}$ se tiene que:
+$$
+E(y_i)=\mu_i\quad\text{y}\quad V(y_i)=[1+(n-1)\phi]\mu_i(1-\mu_i)/n_i,
+$$
+La estimación de los parámetros $(\beta,\phi)$ se hace por máxima verosimilitud. Dado que $\phi>0)$, el modelo beta-binomial no puede modelar datos con subdispersión.
+
+### Estudio de teratología
+Para los datos del estudio de teratología se puede proponer un modelo binomial en un principio:
+\[
+y_i^* = n_i y_i \sim \mbox{binomial} (n_i, \pi_i),
+\]
+donde $n_i$ y $y_i$ es el tamaño y la proporción de fetos muertos de la camada $i$. Además, se tiene que:
+\[
+\mbox{logit }\pi_i = \beta_0 + \mbox{hb}_i \beta_1 + \mbox{treat}_{2i} \beta_2 + \mbox{treat}_{3i}\beta_3 + \mbox{treat}_{4i} \beta_4.
+\]
+El ajuste del modelo es:
+```{r liratmod0,include=TRUE}
+data(lirat,package = 'VGAM')
+modlirat.binom = glm(cbind(R,N-R)~hb+as.factor(grp),family=binomial,data=lirat)
+summary(modlirat.binom)
+```
+La evaluación de sobredispersión la podemos hacer usando la razón entre el estadístico $\chi^2$ de Pearson y los grados de libertad:
+```{r liratmod0chi,include=TRUE}
+X2 = sum(residuals(modlirat.binom,type='pearson')^2)
+X2/53
+```
+Dado que esta razón es aproximadamente $3$, los datos presentan sobredispersión. Por lo tanto es mas conveniente proponer un modelo beta-binomial:
+$$
+y_i^{*}\sim \mbox{beta-binomial}(n_i,\pi_i,\phi),
+$$
+con 
+\[
+\mbox{logit }\pi_i = \beta_0 + \mbox{hb}_i \beta_1 + \mbox{treat}_{2i} \beta_2 + \mbox{treat}_{3i}\beta_3 + \mbox{treat}_{4i} \beta_4.
+\]
+En R el modelo beta-binomial se puede estimar utilizando la función `betabin` de la librería `aod`:
+```{r liratmod1,include=TRUE}
+library(aod)
+modlirat.betabinom =betabin(cbind(R,N-R)~hb+as.factor(grp),data=lirat,random=~1)
+modlirat.betabinom
+```
+Las estimaciones de los coeficientes del modelo beta-binomial son similares a los del modelo binomial. Sin embargo, los errores estándar son mas grandes. Esto último es debido al efecto de la sobredispersión ($\widehat{\phi}=0.236$ indica una correlación positiva entre los fetos que pertenecen a la misma camada). Además, el efecto del tratamiento \#4 no es significativamente diferente al placebo.
+
+Podemos evaluar sobredispersión de nuevo:
+```{r liratmod1chi,include=TRUE}
+X2 = sum(residuals(modlirat.betabinom,type='pearson')^2)
+X2/52
+```
+La razón está cercana a $1$ por lo que la varianza está mejor modelada por la distribución beta-binomial. La comparación de los ajustes se puede hacer a través de criterios de información:
+```{r liratcomp,include=TRUE}
+AIC(modlirat.binom)
+AIC(modlirat.betabinom)
+```
+Observando los valores del AIC podemos determinar que el modelo beta-binomial presenta mejor ajuste.

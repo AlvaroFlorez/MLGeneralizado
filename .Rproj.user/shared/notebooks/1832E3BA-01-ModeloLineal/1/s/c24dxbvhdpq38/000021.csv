@@ -1,0 +1,2 @@
+"0","### no linealidad"
+"0","plot(x4,e4,xlab='valores ajustados',ylab='residuos estudentizados',main='(d)',ylim=c(-2.5,3),xaxt='n',yaxt='n')"

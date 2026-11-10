@@ -1,0 +1,7 @@
+"0",""
+"0","x.nuevo = data.frame(age=seq(from=35,to=42,length.out = 100))"
+"0","pred.media = predict(mod.br0,x.nuevo,interval = 'confidence')"
+"0","pred.nuevaObs = predict(mod.br0,x.nuevo,interval = 'prediction')"
+"0",""
+"0","plot(weight~age,data=birthweight,pch=20,xlab=""edad gestacional (semanas)"","
+"0","     ylab='peso al nacer (gramos)',ylim=c(2000,4000))"

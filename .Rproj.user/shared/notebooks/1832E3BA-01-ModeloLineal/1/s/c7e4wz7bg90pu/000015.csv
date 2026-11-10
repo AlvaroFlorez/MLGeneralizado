@@ -1,0 +1,3 @@
+"0","plot(mod.fit.fat,abs(res.stud.fat), "
+"0","     ylab='valor absoluto de los residuos estudentizados',"
+"0","     xlab='valores ajustados',main='(b)')"

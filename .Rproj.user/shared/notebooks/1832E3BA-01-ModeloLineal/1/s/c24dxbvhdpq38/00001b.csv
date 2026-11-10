@@ -1,0 +1,2 @@
+"0","## herocedasticidad 2"
+"0","plot(x3,e3,xlab='valores ajustados',ylab='residuos estudentizados',main='(c)',ylim=c(-2.5,3.5),xaxt='n',yaxt='n')"

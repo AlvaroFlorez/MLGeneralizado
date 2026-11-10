@@ -1,0 +1,5 @@
+"0","caimanes = read.csv('caimanes.csv')"
+"0","caimanes$lake = as.factor(caimanes$lake)"
+"0","caimanes$lake = relevel(caimanes$lake,ref ='Hancock')"
+"0","caimanes$size = as.factor(caimanes$size)"
+"0","caimanes"

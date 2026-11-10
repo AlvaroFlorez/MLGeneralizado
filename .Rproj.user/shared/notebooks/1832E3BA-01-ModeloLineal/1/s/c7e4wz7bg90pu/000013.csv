@@ -1,0 +1,1 @@
+"0","lines(lowess(res.stud.fat~mod.fit.fat), col = 2)"

@@ -1,0 +1,7 @@
+"0",""
+"0","### Figura 2"
+"0","x2=seq(from=-5,to=5,length.out = 1000)"
+"0","y21 = 0.5*exp(x2*-1)"
+"0","y22 = 0.5*exp(x2*1)"
+"0","plot(x2,y21,type='l',xaxt='n',yaxt='n',main='(b)',"
+"0","     xlab='covariable = X',ylab = 'variable respuesta = Y',lwd=2)"

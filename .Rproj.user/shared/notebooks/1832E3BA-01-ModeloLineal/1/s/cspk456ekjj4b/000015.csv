@@ -1,0 +1,4 @@
+"0","library(isdals)"
+"0","data(birthweight)"
+"0","plot(weight~age,data=birthweight,xlab=""edad gestacional (meses)"","
+"0","     ylab='peso al nacer (gramos)',col=sex)"

@@ -1,0 +1,17 @@
+h1:modelos-multinomiales Modelos multinomiales
+h2:casos-de-estudio Casos de estudio
+h3:datos-de-dieta-de-caimanes Datos de dieta de caimanes
+fig:CaimanesFigure1 Frecuencias relativas de la preferencia de dieta según el lago (izquierda) y el tamaño (derecha).
+h3:datos-de-incapacidad-mental Datos de incapacidad mental
+fig:datosIncapacidad Relación entre el deterioro mental con el índice de acontecimientos de vida (izquierda) y nivel socioeconómico (derecha).
+h2:distribución-multinomial Distribución multinomial
+h2:modelo-logístico-multinomial Modelo logístico multinomial
+h3:estimación-de-parámetros Estimación de parámetros
+h3:ilustración-en-r Ilustración en R
+h2:variable-respuesta-ordinal.-modelos-logit-acumulativos-odds-proporcionales Variable respuesta ordinal. Modelos logit acumulativos (odds proporcionales)
+fig:figprobOrdinal Modelo de odds proporcionales (mismo efecto de $x$ sobre las probabilidades acumuladas) para una respuesta ordinal con $c=4$.
+h3:modelos-de-odds-proporcionales-como-resultado-de-variable-latente Modelos de odds proporcionales (como resultado de variable latente)
+fig:figvarlatente2 Respuesta ordinal (con $c=4$) como resultado de un modelo lineal para una variable respuesta latente.
+h3:estimación-de-parámetros-1 Estimación de parámetros
+h3:ilustración-en-r-1 Ilustración en R
+

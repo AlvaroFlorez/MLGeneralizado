@@ -1,0 +1,3 @@
+"0","library(faraway)"
+"0","data(fat)"
+"0","plot(fat[,c('brozek','age','abdom','adipos')])"

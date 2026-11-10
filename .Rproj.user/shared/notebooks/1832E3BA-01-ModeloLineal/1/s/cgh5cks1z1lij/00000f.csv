@@ -1,0 +1,5 @@
+"0","mod.UN11.trans2 = lm(I(fertility^-0.5)~log(ppgdp)+pctUrban,data = UN11)"
+"0","res.UN11.trans2 = stdres(mod.UN11.trans2)"
+"0","par(mfrow=c(1,2))"
+"0","plot(mod.UN11.trans2$fitted.values,res.UN11.trans2,xlab='valores ajustados',"
+"0","     ylab='residuos estudentizados')"

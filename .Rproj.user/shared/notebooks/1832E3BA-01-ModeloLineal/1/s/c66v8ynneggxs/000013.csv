@@ -1,0 +1,2 @@
+"0","qqnorm(x2,xlab = 'cuartiles teóricos',ylab='cuartiles muestrales',main='datos exponenciales',"
+"0","       ylim=c(-1,3.5))"

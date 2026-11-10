@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 4 Modelos multinomiales | Notas de clase: Modelo lineal generalizado</title>
+  <meta name="description" content="Capítulo 4 Modelos multinomiales | Notas de clase: Modelo lineal generalizado" />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 4 Modelos multinomiales | Notas de clase: Modelo lineal generalizado" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 4 Modelos multinomiales | Notas de clase: Modelo lineal generalizado" />
+  
+  
+  
+
+<meta name="author" content="Alvaro J. Flórez" />
+
+
+<meta name="date" content="2026-11-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelos-para-respuestas-binarias.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Notas de clase MLGI</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introducción</a></li>
+<li class="chapter" data-level="1" data-path="modelo-lineal.html"><a href="modelo-lineal.html"><i class="fa fa-check"></i><b>1</b> Modelo lineal</a>
+<ul>
+<li class="chapter" data-level="" data-path="modelo-lineal.html"><a href="modelo-lineal.html#datos-de-peso-al-nacer"><i class="fa fa-check"></i>Datos de peso al nacer</a></li>
+<li class="chapter" data-level="" data-path="modelo-lineal.html"><a href="modelo-lineal.html#datos-de-grasa-corporal"><i class="fa fa-check"></i>Datos de grasa corporal</a></li>
+<li class="chapter" data-level="" data-path="modelo-lineal.html"><a href="modelo-lineal.html#datos-de-las-naciones-unidas"><i class="fa fa-check"></i>Datos de las Naciones Unidas</a></li>
+<li class="chapter" data-level="" data-path="modelo-lineal.html"><a href="modelo-lineal.html#datos-de-cemento"><i class="fa fa-check"></i>Datos de cemento</a></li>
+<li class="chapter" data-level="1.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#definici%C3%B3n-del-modelo"><i class="fa fa-check"></i><b>1.1</b> Definición del modelo</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#inclusi%C3%B3n-de-covariables-categ%C3%B3ricas"><i class="fa fa-check"></i><b>1.1.1</b> Inclusión de covariables categóricas</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="modelo-lineal.html"><a href="modelo-lineal.html#estimaci%C3%B3n-de-los-par%C3%A1metros-por-m%C3%ADnimos-cuadrados-ordinarios"><i class="fa fa-check"></i><b>1.2</b> Estimación de los parámetros por mínimos cuadrados ordinarios</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#propiedades-de-los-estimadores-por-mco"><i class="fa fa-check"></i><b>1.2.1</b> Propiedades de los estimadores por MCO</a></li>
+<li class="chapter" data-level="1.2.2" data-path="modelo-lineal.html"><a href="modelo-lineal.html#teorema-de-gauss-markov"><i class="fa fa-check"></i><b>1.2.2</b> Teorema de Gauss-Markov</a></li>
+<li class="chapter" data-level="1.2.3" data-path="modelo-lineal.html"><a href="modelo-lineal.html#estimador-de-m%C3%A1xima-verosimilitud"><i class="fa fa-check"></i><b>1.2.3</b> Estimador de máxima verosimilitud</a></li>
+<li class="chapter" data-level="1.2.4" data-path="modelo-lineal.html"><a href="modelo-lineal.html#interpretaci%C3%B3n-de-par%C3%A1metros-e-implementaci%C3%B3n-en-r"><i class="fa fa-check"></i><b>1.2.4</b> Interpretación de parámetros e implementación en R</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="modelo-lineal.html"><a href="modelo-lineal.html#inferencias-sobre-los-par%C3%A1metros-del-modelo"><i class="fa fa-check"></i><b>1.3</b> Inferencias sobre los parámetros del modelo</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#an%C3%A1lisis-de-varianza"><i class="fa fa-check"></i><b>1.3.1</b> Análisis de varianza</a></li>
+<li class="chapter" data-level="1.3.2" data-path="modelo-lineal.html"><a href="modelo-lineal.html#pruebas-individuales-sobre-los-coeficientes"><i class="fa fa-check"></i><b>1.3.2</b> Pruebas individuales sobre los coeficientes</a></li>
+<li class="chapter" data-level="1.3.3" data-path="modelo-lineal.html"><a href="modelo-lineal.html#prueba-de-hip%C3%B3tesis-para-subconjuntos-de-boldsymbol-beta"><i class="fa fa-check"></i><b>1.3.3</b> Prueba de hipótesis para subconjuntos de <span class="math inline">\(\boldsymbol \beta\)</span></a></li>
+<li class="chapter" data-level="1.3.4" data-path="modelo-lineal.html"><a href="modelo-lineal.html#intervalos-de-confianza"><i class="fa fa-check"></i><b>1.3.4</b> Intervalos de confianza</a></li>
+<li class="chapter" data-level="1.3.5" data-path="modelo-lineal.html"><a href="modelo-lineal.html#implementaci%C3%B3n-en-r"><i class="fa fa-check"></i><b>1.3.5</b> Implementación en R</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="modelo-lineal.html"><a href="modelo-lineal.html#evaluaci%C3%B3n-de-supuestos-del-modelo"><i class="fa fa-check"></i><b>1.4</b> Evaluación de supuestos del modelo</a></li>
+<li class="chapter" data-level="1.5" data-path="modelo-lineal.html"><a href="modelo-lineal.html#efectos-del-incumplimiento-de-los-supuestos"><i class="fa fa-check"></i><b>1.5</b> Efectos del incumplimiento de los supuestos</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#sesgo-por-omisi%C3%B3n-de-variables-relevantes"><i class="fa fa-check"></i><b>1.5.1</b> Sesgo por omisión de variables relevantes</a></li>
+<li class="chapter" data-level="1.5.2" data-path="modelo-lineal.html"><a href="modelo-lineal.html#incorrecta-matriz-de-varianzas-de-los-errores"><i class="fa fa-check"></i><b>1.5.2</b> Incorrecta matriz de varianzas de los errores</a></li>
+<li class="chapter" data-level="1.5.3" data-path="modelo-lineal.html"><a href="modelo-lineal.html#distribuci%C3%B3n-no-normal-de-los-errores"><i class="fa fa-check"></i><b>1.5.3</b> Distribución no normal de los errores</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="modelo-lineal.html"><a href="modelo-lineal.html#residuos-del-modelo"><i class="fa fa-check"></i><b>1.6</b> Residuos del modelo</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#residuos-estudentizados"><i class="fa fa-check"></i><b>1.6.1</b> Residuos estudentizados</a></li>
+<li class="chapter" data-level="1.6.2" data-path="modelo-lineal.html"><a href="modelo-lineal.html#residuos-press-y-r-student"><i class="fa fa-check"></i><b>1.6.2</b> Residuos PRESS y R-student</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="modelo-lineal.html"><a href="modelo-lineal.html#evaluaci%C3%B3n-del-cumplimiento-de-los-supuestos"><i class="fa fa-check"></i><b>1.7</b> Evaluación del cumplimiento de los supuestos</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#gr%C3%A1ficos-de-residuos"><i class="fa fa-check"></i><b>1.7.1</b> Gráficos de residuos</a></li>
+<li class="chapter" data-level="1.7.2" data-path="modelo-lineal.html"><a href="modelo-lineal.html#pruebas-de-bondad-de-ajuste"><i class="fa fa-check"></i><b>1.7.2</b> Pruebas de bondad de ajuste</a></li>
+<li class="chapter" data-level="1.7.3" data-path="modelo-lineal.html"><a href="modelo-lineal.html#transformaciones-para-corregir-problemas-con-los-supuestos"><i class="fa fa-check"></i><b>1.7.3</b> Transformaciones para corregir problemas con los supuestos</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="modelo-lineal.html"><a href="modelo-lineal.html#m%C3%A9todo-de-box-cox"><i class="fa fa-check"></i><b>1.8</b> Método de Box-Cox</a></li>
+<li class="chapter" data-level="1.9" data-path="modelo-lineal.html"><a href="modelo-lineal.html#puntos-de-influencia"><i class="fa fa-check"></i><b>1.9</b> Puntos de influencia</a>
+<ul>
+<li class="chapter" data-level="1.9.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#distancia-de-cook"><i class="fa fa-check"></i><b>1.9.1</b> Distancia de Cook</a></li>
+<li class="chapter" data-level="1.9.2" data-path="modelo-lineal.html"><a href="modelo-lineal.html#implementaci%C3%B3n-en-r-3"><i class="fa fa-check"></i><b>1.9.2</b> Implementación en R</a></li>
+</ul></li>
+<li class="chapter" data-level="1.10" data-path="modelo-lineal.html"><a href="modelo-lineal.html#multicolinealidad"><i class="fa fa-check"></i><b>1.10</b> Multicolinealidad</a>
+<ul>
+<li class="chapter" data-level="1.10.1" data-path="modelo-lineal.html"><a href="modelo-lineal.html#factores-de-inflaci%C3%B3n-de-varianza"><i class="fa fa-check"></i><b>1.10.1</b> Factores de inflación de varianza</a></li>
+<li class="chapter" data-level="1.10.2" data-path="modelo-lineal.html"><a href="modelo-lineal.html#valores-propios-de-boldsymbol-zboldsymbol-z"><i class="fa fa-check"></i><b>1.10.2</b> Valores propios de <span class="math inline">\(\boldsymbol Z&#39;\boldsymbol Z\)</span></a></li>
+<li class="chapter" data-level="1.10.3" data-path="modelo-lineal.html"><a href="modelo-lineal.html#valores-singulares-de-boldsymbol-z"><i class="fa fa-check"></i><b>1.10.3</b> Valores singulares de <span class="math inline">\(\boldsymbol Z\)</span></a></li>
+<li class="chapter" data-level="1.10.4" data-path="modelo-lineal.html"><a href="modelo-lineal.html#soluci%C3%B3n-al-problema-de-multicolinealidad"><i class="fa fa-check"></i><b>1.10.4</b> Solución al problema de multicolinealidad</a></li>
+<li class="chapter" data-level="1.10.5" data-path="modelo-lineal.html"><a href="modelo-lineal.html#implementaci%C3%B3n-en-r-4"><i class="fa fa-check"></i><b>1.10.5</b> Implementación en R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html"><i class="fa fa-check"></i><b>2</b> Modelo lineal geralizado</a>
+<ul>
+<li class="chapter" data-level="" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#datos-de-escarabajos"><i class="fa fa-check"></i>Datos de escarabajos</a></li>
+<li class="chapter" data-level="" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#datos-de-ataques-de-epilepsia"><i class="fa fa-check"></i>Datos de Ataques de epilepsia</a></li>
+<li class="chapter" data-level="2.1" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#familia-exponencial"><i class="fa fa-check"></i><b>2.1</b> Familia exponencial</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#relaci%C3%B3n-media-varianza"><i class="fa fa-check"></i><b>2.1.1</b> Relación media-varianza:</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#definici%C3%B3n-del-modelo-lineal-generalizado"><i class="fa fa-check"></i><b>2.2</b> Definición del modelo lineal generalizado</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#componente-aleatorio"><i class="fa fa-check"></i><b>2.2.1</b> Componente aleatorio</a></li>
+<li class="chapter" data-level="2.2.2" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#predictor-lineal"><i class="fa fa-check"></i><b>2.2.2</b> Predictor lineal</a></li>
+<li class="chapter" data-level="2.2.3" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#funci%C3%B3n-de-enlace"><i class="fa fa-check"></i><b>2.2.3</b> Función de enlace</a></li>
+<li class="chapter" data-level="2.2.4" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#ejemplos"><i class="fa fa-check"></i><b>2.2.4</b> Ejemplos</a></li>
+<li class="chapter" data-level="2.2.5" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#especificaci%C3%B3n-del-modelo"><i class="fa fa-check"></i><b>2.2.5</b> Especificación del modelo</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#estimador-de-m%C3%A1xima-verosimilitud-1"><i class="fa fa-check"></i><b>2.3</b> Estimador de máxima verosimilitud</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#m%C3%ADnimos-cuadrados-iterativamente-reponderados"><i class="fa fa-check"></i><b>2.3.1</b> Mínimos cuadrados iterativamente reponderados</a></li>
+<li class="chapter" data-level="2.3.2" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#distribuci%C3%B3n-del-mle"><i class="fa fa-check"></i><b>2.3.2</b> Distribución del MLE</a></li>
+<li class="chapter" data-level="2.3.3" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#implementaci%C3%B3n-en-r-5"><i class="fa fa-check"></i><b>2.3.3</b> Implementación en R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#pruebas-de-hip%C3%B3tesis"><i class="fa fa-check"></i><b>2.4</b> Pruebas de hipótesis</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#prueba-de-raz%C3%B3n-de-verosimilitud"><i class="fa fa-check"></i><b>2.4.1</b> Prueba de razón de verosimilitud</a></li>
+<li class="chapter" data-level="2.4.2" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#prueba-del-score"><i class="fa fa-check"></i><b>2.4.2</b> Prueba del Score</a></li>
+<li class="chapter" data-level="2.4.3" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#prueba-de-wald"><i class="fa fa-check"></i><b>2.4.3</b> Prueba de Wald</a></li>
+<li class="chapter" data-level="2.4.4" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#implementaci%C3%B3n-en-r-6"><i class="fa fa-check"></i><b>2.4.4</b> Implementación en R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#intervalos-de-confianza-1"><i class="fa fa-check"></i><b>2.5</b> Intervalos de confianza</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#intervalo-de-confianza-para-los-coeficientes-de-regresi%C3%B3n"><i class="fa fa-check"></i><b>2.5.1</b> Intervalo de confianza para los coeficientes de regresión</a></li>
+<li class="chapter" data-level="2.5.2" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#intervalo-de-confianza-para-la-media"><i class="fa fa-check"></i><b>2.5.2</b> Intervalo de confianza para la media</a></li>
+<li class="chapter" data-level="2.5.3" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#implementaci%C3%B3n-en-r-7"><i class="fa fa-check"></i><b>2.5.3</b> Implementación en R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#devianza"><i class="fa fa-check"></i><b>2.6</b> Devianza</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#relaci%C3%B3n-la-prueba-de-raz%C3%B3n-de-verosimilitud"><i class="fa fa-check"></i><b>2.6.1</b> Relación la prueba de razón de verosimilitud</a></li>
+<li class="chapter" data-level="2.6.2" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#modelo-binomial"><i class="fa fa-check"></i><b>2.6.2</b> Modelo binomial</a></li>
+<li class="chapter" data-level="2.6.3" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#modelo-poisson"><i class="fa fa-check"></i><b>2.6.3</b> Modelo Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#estad%C3%ADstico-chi2-de-pearson"><i class="fa fa-check"></i><b>2.7</b> Estadístico <span class="math inline">\(\chi^2\)</span> de Pearson</a></li>
+<li class="chapter" data-level="2.8" data-path="modelo-lineal-geralizado.html"><a href="modelo-lineal-geralizado.html#residuos-de-un-glm"><i class="fa fa-check"></i><b>2.8</b> Residuos de un GLM</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html"><i class="fa fa-check"></i><b>3</b> Modelos para respuestas binarias</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#casos-de-estudio"><i class="fa fa-check"></i><b>3.1</b> Casos de estudio</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#mortalidad-de-escarabajos"><i class="fa fa-check"></i><b>3.1.1</b> Mortalidad de escarabajos</a></li>
+<li class="chapter" data-level="3.1.2" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#bajo-peso-al-nacer"><i class="fa fa-check"></i><b>3.1.2</b> Bajo peso al nacer</a></li>
+<li class="chapter" data-level="3.1.3" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#estudio-de-teratolog%C3%ADa"><i class="fa fa-check"></i><b>3.1.3</b> Estudio de teratología</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#datos-agrupados-o-datos-no-agrupados"><i class="fa fa-check"></i><b>3.2</b> Datos agrupados o datos no agrupados</a></li>
+<li class="chapter" data-level="3.3" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#variables-binarias-como-variables-latentes---funciones-de-enlace"><i class="fa fa-check"></i><b>3.3</b> Variables binarias como variables latentes - Funciones de enlace</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#modelo-log%C3%ADstico"><i class="fa fa-check"></i><b>3.3.1</b> Modelo logístico</a></li>
+<li class="chapter" data-level="3.3.2" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#modelo-probit"><i class="fa fa-check"></i><b>3.3.2</b> Modelo probit</a></li>
+<li class="chapter" data-level="3.3.3" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#modelo-log-log-complementario"><i class="fa fa-check"></i><b>3.3.3</b> Modelo log-log complementario</a></li>
+<li class="chapter" data-level="3.3.4" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#estimaci%C3%B3n-de-par%C3%A1metros"><i class="fa fa-check"></i><b>3.3.4</b> Estimación de parámetros</a></li>
+<li class="chapter" data-level="3.3.5" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#comparaci%C3%B3n-de-funciones-de-enlace"><i class="fa fa-check"></i><b>3.3.5</b> Comparación de funciones de enlace</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#problema-de-separaci%C3%B3n"><i class="fa fa-check"></i><b>3.4</b> Problema de separación</a></li>
+<li class="chapter" data-level="3.5" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#curva-caracter%C3%ADstica-operativa-del-receptorroc"><i class="fa fa-check"></i><b>3.5</b> Curva característica operativa del receptor(ROC)</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#obtenci%C3%B3n-de-un-valor-%C3%B3ptimo"><i class="fa fa-check"></i><b>3.5.1</b> Obtención de un valor óptimo</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#sobredispersi%C3%B3n"><i class="fa fa-check"></i><b>3.6</b> Sobredispersión</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#evaluaci%C3%B3n-de-sobredispersi%C3%B3n"><i class="fa fa-check"></i><b>3.6.1</b> Evaluación de sobredispersión</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#distribuci%C3%B3n-beta-binomial"><i class="fa fa-check"></i><b>3.7</b> Distribución beta-binomial</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#modelo-beta-binomial"><i class="fa fa-check"></i><b>3.7.1</b> Modelo beta-binomial</a></li>
+<li class="chapter" data-level="3.7.2" data-path="modelos-para-respuestas-binarias.html"><a href="modelos-para-respuestas-binarias.html#estudio-de-teratolog%C3%ADa-1"><i class="fa fa-check"></i><b>3.7.2</b> Estudio de teratología</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html"><i class="fa fa-check"></i><b>4</b> Modelos multinomiales</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#casos-de-estudio-1"><i class="fa fa-check"></i><b>4.1</b> Casos de estudio</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#datos-de-dieta-de-caimanes"><i class="fa fa-check"></i><b>4.1.1</b> Datos de dieta de caimanes</a></li>
+<li class="chapter" data-level="4.1.2" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#datos-de-incapacidad-mental"><i class="fa fa-check"></i><b>4.1.2</b> Datos de incapacidad mental</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#distribuci%C3%B3n-multinomial"><i class="fa fa-check"></i><b>4.2</b> Distribución multinomial</a></li>
+<li class="chapter" data-level="4.3" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#modelo-log%C3%ADstico-multinomial"><i class="fa fa-check"></i><b>4.3</b> Modelo logístico multinomial</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#estimaci%C3%B3n-de-par%C3%A1metros-1"><i class="fa fa-check"></i><b>4.3.1</b> Estimación de parámetros</a></li>
+<li class="chapter" data-level="4.3.2" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#ilustraci%C3%B3n-en-r"><i class="fa fa-check"></i><b>4.3.2</b> Ilustración en R</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#variable-respuesta-ordinal.-modelos-logit-acumulativos-odds-proporcionales"><i class="fa fa-check"></i><b>4.4</b> Variable respuesta ordinal. Modelos logit acumulativos (odds proporcionales)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#modelos-de-odds-proporcionales-como-resultado-de-variable-latente"><i class="fa fa-check"></i><b>4.4.1</b> Modelos de odds proporcionales (como resultado de variable latente)</a></li>
+<li class="chapter" data-level="4.4.2" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#estimaci%C3%B3n-de-par%C3%A1metros-2"><i class="fa fa-check"></i><b>4.4.2</b> Estimación de parámetros</a></li>
+<li class="chapter" data-level="4.4.3" data-path="modelos-multinomiales.html"><a href="modelos-multinomiales.html#ilustraci%C3%B3n-en-r-1"><i class="fa fa-check"></i><b>4.4.3</b> Ilustración en R</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notas de clase: Modelo lineal generalizado</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelos-multinomiales" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Capítulo 4</span> Modelos multinomiales<a href="modelos-multinomiales.html#modelos-multinomiales" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="casos-de-estudio-1" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Casos de estudio<a href="modelos-multinomiales.html#casos-de-estudio-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="datos-de-dieta-de-caimanes" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Datos de dieta de caimanes<a href="modelos-multinomiales.html#datos-de-dieta-de-caimanes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Se quiere determinar los factores que influyen en la dieta principal de caimanes de cuatro lagos de la Florida (Hancock, George, Ocklawaha y Trafford). Para esto se tomó una muestra de 219 especímenes y se catalogó los caimanes según su tamaño como grande si mide más de 2.3 metros y pequeño si lo contrario. Los datos se encuentran en la base de datos <code>caimanes.csv</code></p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="modelos-multinomiales.html#cb104-1" tabindex="-1"></a>caimanes <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&#39;caimanes.csv&#39;</span>)</span>
+<span id="cb104-2"><a href="modelos-multinomiales.html#cb104-2" tabindex="-1"></a>caimanes<span class="sc">$</span>lake <span class="ot">=</span> <span class="fu">as.factor</span>(caimanes<span class="sc">$</span>lake)</span>
+<span id="cb104-3"><a href="modelos-multinomiales.html#cb104-3" tabindex="-1"></a>caimanes<span class="sc">$</span>lake <span class="ot">=</span> <span class="fu">relevel</span>(caimanes<span class="sc">$</span>lake,<span class="at">ref =</span><span class="st">&#39;Hancock&#39;</span>)</span>
+<span id="cb104-4"><a href="modelos-multinomiales.html#cb104-4" tabindex="-1"></a>caimanes<span class="sc">$</span>size <span class="ot">=</span> <span class="fu">as.factor</span>(caimanes<span class="sc">$</span>size)</span>
+<span id="cb104-5"><a href="modelos-multinomiales.html#cb104-5" tabindex="-1"></a>caimanes</span></code></pre></div>
+<pre><code>##        lake  size fish invertebrate reptile bird other
+## 1   Hancock small   23            4       2    2     8
+## 2   Hancock large    7            0       1    3     5
+## 3 Ocklawaha small    5           11       1    0     3
+## 4 Ocklawaha large   13            8       6    1     0
+## 5  Trafford small    5           11       2    1     5
+## 6  Trafford large    8            7       6    3     5
+## 7    George small   16           19       1    2     3
+## 8    George large   17            1       0    1     3</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:CaimanesFigure1"></span>
+<img src="MLGeneralizado_files/figure-html/CaimanesFigure1-1.png" alt="Frecuencias relativas de la preferencia de dieta según el lago (izquierda) y el tamaño (derecha)." width="768" />
+<p class="caption">
+Figure 4.1: Frecuencias relativas de la preferencia de dieta según el lago (izquierda) y el tamaño (derecha).
+</p>
+</div>
+<p>En la Figura <a href="modelos-multinomiales.html#fig:CaimanesFigure1">4.1</a> se observan diferencias en la composición de la dieta de los caimanes según el lago y el tamaño. En los lagos Hancock y George, predominan los peces en la dieta. En los otros dos lagos, el consumo está más diversificado, aunque los invertebrados son más frecuentes. Asimismo, los caimanes grandes consumen principalmente peces.</p>
+</div>
+<div id="datos-de-incapacidad-mental" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Datos de incapacidad mental<a href="modelos-multinomiales.html#datos-de-incapacidad-mental" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Estudio de salud mental sobre adultos residentes del condado de
+Alachua, Florida. El deterioro mental es una variable <span class="math inline">\((Y)\)</span> ordinal con cuatro categorías (1: sano, 2: presencia de síntomas leves, 3: presencia de síntomas moderados, 4: deterioro. El estudio relacionó esta variable con varias variables explicativas, de las cuales tendremos en cuenta dos. La primera es el índice de acontecimientos de vida (<code>life</code>), el cuál es una medida compuesta que considera el número y la gravedad de sucesos importantes ocurridos al sujeto en los últimos 3 años, tales como el nacimiento de un hijo, un nuevo empleo, un divorcio o un fallecimiento en la familia. En esta muestra, esta varía entre <span class="math inline">\(0\)</span> y <span class="math inline">\(9\)</span>, con una media de <span class="math inline">\(4.3\)</span> y una desviación estándar de <span class="math inline">\(2.7\)</span>. La otra es el nivel socioeconómico (<code>ses</code>) se mide aquí como una variable binaria (1: alto, 0: bajo).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:datosIncapacidad"></span>
+<img src="MLGeneralizado_files/figure-html/datosIncapacidad-1.png" alt="Relación entre el deterioro mental con el índice de acontecimientos de vida (izquierda) y nivel socioeconómico (derecha)." width="768" />
+<p class="caption">
+Figure 4.2: Relación entre el deterioro mental con el índice de acontecimientos de vida (izquierda) y nivel socioeconómico (derecha).
+</p>
+</div>
+<p>En la Figura <a href="modelos-multinomiales.html#fig:datosIncapacidad">4.2</a> podemos observar los pacientes que reportaron mayor índice de acontecimientos de vida presentan niveles de deterioro mental más altos. De igual forma, los pacientes de nivel socioeconómico bajo presetan un poco más casos de mayor deterioro mental.</p>
+</div>
+</div>
+<div id="distribución-multinomial" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Distribución multinomial<a href="modelos-multinomiales.html#distribuci%C3%B3n-multinomial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Considere una variable respuesta <span class="math inline">\(Y\)</span> cualitativa que tiene <span class="math inline">\(c\)</span> categorías. La probabilidad de la <span class="math inline">\(j\)</span>-esima categoría es <span class="math inline">\(\pi_{j}\)</span>, con <span class="math inline">\(\sum_{j=1}^{c} \pi_{j} = 1\)</span>. Sea <span class="math inline">\(\boldsymbol y= (y_{i1},\ldots, y_{ic})\)</span> un ensayo multinomial con:
+<span class="math display">\[
+y_{k} = \begin{cases}
+1 &amp; \mbox{cuando la respuesta está en la categoría }k, \\
+0 &amp; \mbox{si lo contrario}.
+\end{cases}
+\]</span>
+Entonces, <span class="math inline">\(\sum_{j=1}^{c}y_{j} = 1\)</span>. La de distribución de <span class="math inline">\(Y\)</span> se llama multinomial y está definida como:
+<span class="math display" id="eq:multinomial">\[\begin{equation}
+\begin{split}
+f(\boldsymbol y; \boldsymbol \pi) =&amp;  \frac{n_!}{n_{1}!n_{2}!\ldots n_{c}!}\pi_{1}^{n_{1}}\ldots\pi_{c}^{n_{c}} \\
+=&amp; \frac{n_!}{n_{1}!n_{2}!\ldots n_{c}!} \exp\left( \sum_{k=1}^c y_k\log \pi_k \right).
+\end{split}
+\tag{4.1}
+\end{equation}\]</span>
+Tenemos que, <span class="math inline">\(E(Y_{k}) = n\pi_{k}\)</span>, <span class="math inline">\(V(Y_{k}) = n_i\pi_{k}(1-\pi_{k}),\)</span> y <span class="math inline">\(Cov(Y_{k},Y_{l}) = -n\pi_{k}\pi_{l}\)</span>. Dado que <span class="math inline">\(\pi_c = 1 - \sum_{k=1}^{c-1}\)</span>, (<a href="modelos-multinomiales.html#eq:multinomial">(4.1)</a>) se puede expresar como:</p>
+<p><span class="math display" id="eq:multinomial2">\[\begin{equation}
+\begin{split}
+f(\boldsymbol y; \boldsymbol \pi) =&amp; A\exp\left[\sum_{k=1}^{c-1}n_{k}\log \pi_k + \left(n - \sum_{k=1}^{c-1}n_{k} \right)\log\left(1 - \sum_{k=1}^{c-1}\pi_k \right) \right] \\
+=&amp; A\exp\left[\sum_{k=1}^{c-1} \log \left( \frac{\pi_k}{1 - \sum_{k=1}^{c-1}\pi_k} \right)n_k + n\log\left( 1- \sum_{k=1}^{c-1} \pi_{k} \right) \right],
+\end{split}
+\tag{4.2}
+\end{equation}\]</span>
+donde <span class="math inline">\(A = \frac{n_!}{n_{1}!n_{2}!\ldots n_{c}!}\)</span>.</p>
+<p>De aquí, tenemos que <span class="math inline">\(\theta_k  = \log \left( \frac{\pi_k}{1 - \sum_{k=1}^{c-1}\pi_k} \right)\)</span>, <span class="math inline">\(b(\theta_k) = n\log \left( \sum_{k=1}^{c}\exp \theta_k\right)\)</span>, <span class="math inline">\(a(\phi) = 1\)</span> y <span class="math inline">\(c(y,\phi) = \log A.\)</span> Por lo que la distribución multinomial pertenece la familia exponencial.</p>
+</div>
+<div id="modelo-logístico-multinomial" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Modelo logístico multinomial<a href="modelos-multinomiales.html#modelo-log%C3%ADstico-multinomial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para <span class="math inline">\(\boldsymbol y_i\)</span> con <span class="math inline">\(c\)</span> categorías (nominales), se pueden usar modelos logísticos para describir simultáneamente los <span class="math inline">\(\log\)</span> odds para los <span class="math inline">\(c(c-1)/2\)</span> pares de categorías. Dada cierta elección, por ejemplo <span class="math inline">\(c\)</span>, solo se necesitan <span class="math inline">\(c-1\)</span> de estos pares:
+<span class="math display">\[
+\log \frac{\pi_{i1}}{\pi_{ic}}, \log \frac{\pi_{i2}}{\pi_{ic}}, \ldots, \log \frac{\pi_{i,c-1}}{\pi_{ic}},
+\]</span>
+donde la categoría <span class="math inline">\(c\)</span> se define como de referencia. Entonces, para la <span class="math inline">\(j\)</span>-ésima categoría, tenemos que:
+<span class="math display">\[
+\mbox{logit}[ P(y_{ij}=1 | y_{ij}=1 \mbox{ o } y_{ic}=1) ]
+= \log \left[ \frac{ P(y_{ij}=1 | y_{ij}=1 \mbox{ o } y_{ic}=1 )}{1- P(y_{ij}=1 | y_{ij}=1 \mbox{ o } y_{ic}=1 )} \right] = \log \frac{\pi_{ij}}{\pi_{ic}}.
+\]</span><br />
+Esta cantidad puede ser modelada como una función de un vector de covariables <span class="math inline">\(\boldsymbol x_i\)</span> a través de un modelo logístico:
+<span class="math display">\[
+\log \frac{\pi_{ij}}{\pi_{ic}} = \boldsymbol x_i&#39;\boldsymbol \beta_j,
+\]</span>
+donde <span class="math inline">\(\boldsymbol \beta_j = (\beta_{j0},\beta_{j2},\ldots,\beta_{j,p-1})&#39;\)</span> es un vector de parámetros para el <span class="math inline">\(j\)</span>-ésimo logit, con <span class="math inline">\(\boldsymbol \beta_c = \boldsymbol 0\)</span>. De aquí, podemos obtener las probabilidad de la siguiente forma:
+<span class="math display">\[
+\pi_{ij} = \pi_{ic} \exp(\boldsymbol x_{i}&#39;\boldsymbol \beta).
+\]</span>
+Puesto que <span class="math inline">\(\pi_{i1}+\ldots+\pi_{ic} =1\)</span>, se tiene que:
+<span class="math display">\[
+\pi_{ic} = \frac{1}{1+ \sum_{j=1}^{c-1}\exp(\boldsymbol x_i&#39;\boldsymbol \beta)},
+\]</span>
+y por lo tanto:
+<span class="math display">\[
+\pi_{ij} = \frac{\exp(\boldsymbol x_i&#39;\boldsymbol \beta_j)}{1+ \sum_{j=1}^{c-1}\exp(\boldsymbol x_i&#39;\boldsymbol \beta)}.
+\]</span></p>
+<div id="estimación-de-parámetros-1" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Estimación de parámetros<a href="modelos-multinomiales.html#estimaci%C3%B3n-de-par%C3%A1metros-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La contribución a la log-verosimilitud del <span class="math inline">\(i\)</span>-ésimo individuo está dada por:
+<span class="math display">\[\begin{equation}
+\begin{split}
+\log \left( \prod_{j=1}^{c}\pi_{ij}^{y_{ij}} \right) &amp;= \sum_{j=1}^{c-1}y_{ij}\log \pi_{ij} + \left( 1 - \sum_{j=1}^{c-1}y_{ij} \right)\log \pi_{ic} \\ &amp;= \sum_{j=1}^{c-1}y_{ij} \log \frac{\pi_{ij}}{\pi_{ic}} + \log \pi_{ic} \\
+&amp;= \sum_{j=1}^{c-1}y_{ij}\boldsymbol x_i&#39;\boldsymbol \beta_j - \log \left[ 1 + \sum_{j=1}^{c-1}\exp(\boldsymbol x_i&#39;\boldsymbol \beta_j) \right],
+\end{split}
+\nonumber
+\end{equation}\]</span>
+entonces, la función de verosimilitud es:
+<span class="math display">\[\begin{equation}
+\begin{split}
+\ell (\boldsymbol \beta) &amp;= \log \left[ \prod_{i=1}^{N} \left( \prod_{j=1}^{c}\pi_{ij}^{y_{ij}} \right) \right] \\
+&amp;= \sum_{i=1}^{N} \left\{ \sum_{j=1}^{c-1}y_{ij}\boldsymbol x_i&#39;\boldsymbol \beta_j - \log \left[ 1 + \sum_{j=1}^{c-1}\exp(\boldsymbol x_i&#39;\boldsymbol \beta_j) \right] \right\} \\
+&amp;= \sum_{j=1}^{c-1} \left[ \sum_{k=0}^{p-1}\beta_{jk}\left( \sum_{i=1}^{N}y_{ij}x_{ik} \right) \right] - \sum_{i=1}^{N}\log \left[1 - \sum_{j=1}^{c-1}\exp(\boldsymbol x_{j}&#39;\boldsymbol \beta_j) \right],
+\end{split}
+\nonumber
+\end{equation}\]</span>
+con <span class="math inline">\(x_{i0}=1\)</span> (asociado al intercepto). La función score esta dada por:
+<span class="math display">\[
+u(\beta_{ij}) =\frac{\delta \ell(\boldsymbol \beta)}{\delta \beta_{jk}} = \sum_{i=1}^N x_{ik}y_{ij} - \sum_{i=1}^N \left[ \frac{x_{ik}\exp(\boldsymbol x_i&#39;\boldsymbol \beta_j)}{1+ \sum_{l=1}^{c-1}\exp(\boldsymbol x_i&#39;\boldsymbol \beta_l)} \right] = \sum_{i=1}^{N}x_{ik}(y_{ij}-\pi_{ij}).
+\]</span>
+Los elementos de la matriz hessiana está dada por:
+<span class="math display">\[
+\frac{\delta^2 \ell(\boldsymbol \beta)}{\delta \beta_{jk}\delta \beta_{jk&#39;}} = - \sum_{i=1}^{N}x_{ik}x_{ik&#39;}\pi_{ij}(1-\pi_{ij}),
+\]</span>
+y para <span class="math inline">\(j\neq j&#39;\)</span>,
+<span class="math display">\[
+\frac{\delta^2 \ell(\boldsymbol \beta)}{\delta \beta_{jk}\delta \beta_{j&#39;k&#39;}} = \sum_{i=1}^{N} x_{ik}x_{ik&#39;}\pi_{ij}\pi_{ij&#39;}.
+\]</span>
+De aquí, la matriz de información contiene <span class="math inline">\((c-1)^{2}\)</span> bloques de tamaño <span class="math inline">\((p \times p)\)</span>,
+<span class="math display">\[
+- \frac{\partial^{2}\ell(\boldsymbol \beta)}{\partial \boldsymbol \beta_{j} \partial \boldsymbol \beta_{j&#39;}} = \sum_{i=1}^{N} \pi_{ij} \left[ I(j=j&#39;) - \pi_{ij&#39;} \right] \boldsymbol x_i &#39;\boldsymbol x_i.
+\]</span>
+La matriz hessiana es definida negativa, por lo que la función de log-verosimilitud es cóncava y posee un único máximo. La información observada (- matriz hessiana) y la esperada son idénticas (matriz de información). En consecuencia, el método de Newton-Raphson es equivalente al método de Fisher scoring para obtener las estimaciones de máxima verosimilitud. Esto se debe a que la función de enlace utilizada es la función de enlace canónica. La convergencia suele ser rápida, a menos que al menos una de las estimaciones sea infinita o no exista (problema de separación).</p>
+<p>Para datos agrupados con <span class="math inline">\(n_i\)</span> observaciones asociadas a <span class="math inline">\(\boldsymbol x_i\)</span>, sea <span class="math inline">\(y_{ij}\)</span> la proporción de observaciones en la categoría <span class="math inline">\(j\)</span>. La devianza y el estadístico <span class="math inline">\(X^2\)</span> de Pearson son:
+<span class="math display">\[
+D = 2 \sum_{i=1}^{n}\sum_{j=1}^{c} n_{i}y_{ij} \log \frac{n_iy_{ij}}{n_i\widehat{\pi}_{ij}},
+\]</span>
+y
+<span class="math display">\[
+X^2 = \sum_{i=1}^{n}\sum_{j=1}^{c} \frac{(n_i)y_{ij}-n_i\widehat{\pi}_{ij}}{n_i\widehat{\pi}_{ij}},
+\]</span>
+respectivamente. Al igual que en el caso binario, cuando los datos están agruados, <span class="math inline">\(G^2\)</span> y <span class="math inline">\(X^2\)</span> pueden utilizarse para evaluar la bondad de ajuste del modelo. Ambos estadísticos siguen, de forma aproximada, bajo <span class="math inline">\(H_{0}\)</span>, una distribución <span class="math inline">\(\chi^2\)</span> con grados de libertad iguales a <span class="math inline">\(N(c − 1)\)</span> menos el número de parámetros del modelo. Esta aproximación es buena cuando las frecuencias esperadas en las celdas sean, en su mayoría, superiores a 5.</p>
+</div>
+<div id="ilustración-en-r" class="section level3 hasAnchor" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Ilustración en R<a href="modelos-multinomiales.html#ilustraci%C3%B3n-en-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para modelar el efecto del tamaño del caimán y el lago en que habita sobre la elección del alimento principal vamos a utilizar un modelo logístico multinomial. El modelo propuesto es el siguiente:
+<span class="math display">\[
+\log (\pi_{ij} / \pi_{i4}) = \beta_{j0} + \beta_{j1}s_i + \beta_{j2}z_{i}^{O} + \beta_{j3}z_{i}^{T} + \beta_{j4}z_{i}^{G},
+\]</span>
+para <span class="math inline">\(j=1,2,3\)</span>, donde <span class="math inline">\(s_i=1\)</span> si el <span class="math inline">\(i\)</span>-ésimo caiman es pequeño, <span class="math inline">\(s_i=0\)</span> si lo contrario; <span class="math inline">\(z^{O}\)</span>, <span class="math inline">\(z^{T}\)</span> y <span class="math inline">\(z^{G}\)</span> son variables indicadoras asociadas a los lagos Ocklawaha, Trafford y Hancock, respectivamente. Además, vamos a considerar que <span class="math inline">\(\pi_{i4}\)</span> corresponde a la probabilidad asociada al consumo de peces (categoría de referencia).</p>
+<p>El ajuste en R lo podemos hacer utilizando la función</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="modelos-multinomiales.html#cb106-1" tabindex="-1"></a><span class="fu">library</span>(VGAM)</span>
+<span id="cb106-2"><a href="modelos-multinomiales.html#cb106-2" tabindex="-1"></a>fit.alligator <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> size <span class="sc">+</span> lake, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
+<span id="cb106-3"><a href="modelos-multinomiales.html#cb106-3" tabindex="-1"></a><span class="fu">summary</span>(fit.alligator)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## vglm(formula = cbind(invertebrate, reptile, bird, other, fish) ~ 
+##     size + lake, family = multinomial, data = caimanes)
+## 
+## Coefficients: 
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept):1    -3.2074     0.6387  -5.021 5.13e-07 ***
+## (Intercept):2    -2.0718     0.7067  -2.931 0.003373 ** 
+## (Intercept):3    -1.3980     0.6085  -2.297 0.021601 *  
+## (Intercept):4    -1.0781     0.4709  -2.289 0.022061 *  
+## sizesmall:1       1.4582     0.3959   3.683 0.000231 ***
+## sizesmall:2      -0.3513     0.5800  -0.606 0.544786    
+## sizesmall:3      -0.6307     0.6425  -0.982 0.326296    
+## sizesmall:4       0.3316     0.4482   0.740 0.459506    
+## lakeGeorge:1      1.6584     0.6129   2.706 0.006813 ** 
+## lakeGeorge:2     -1.2428     1.1854  -1.048 0.294466    
+## lakeGeorge:3     -0.6951     0.7813  -0.890 0.373608    
+## lakeGeorge:4     -0.8262     0.5575  -1.482 0.138378    
+## lakeOcklawaha:1   2.5956     0.6597   3.934 8.34e-05 ***
+## lakeOcklawaha:2   1.2161     0.7860   1.547 0.121824    
+## lakeOcklawaha:3  -1.3483     1.1635  -1.159 0.246529    
+## lakeOcklawaha:4  -0.8205     0.7296  -1.125 0.260713    
+## lakeTrafford:1    2.7803     0.6712   4.142 3.44e-05 ***
+## lakeTrafford:2    1.6925     0.7804   2.169 0.030113 *  
+## lakeTrafford:3    0.3926     0.7818   0.502 0.615487    
+## lakeTrafford:4    0.6902     0.5597   1.233 0.217511    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Names of linear predictors: log(mu[,1]/mu[,5]), log(mu[,2]/mu[,5]), log(mu[,3]/mu[,5]), log(mu[,4]/mu[,5])
+## 
+## Residual deviance: 17.0798 on 12 degrees of freedom
+## 
+## Log-likelihood: -47.5138 on 12 degrees of freedom
+## 
+## Number of Fisher scoring iterations: 5 
+## 
+## 
+## Reference group is level  5  of the response</code></pre>
+<p>Dado que se tiene un número grande de parámetros, el ajuste es complicado de leer. De aquí tenemos que la devianza es <span class="math inline">\(17.08\)</span>, realizando la prueba de bondad de ajuste (gl<span class="math inline">\(=12\)</span>) encontramos un valor-<span class="math inline">\(p\)</span> igual a <span class="math inline">\(0.147\)</span>, lo que indica que el modelo proporciona buen ajuste.
+Para evaluar el efecto del tamaño, podemos evaluar <span class="math inline">\(H_0: \beta_{j1}=0\)</span>, para <span class="math inline">\(j=1,\ldots,4\)</span>. Usando la prueba de razón de verosimilitud encontramos el siguiente resultado:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="modelos-multinomiales.html#cb108-1" tabindex="-1"></a>fit.alligator0 <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> lake, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
+<span id="cb108-2"><a href="modelos-multinomiales.html#cb108-2" tabindex="-1"></a><span class="fu">anova</span>(fit.alligator0,fit.alligator,<span class="at">type=</span><span class="dv">1</span>,<span class="at">test=</span><span class="st">&#39;LRT&#39;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: cbind(invertebrate, reptile, bird, other, fish) ~ lake
+## Model 2: cbind(invertebrate, reptile, bird, other, fish) ~ size + lake
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1        16     38.167                          
+## 2        12     17.080  4   21.087 0.0003043 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Esto implica que el tamaño del caiman si influye de forma significativa sobre la dieta principal. De igual forma podemos determinar si el lago tiene un efecto significativo sobre la dieta:</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="modelos-multinomiales.html#cb110-1" tabindex="-1"></a>fit.alligator0 <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> size, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
+<span id="cb110-2"><a href="modelos-multinomiales.html#cb110-2" tabindex="-1"></a><span class="fu">anova</span>(fit.alligator0,fit.alligator,<span class="at">type=</span><span class="dv">1</span>,<span class="at">test=</span><span class="st">&#39;LRT&#39;</span>)</span></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: cbind(invertebrate, reptile, bird, other, fish) ~ size
+## Model 2: cbind(invertebrate, reptile, bird, other, fish) ~ size + lake
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1        24     66.213                          
+## 2        12     17.080 12   49.133 1.983e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Al igual que en el caso anterior, encontramos que el lago también tiene una influencia sobre la dieta principal de los caimanes.</p>
+<p>El modelo ajustado permite comparar las probabilidades de preferir un tipo de alimento con respecto a los peces (categoría de referencia), es decir obtenemos cuatro ecuaciones diferentes. Por ejemplo, para comparar la preferencia entre consumo de invertebrados sobre peses, tenemos:
+<span class="math display">\[
+\log (\widehat{\pi}_{i1}/\widehat{\pi}_{i4}) = -3.207+ 1.458 s_i +  2.596z_{i}^{O} +2.780z_{i}^{T}+ 1.658z_{i}^{G}.
+\]</span></p>
+<p>De aquí podemos concluir que, para caimanes pequeños, la probabilidad de elegir invertebrados como alimento principal, en lugar de peces, es <span class="math inline">\(\exp(1.458) = 4.30\)</span> (95% IC <span class="math inline">\(\{1.98, 9.34\}\)</span>) veces mas grandes que para caimanes grandes. Con respecto a los lagos, la probabilidad de elegir invertebrados como dieta principal, en lugar de peces, es más alta en los lagos Ocklawaha, Trafford y George que en el lago Hancock.</p>
+<p>Ahora, podemos comparar el consumo principal de aves con respecto a peces de la siguiente forma:</p>
+<p><span class="math display">\[
+\log (\widehat{\pi}_{i1}/\widehat{\pi}_{i3}) = -1.398 -0.631 s_i -1.348z_{i}^{O}+ 0.393z_{i}^{T} -0.695z_{i}^{G}
+\]</span>
+A diferencia del caso anterior, los caimanes pequeños tiene probabilidad de elegir aves como alimento principal, en lugar a peces, mas pequeña que para caimanes grandes. Sin embargo esta diferencia no es significativa. En comparación con el lago Hancock, esta probabilidad es menor en los lagos Ocklawaha y en George; mientras que es mayor en lago Trafford.</p>
+<p>A partir de estos resultados también se pueden obtener estimaciones de las probabilidades. Por ejemplo, la probabilidad estimada de que un caimán grande en el lago George tenga los invertebrados como su principal fuente de alimento es:
+<span class="math display">\[
+\widehat{\pi}_{i2} =\frac{e^{-3.207+1.658}}{1 + e^{-3.207+1.658} + e^{-2.072-1.243} + e^{-1.398-0.695} + e^{-1.078-0.826}}= 0.14.
+\]</span>
+En R, estas se pueden encontrar de la siguiente forma:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="modelos-multinomiales.html#cb112-1" tabindex="-1"></a>prob.est <span class="ot">=</span> <span class="fu">fitted.values</span>(fit.alligator)</span>
+<span id="cb112-2"><a href="modelos-multinomiales.html#cb112-2" tabindex="-1"></a><span class="fu">cbind</span>(caimanes[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],prob.est)</span></code></pre></div>
+<pre><code>##        lake  size invertebrate    reptile        bird      other      fish
+## 1   Hancock small   0.09309880 0.04745657 0.070401523 0.25373963 0.5353035
+## 2   Hancock large   0.02307168 0.07182461 0.140896287 0.19400964 0.5701978
+## 3 Ocklawaha small   0.60189675 0.07722761 0.008817482 0.05387208 0.2581861
+## 4 Ocklawaha large   0.24864518 0.19483742 0.029416085 0.06866281 0.4584385
+## 5  Trafford small   0.51683852 0.08876722 0.035894709 0.17420051 0.1842990
+## 6  Trafford large   0.19296122 0.20239954 0.108225068 0.20066164 0.2957525
+## 7    George small   0.41285579 0.01156654 0.029671169 0.09380245 0.4521040
+## 8    George large   0.13967784 0.02389871 0.081067366 0.09791362 0.6574425</code></pre>
+<p>Consideremos otro ejemplo con los datos de caimanes pero considerando la covariable tamaño como cuantitativa. … los otros datos de caimanes …</p>
+</div>
+</div>
+<div id="variable-respuesta-ordinal.-modelos-logit-acumulativos-odds-proporcionales" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Variable respuesta ordinal. Modelos logit acumulativos (odds proporcionales)<a href="modelos-multinomiales.html#variable-respuesta-ordinal.-modelos-logit-acumulativos-odds-proporcionales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Sea <span class="math inline">\(y_i\)</span> una variable respuesta categórica para el <span class="math inline">\(j\)</span>-ésimo individuo. Entonces, <span class="math inline">\(y_i=j\)</span> significa que <span class="math inline">\(y_{ij} =1\)</span> y <span class="math inline">\(y_{ik} =0\)</span> para <span class="math inline">\(k \neq j\)</span>. Si consideramos que la variable es ordinal, el modelo lo podemos expresar en términos de las probabilidades acumulativas:
+<span class="math display">\[
+P(y_i \leq j) = \pi_{i1}+\pi_{i2}+\ldots+\pi_{ij}, \qquad j=1,\ldots,c.
+\]</span>
+A partir de estas probablidades podemos obtener los logits acumulativos:
+<span class="math display">\[
+\mbox{logit} \left[ P(y_i \leq j) \right] = \log \frac{P(y_i \leq j)}{1-P(y_i \leq j)} = \log \frac{\pi_{i1}+\ldots+\pi_{ij}}{\pi_{i,j+1}+\ldots+\pi_{ic}}.
+\]</span>
+Un modelo para logit<span class="math inline">\([P(y_i \leq j)]\)</span> por sí solo es un modelo logístico ordinario para una respuesta binaria, en el cual las categorías de <span class="math inline">\(1\)</span> a <span class="math inline">\(j\)</span> representan éxito y las categorías de <span class="math inline">\(j + 1\)</span> a <span class="math inline">\(c\)</span> representan fracaso. Entonces, una forma de modelar simultáneamente todos los <span class="math inline">\((c − 1)\)</span> logits acumulados es el siguiente:
+<span class="math display">\[
+\mbox{logit}[P(y_i \leq j)] = \alpha_j + \boldsymbol x_i&#39;\boldsymbol \beta, \qquad j=1,\ldots,c-1.
+\]</span></p>
+<p>Cada logit acumulativo tiene su propio intercepto <span class="math inline">\((\alpha_j)\)</span>. Estos son crecientes con respecto a <span class="math inline">\(j\)</span>, debido a que <span class="math inline">\(P(y_i \leq j)\)</span> aumenta a medida que <span class="math inline">\(j\)</span> crece —para cualquier <span class="math inline">\(\boldsymbol x_i\)</span> fijo— y el logit es una función creciente de <span class="math inline">\(P(y_i \leq j)\)</span>. Además, se tiene que los parámetros <span class="math inline">\(\boldsymbol \beta\)</span> son los mismos para cada logit acumulativo (odds proporcionales). Para una única variable explicativa continua <span class="math inline">\(x\)</span>, la Figura <a href="modelos-multinomiales.html#fig:figprobOrdinal">4.3</a> representa el modelo cuando <span class="math inline">\(c = 4\)</span>. Las curvas correspondientes a <span class="math inline">\(j = \{1,2,3\}\)</span> tienen exactamente la misma forma y no se cruzan.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figprobOrdinal"></span>
+<img src="MLGeneralizado_files/figure-html/figprobOrdinal-1.png" alt="Modelo de odds proporcionales (mismo efecto de $x$ sobre las probabilidades acumuladas) para una respuesta ordinal con $c=4$." width="576" />
+<p class="caption">
+Figure 4.3: Modelo de odds proporcionales (mismo efecto de <span class="math inline">\(x\)</span> sobre las probabilidades acumuladas) para una respuesta ordinal con <span class="math inline">\(c=4\)</span>.
+</p>
+</div>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{logit}\left[P(y_i \leq j \mid \boldsymbol x_i = \boldsymbol u)\right]
+- \operatorname{logit}\left[P(y_i \leq j \mid \boldsymbol x_i = \boldsymbol v)\right] &amp;= \log \left(\frac{P(y_i \leq j \mid \boldsymbol x_i = \boldsymbol u)/P(y_i &gt; j \mid \boldsymbol x_i = \boldsymbol u)}{P(y_i \leq j \mid \boldsymbol x_i = \boldsymbol v)/P(y_i &gt; j \mid \boldsymbol x_i = \boldsymbol v)}
+\right) \\
+&amp;= (\boldsymbol u- \boldsymbol v)\boldsymbol \beta.
+\end{aligned}
+\]</span>
+Los odds de que <span class="math inline">\(y_i \leq j\)</span> cuando <span class="math inline">\(\boldsymbol x_i=\boldsymbol u\)</span> son <span class="math inline">\(\exp[(\boldsymbol u− \boldsymbol v)\boldsymbol \beta]\)</span> veces los odds cuando <span class="math inline">\(\boldsymbol x_i=\boldsymbol v\)</span> (odds ratio acumulados). El logaritmo de los odds ratio acumulados es proporcional a la distancia entre <span class="math inline">\(\boldsymbol u\)</span> y <span class="math inline">\(\boldsymbol v\)</span>. De aquí podemos interpretar cada coeficiente de la siguiente forma: Para cada <span class="math inline">\(j\)</span>, las probabilidades de que <span class="math inline">\(y_i \leq j\)</span> se multiplican por <span class="math inline">\(\exp(\beta_k)\)</span> por cada incremento unitario en <span class="math inline">\(x_{ik}\)</span>, ajustando por las otras covariables. La misma constante de proporcionalidad se aplica a todos los <span class="math inline">\(c − 1\)</span> logit acumulados (tenemos <span class="math inline">\(\beta_k\)</span>, no <span class="math inline">\(\beta_{jk}\)</span>). Esta consistencia en el efecto de las covariables para todos los odds acumulados, se denomina odds prorcionales.</p>
+<div id="modelos-de-odds-proporcionales-como-resultado-de-variable-latente" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Modelos de odds proporcionales (como resultado de variable latente)<a href="modelos-multinomiales.html#modelos-de-odds-proporcionales-como-resultado-de-variable-latente" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sea <span class="math inline">\(y^{*}_i\)</span> una variable respuesta latente para el <span class="math inline">\(i\)</span>-ésimo individuo. Sea <span class="math inline">\(G(y^{*}_i - \mu_i)\)</span> su fda, con <span class="math inline">\(\mu_i = \boldsymbol x_{i}\boldsymbol \beta\)</span>. Asuma que hay unos puntos de corte <span class="math inline">\(-\infty  \leq \alpha_0 &lt; \alpha_1 &lt; \ldots &lt; \alpha_c = \infty\)</span>, tal que tengamos la siguiente variable respuesta observada:
+<span class="math display">\[
+y_i = j \mbox{ si } \alpha_{j-1} &lt; y_{i}^{*} &lt; \alpha_j.
+\]</span></p>
+<p>Es decir, <span class="math inline">\(y_i\)</span> pertenece a la categoría <span class="math inline">\(j\)</span> cuando la variable latente se sitúa en el <span class="math inline">\(j\)</span>-ésimo intervalo de valores, como lo muestra la Figura <a href="modelos-multinomiales.html#fig:figvarlatente2">4.4</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figvarlatente2"></span>
+<img src="MLGeneralizado_files/figure-html/figvarlatente2-1.png" alt="Respuesta ordinal (con $c=4$) como resultado de un modelo lineal para una variable respuesta latente." width="576" />
+<p class="caption">
+Figure 4.4: Respuesta ordinal (con <span class="math inline">\(c=4\)</span>) como resultado de un modelo lineal para una variable respuesta latente.
+</p>
+</div>
+<p>Entonces, <span class="math inline">\(P(y_i\leq j) = P(y^{*}_i \leq \alpha_j) = G(\alpha_j - \mu_i) = G(\alpha_j - \boldsymbol x_i&#39;\boldsymbol \beta)\)</span>. Esto implica que la función de enlace <span class="math inline">\(G^{-1}\)</span> se aplica a <span class="math inline">\(P(y_i \leq j)\)</span>. Si <span class="math inline">\(y^*_i = \boldsymbol x_i\boldsymbol \beta+ \varepsilon_i\)</span>, donde la función <span class="math inline">\(G\)</span> de <span class="math inline">\(\varepsilon_i\)</span> corresponde a la distribución logística estándar, entonces <span class="math inline">\(G^{-1}\)</span> es la función de enlace logit, lo que da lugar al modelo logit acumulativo con odds proporcionales. Si se asume normalidad para <span class="math inline">\(\varepsilon_i\)</span>, se obtiene una función de enlace probit para las probabilidades acumuladas.</p>
+<p>El uso de una fda de la forma <span class="math inline">\(G(y^*_i - \mu_i)\)</span> para la variable latente da lugar a un predictor lineal de la forma <span class="math inline">\(\alpha_j - x_i\beta\)</span>, en lugar de <span class="math inline">\(\alpha_j + x_i\beta\)</span>. Con esta parametrización alternativa, cuando <span class="math inline">\(\beta_k &gt; 0\)</span>, a medida que <span class="math inline">\(x_{ik}\)</span> aumenta, cada logit acumulado disminuye; por consiguiente, cada probabilidad acumulada decrece y una menor proporción de la masa de probabilidad se concentra en el extremo inferior de la escala de <span class="math inline">\(y\)</span>. Así, <span class="math inline">\(y_i\)</span> tiende a ser mayor para valores más elevados de <span class="math inline">\(x_{ik}\)</span>. En este caso, el signo de <span class="math inline">\(\beta_k\)</span> conserva su interpretación habitual: indica un efecto positivo o negativo. Por esta razón hay que tener presente el tipo de parametrización que hacen los software (o las diferentes funciones de R), ya que algunos parametrizan el predictor lineal como <span class="math inline">\(\alpha_j + x_i\beta\)</span> y otros como <span class="math inline">\(\alpha_j - x_i\beta\)</span>, por lo que los signos de los coeficientes estimados difieren.</p>
+<p>Así con los GLMs para respuestas binarias, también es posible utilizar diferentes funciones de nelace para modelar las probabilidades acumulativas, <span class="math inline">\(G^{-1}[P(y_i \leq j)] = \alpha_j + \boldsymbol x_i\boldsymbol \beta\)</span>. En R tenemos disponibles la funciones probit, log-log complementaria, entre otras.</p>
+</div>
+<div id="estimación-de-parámetros-2" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Estimación de parámetros<a href="modelos-multinomiales.html#estimaci%C3%B3n-de-par%C3%A1metros-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para la variable respuesta categórica <span class="math inline">\((y_{i1}, \ldots, y_{ic})\)</span> para el <span class="math inline">\(i\)</span>-esimo sujeto, la función de verosimilitud multinomial para el modelo con función de enlace <span class="math inline">\(G^{−1}[P(y_{i} \leq j)] = \alpha_j + \boldsymbol x_i\boldsymbol \beta\)</span> es
+<span class="math display">\[
+L(\boldsymbol \alpha,\boldsymbol \theta) = \prod^{N}_{i=1} \left( \prod^{c}_{j=1}\pi_{ij}^{y_{ij}} \right) = \prod^{N}_{i=1} \left\{ \prod^{c}_{j=1} \left[ P(y_i\leq j) P(y_i\leq j-1) \right]^{y_{ij}} \right\},
+\]</span>
+y la log-verosimilitud es:
+<span class="math display">\[
+\ell (\boldsymbol \alpha,\boldsymbol \theta) = \sum^{N}_{i=1} \sum_{i=1}^{c}   y_{ij}\log \left[ G(\alpha_j + \boldsymbol x_{i}&#39;\boldsymbol \beta)-G(\alpha_{j-1} + \boldsymbol x_{i}&#39;\boldsymbol \beta) \right].
+\]</span></p>
+<p>Funciones score:
+<span class="math display">\[
+\frac{\partial \ell}{\partial \beta_k} = \sum^{N}_{i=1} \sum_{i=1}^{c} y_{ij}x_{ik} \frac{g(\alpha_j + \boldsymbol x_i\boldsymbol \beta)- g(\alpha_{j-1} + \boldsymbol x_i\boldsymbol \beta)}{G(\alpha_j + \boldsymbol x_i\boldsymbol \beta)- G(\alpha_{j-1} + \boldsymbol x_i\boldsymbol \beta)} = 0,
+\]</span>
+y
+<span class="math display">\[
+\frac{\partial \ell}{\partial \alpha_k} = \sum^{N}_{i=1} \sum_{i=1}^{c} y_{ij} \frac{\delta_{jk}g(\alpha_j + \boldsymbol x_i\boldsymbol \beta)- \delta_{j-1,k} g(\alpha_{j-1} + \boldsymbol x_i\boldsymbol \beta)}{G(\alpha_j + \boldsymbol x_i\boldsymbol \beta)- G(\alpha_{j-1} + \boldsymbol x_i\boldsymbol \beta)} = 0,
+\]</span>
+donde <span class="math inline">\(g()\)</span> es la derivada de la función <span class="math inline">\(G()\)</span> (es de decir la función de densidad correspondiente), y <span class="math inline">\(\delta_{jk}=1\)</span> si <span class="math inline">\(j=k\)</span> y <span class="math inline">\(\delta_{jk}=0\)</span> de otra forma.</p>
+<p>Las estimaciones de los parámetros se realiza por medio del algoritmo Fisher scoring o Newton-Raphson. Los errores estándar se calculan a partir de la matriz de información esperada u observada, dependiendo del método.</p>
+<p>La ventaja de asumir odds proporcionales es que obtenemos un modelo con un menor número de parámetros y mas sencillo de interpretar. Sin embargo, estos se pueden generalizar incluyendo diferentes efectos para cada categoría, logit<span class="math inline">\([P(y_i \leq j)] = \alpha_j+\boldsymbol x_i\boldsymbol \beta_j\)</span>.
+Esto implica que las curvas de probabilidad acumulada no sean paralelas. Aunque es un modelo más fexible, las curvas estimadas pueden llegr a cruzarse para ciertos valores de <span class="math inline">\(\boldsymbol x\)</span>, lo que viola el orden entre las probabilidades acumuladas. Para evaluar si es necesario ajustar el modelo más general, se pueden utilizar pruebas de hipótesis (como, razón de verosimilitud) para determinar si dicho modelo ofrece mejor ajuste. En algunos libros o software estadísticos, esa prueba suele denominarse prueba del supuesto de odds proporcionales.</p>
+<p>En caso de datos agrupados, se pueden realizar pruebas de bondad de ajuste a través de la devianza o el <span class="math inline">\(X^2\)</span> de Pearson; ya que estos tienden a distribuirse asintóticamente <span class="math inline">\(\chi^2\)</span>.</p>
+</div>
+<div id="ilustración-en-r-1" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Ilustración en R<a href="modelos-multinomiales.html#ilustraci%C3%B3n-en-r-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="csl-entry">
+Behar, Roberto. 2002. <em>Validación de Supuestos En El Modelo de Regresión</em>.
+</div>
+<div class="csl-entry">
+Fox, John. 2016. <em>Applied Regression Analysis and Generalized Linear Models</em>. Third Edition.
+</div>
+<div class="csl-entry">
+Seber, G. A. F., and A. J. Lee. 2003. <em>Linear Regression Analysis</em>. 2nd ed.
+</div>
+<div class="csl-entry">
+Weisberg, Sanford. 2014. <em>Applied Linear Regression</em>. Fourth edition.
+</div>
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelos-para-respuestas-binarias.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": "https://github.com/AlvaroFlorez/MLGeneralizado/blob/master/04-ModeloMultinomial.Rmd",
+    "text": null
+  },
+  "download": ["MLGeneralizado.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

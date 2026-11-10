@@ -1,0 +1,6 @@
+"0","mod.UN11 = lm(fertility~ppgdp+pctUrban,data=UN11)"
+"0","library(MASS)"
+"0","res.UN11 = stdres(mod.UN11)"
+"0","par(mfrow=c(1,2))"
+"0","plot(mod.UN11$fitted.values,res.UN11,"
+"0","     xlab='valores ajustados',ylab='residuos estudentizados')"

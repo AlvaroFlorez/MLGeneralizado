@@ -1,0 +1,2 @@
+"0","plot(x3,abs(e3),xlab='valores ajustados',ylab='valor absoluto de los residuos estudentizados',xaxt='n',yaxt='n',main='(c)',"
+"0","     ylim=c(0,3.5))"

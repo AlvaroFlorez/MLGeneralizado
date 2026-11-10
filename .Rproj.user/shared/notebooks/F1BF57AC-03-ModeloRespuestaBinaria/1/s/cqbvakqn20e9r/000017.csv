@@ -1,0 +1,7 @@
+"0","k = 2.5"
+"0","SD=1"
+"0","x = seq(-k,k,length.out=200)"
+"0","y = dnorm(x,0,SD)"
+"0",""
+"0","plot(NA,NA,xlim=c(-2,5),ylim=c(-5,5),,xaxt='n',yaxt='n',"
+"0","     xlab='x',ylab='y*',las=1)"

@@ -1,0 +1,1 @@
+"0","lines(lowess(log(UN11$fertility)~log(UN11$ppgdp)),col=2)"
