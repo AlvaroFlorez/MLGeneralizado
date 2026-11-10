@@ -1,6 +1,6 @@
 --- 
 title: "Modelo lineal generalizado"
-author: "Alvaro J. Flórez"
+author: "Alvaro J. Florez"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
