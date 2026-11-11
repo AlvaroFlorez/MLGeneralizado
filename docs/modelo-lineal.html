@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 1 Modelo lineal | Notas de clase: Modelo lineal generalizado</title>
-  <meta name="description" content="Capítulo 1 Modelo lineal | Notas de clase: Modelo lineal generalizado" />
+  <title>Capítulo 1 Modelo lineal | Modelo lineal generalizado</title>
+  <meta name="description" content="Capítulo 1 Modelo lineal | Modelo lineal generalizado" />
   <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 1 Modelo lineal | Notas de clase: Modelo lineal generalizado" />
+  <meta property="og:title" content="Capítulo 1 Modelo lineal | Modelo lineal generalizado" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 1 Modelo lineal | Notas de clase: Modelo lineal generalizado" />
+  <meta name="twitter:title" content="Capítulo 1 Modelo lineal | Modelo lineal generalizado" />
   
   
   
 
-<meta name="author" content="Alvaro J. Flórez" />
+<meta name="author" content="Alvaro J. Florez" />
 
 
-<meta name="date" content="2026-11-10" />
+<meta name="date" content="2026-11-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -162,7 +162,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Notas de clase MLGI</a></li>
+<li><a href="./">Modelo lineal generalizado</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introducción</a></li>
@@ -332,7 +332,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Notas de clase: Modelo lineal generalizado</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Modelo lineal generalizado</a>
           </h1>
         </div>
 
@@ -1433,7 +1433,7 @@ y_{ij}^{(\lambda_k)} = \beta_{0} + \beta_{1}x_{i1} + \beta_{2}x_{i2} + \ldots + 
 \]</span>
 para cada valor de <span class="math inline">\(\lambda_{k}\)</span>, <span class="math inline">\(k=1,\ldots,K\)</span>. Al utilizar la transformación <a href="modelo-lineal.html#eq:boxcoxtrans">(1.7)</a>, las sumas de cuadrados para modelos con diferentes valores de <span class="math inline">\(\lambda\)</span> son comparables.</li>
 <li>Seleccionar el modelo que minimiza la suma de cuadrados de los residuos, <span class="math inline">\(SS_{res}(\lambda)\)</span>. Equivalentemente, el <span class="math inline">\(\lambda\)</span> que maximiza la verosimilitud.</li>
-<li>Luego de encontrar el valor de <span class="math inline">\(\lambda\)</span> óptimo, se ajusta el modelo transformando la variable respuesta <span class="math inline">\(y^{\lambda}\)</span>, si <span class="math inline">\(\lambda\neq 0\)</span>, o <span class="math inline">\(\log y\)</span> si <span class="math inline">\(\lambda =0\)</span>. Es decir que (@ref{eq:boxcoxtrans}) se utiliza solo en el paso de comparación de modelos ajustados.</li>
+<li>Luego de encontrar el valor de <span class="math inline">\(\lambda\)</span> óptimo, se ajusta el modelo transformando la variable respuesta <span class="math inline">\(y^{\lambda}\)</span>, si <span class="math inline">\(\lambda\neq 0\)</span>, o <span class="math inline">\(\log y\)</span> si <span class="math inline">\(\lambda =0\)</span>. Es decir que (<a href="modelo-lineal.html#eq:boxcoxtrans">(1.7)</a>) se utiliza solo en el paso de comparación de modelos ajustados.</li>
 </ol>
 <p>Puesto que <span class="math inline">\(\lambda\)</span> es una variable aleatoria, también se puede hacer una estimación por intervalos de confianza. Para esto primero consideremos la función de log-verosimilitud:
 <span class="math display">\[
@@ -1924,9 +1924,7 @@ gitbook.start({
   },
   "toc": {
     "collapse": "subsection"
-  },
-  "split_by": "none",
-  "self_contained": true
+  }
 });
 });
 </script>

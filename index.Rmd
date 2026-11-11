@@ -4,10 +4,10 @@ author: "Alvaro J. Florez"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
-        always_allow_html: true
+        bookdown::pdf_document2
 bibliography: [ModeloLinealGeneralizado.bib]
 biblio-style: apalike
-link-citations: TRUE
+link-citations: yes
 
 header-includes:
   - \newcommand{\bepsilon}{\boldsymbol \epsilon}

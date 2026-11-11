@@ -1106,7 +1106,7 @@ y_{ij}^{(\lambda_k)} = \beta_{0} + \beta_{1}x_{i1} + \beta_{2}x_{i2} + \ldots + 
 \]
 para cada valor de $\lambda_{k}$, $k=1,\ldots,K$. Al utilizar la transformación \@ref(eq:boxcoxtrans), las sumas de cuadrados para modelos con diferentes valores de $\lambda$ son comparables.
 3. Seleccionar el modelo que minimiza la suma de cuadrados de los residuos, $SS_{res}(\lambda)$. Equivalentemente, el $\lambda$ que maximiza la verosimilitud.
-4. Luego de encontrar el valor de $\lambda$ óptimo, se ajusta el modelo transformando la variable respuesta $y^{\lambda}$, si $\lambda\neq 0$, o $\log y$ si $\lambda =0$. Es decir que (\@ref{eq:boxcoxtrans}) se utiliza solo en el paso de comparación de modelos ajustados.
+4. Luego de encontrar el valor de $\lambda$ óptimo, se ajusta el modelo transformando la variable respuesta $y^{\lambda}$, si $\lambda\neq 0$, o $\log y$ si $\lambda =0$. Es decir que (\@ref(eq:boxcoxtrans)) se utiliza solo en el paso de comparación de modelos ajustados.
 
 Puesto que $\lambda$ es una variable aleatoria, también se puede hacer una estimación por intervalos de confianza. Para esto primero consideremos la función de log-verosimilitud:
 \[
