@@ -1,4 +1,4 @@
-# Modelo lineal geralizado
+# Modelo lineal generalizado
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -792,11 +792,13 @@ $$
 De aquí, la varianza de los residuos está dada por:
 \begin{equation}
 \begin{split}
-V(\by-\hatbmu) \approx \bV-V(\hatbmu) & \approx \bD\bW^{-1}\bD-\bD\bX(\bX'\bW\bX)^{-1}\bX'^{T}'\bD\\ 
+V(\by-\hatbmu) \approx \bV-V(\hatbmu) & \approx \bD\bW^{-1}\bD-\bD\bX(\bX'\bW\bX)^{-1}\bX'\bD\\ 
 & =\bD\bW^{-1/2}\left[\bI-\bW^{1/2}\bX(\bX'\bW\bX)^{-1}\bX'\bW^{1/2}\right]\bW^{-1/2}\bD \\
 &= \bV^{-1/2}[\bI - \bH_w]\bV^{-1/2},
 \end{split}
+\nonumber
 \end{equation}
+
 donde $\bH_w = \bW^{1/2}\bX(\bX'\bW\bX)^{-1}\bX'\bW^{1/2}$ es una matriz de proyección que es simétrica e idempotente. A diferencia del modelo lineal, donde $\bH$ solo depende de $\bX$, la matriz de proyección depende de $\hatbmu$. 
 
 A partir de estos resultados se pueden obtener una versión estandarizada de los residuos:

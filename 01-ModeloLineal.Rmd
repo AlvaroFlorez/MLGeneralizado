@@ -52,7 +52,7 @@ La base de datos `fat` de la librería `faraway` contiene la edad, el peso, la e
 
 La Figura \@ref(fig:fatFigure) muestra la relación entre el \% de grasa corporal y la circunferencia del abdomen (en cm). El \% de grasa corporal es calculado a partir de la formula de Brozek.
 
-```{r fatFigure, fig.height = 4, fig.width = 5,fig.align = "center",fig.cap = "Gráfico de dispersion del \\% de grasa corporal (brozek), la edad (age), la circunferencia del abdomen (abdom) y el índice de masa corporal (adipos)."}
+```{r fatFigure, message=F,warning=F, fig.height = 4, fig.width = 5,fig.align = "center",fig.cap = "Gráfico de dispersion del \\% de grasa corporal (brozek), la edad (age), la circunferencia del abdomen (abdom) y el índice de masa corporal (adipos)."}
 library(faraway)
 data(fat)
 plot(fat[,c('brozek','age','abdom','adipos')])

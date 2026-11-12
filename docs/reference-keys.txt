@@ -102,7 +102,7 @@ valores-propios-de-boldsymbol-zboldsymbol-z
 valores-singulares-de-boldsymbol-z
 solución-al-problema-de-multicolinealidad
 implementación-en-r-4
-modelo-lineal-geralizado
+modelo-lineal-generalizado
 familia-exponencial
 relación-media-varianza
 definición-del-modelo-lineal-generalizado
@@ -146,6 +146,7 @@ modelo-logístico
 modelo-probit
 modelo-log-log-complementario
 estimación-de-parámetros
+devianza-1
 comparación-de-funciones-de-enlace
 problema-de-separación
 curva-característica-operativa-del-receptorroc

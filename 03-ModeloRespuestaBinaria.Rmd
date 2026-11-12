@@ -228,7 +228,9 @@ Además, $w_{ii} = n_i\pi(1-\pi)$.
 Para el modelo probit se tiene que 
 
 $$w_{jj} = n_i \frac{\Phi(\eta_i)^{2}}{\Phi(\eta_i)\left[1- \Phi(\eta_i)\right]}.$$ 
+
 ### Devianza
+
 Para estos modelos, la devianza está dada por:
 $$
 D=2\sum_{i=1}^n\left[y_i\log \left(\frac{y_i}{\widehat{\mu}_i}\right)+(n_i-y_i)\log\left(\frac{n_i-y_i}{n_i-\widehat{\mu}_i}\right)\right],

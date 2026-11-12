@@ -104,7 +104,15 @@ Estas son las notas de clase del curso Modelo Lineal Generalizado. Las temática
 7. Modelos basados en cuasiverosimilitud
 8. Modelos para datos correlacionados
 
-Tenga en cuenta que el propósito de estas notas de clase no es reemplazar los textos guías. Para el estudio más detallado de los temas revisados, se recomiendan las siguientes lecturas:
+Tenga en cuenta que el propósito de estas notas de clase no es reemplazar los textos guías. Para el estudio más detallado de los temas revisados, se recomiendan las siguientes lecturas.
 
+Para modelos lineales:
 - *Introduction to Linear Regression Analysis*, Fifth Ed., 2012, by Montgomery, D. C., Peck, E. A. and Vining, G. G.
-- *Applied Linear Regression*, Fourth Ed.,  2014, by S. Weisberg.
+- *Applied Linear Regression*, Fourth Ed.,  2014, by Weisberg, S..
+- *Linear Regression Analysis*, Second Ed.,  2003, by Seber, G. A., Lee, A. J.
+
+
+
+Para modelos lineales generalizados:
+- *Foundations of Linear and Generalized Linear Models*, 2015, by Agresti, A.
+- *An Introduction to Generalized Linear Modelos*, Third Ed., 2008, by Dobson, A.J., Barnett, A.G.

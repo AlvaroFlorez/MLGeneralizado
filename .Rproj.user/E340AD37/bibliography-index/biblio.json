@@ -106,6 +106,46 @@
             },
             "title": "Validación de supuestos en el modelo de regresión",
             "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Agresti",
+                    "given": "Alan"
+                }
+            ],
+            "id": "Agresti_2015",
+            "issued": {
+                "date-parts": [
+                    [
+                        2015
+                    ]
+                ]
+            },
+            "title": "Foundations of linear and generalized linear models",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Dobson",
+                    "given": "Annette J."
+                },
+                {
+                    "family": "Barnett",
+                    "given": "Adrian G."
+                }
+            ],
+            "id": "Dobson_2018",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018
+                    ]
+                ]
+            },
+            "title": "An introduction to generalized linear models",
+            "type": "book"
         }
     ],
     "project_biblios": [

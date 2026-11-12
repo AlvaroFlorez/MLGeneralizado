@@ -13,7 +13,7 @@ Mental = read.table('Mental.dat',header = T)
 ## Casos de estudio
 
 ### Datos de dieta de caimanes
-Se quiere determinar los factores que influyen en la dieta principal de caimanes de cuatro lagos de la Florida (Hancock, George, Ocklawaha y Trafford). Para esto se tomó una muestra de 219 especímenes y se catalogó los caimanes según su tamaño como grande si mide más de 2.3 metros y pequeño si lo contrario. Los datos se encuentran en la base de datos `caimanes.csv`
+Se quiere determinar los factores que influyen en la dieta principal de caimanes de cuatro lagos de la Florida (Hancock, George, Ocklawaha y Trafford). Para esto se tomó una muestra de 219 especímenes y se catalogó los caimanes según su tamaño como grande si mide más de 2.3 metros y pequeño si lo contrario. Los datos se encuentran en la base de datos [`caimanes.csv`](https://raw.githubusercontent.com/AlvaroFlorez/MLGeneralizado/refs/heads/main/caimanes.csv)
 
 ```{r datosCaimanes}
 caimanes = read.csv('caimanes.csv')
@@ -63,7 +63,7 @@ En la Figura \@ref(fig:CaimanesFigure1) se observan diferencias en la composici�
 
 ### Datos de incapacidad mental
 Estudio de salud mental sobre adultos residentes del condado de
-Alachua, Florida. El deterioro mental es una variable $(Y)$ ordinal con cuatro categorías (1: sano, 2: presencia de síntomas leves, 3: presencia de síntomas moderados, 4: deterioro. El estudio relacionó esta variable con varias variables explicativas, de las cuales tendremos en cuenta dos. La primera es el índice de acontecimientos de vida (`life`), el cuál es una medida compuesta que considera el número y la gravedad de sucesos importantes ocurridos al sujeto en los últimos 3 años, tales como el nacimiento de un hijo, un nuevo empleo, un divorcio o un fallecimiento en la familia. En esta muestra, esta varía entre $0$ y $9$, con una media de $4.3$ y una desviación estándar de $2.7$. La otra es el nivel socioeconómico (`ses`) se mide aquí como una variable binaria (1: alto, 0: bajo).
+Alachua, Florida. Datos en [`Mental.dat`](https://raw.githubusercontent.com/AlvaroFlorez/MLGeneralizado/refs/heads/main/Mental.dat). El deterioro mental es una variable $(Y)$ ordinal con cuatro categorías (1: sano, 2: presencia de síntomas leves, 3: presencia de síntomas moderados, 4: deterioro. El estudio relacionó esta variable con varias variables explicativas, de las cuales tendremos en cuenta dos. La primera es el índice de acontecimientos de vida (`life`), el cuál es una medida compuesta que considera el número y la gravedad de sucesos importantes ocurridos al sujeto en los últimos 3 años, tales como el nacimiento de un hijo, un nuevo empleo, un divorcio o un fallecimiento en la familia. En esta muestra, esta varía entre $0$ y $9$, con una media de $4.3$ y una desviación estándar de $2.7$. La otra es el nivel socioeconómico (`ses`) se mide aquí como una variable binaria (1: alto, 0: bajo).
 
 
 ```{r datosIncapacidad,echo=F, fig.height = 4, fig.width = 8,fig.align = "center",fig.cap = "Relación entre el deterioro mental con el índice de acontecimientos de vida (izquierda) y nivel socioeconómico (derecha)."}
