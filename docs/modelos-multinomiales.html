@@ -349,11 +349,11 @@ div.csl-indent {
 <div id="datos-de-dieta-de-caimanes" class="section level3 hasAnchor" number="4.1.1">
 <h3><span class="header-section-number">4.1.1</span> Datos de dieta de caimanes<a href="modelos-multinomiales.html#datos-de-dieta-de-caimanes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Se quiere determinar los factores que influyen en la dieta principal de caimanes de cuatro lagos de la Florida (Hancock, George, Ocklawaha y Trafford). Para esto se tomó una muestra de 219 especímenes y se catalogó los caimanes según su tamaño como grande si mide más de 2.3 metros y pequeño si lo contrario. Los datos se encuentran en la base de datos <a href="https://raw.githubusercontent.com/AlvaroFlorez/MLGeneralizado/refs/heads/main/caimanes.csv"><code>caimanes.csv</code></a></p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="modelos-multinomiales.html#cb118-1" tabindex="-1"></a>caimanes <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&#39;caimanes.csv&#39;</span>)</span>
-<span id="cb118-2"><a href="modelos-multinomiales.html#cb118-2" tabindex="-1"></a>caimanes<span class="sc">$</span>lake <span class="ot">=</span> <span class="fu">as.factor</span>(caimanes<span class="sc">$</span>lake)</span>
-<span id="cb118-3"><a href="modelos-multinomiales.html#cb118-3" tabindex="-1"></a>caimanes<span class="sc">$</span>lake <span class="ot">=</span> <span class="fu">relevel</span>(caimanes<span class="sc">$</span>lake,<span class="at">ref =</span><span class="st">&#39;Hancock&#39;</span>)</span>
-<span id="cb118-4"><a href="modelos-multinomiales.html#cb118-4" tabindex="-1"></a>caimanes<span class="sc">$</span>size <span class="ot">=</span> <span class="fu">as.factor</span>(caimanes<span class="sc">$</span>size)</span>
-<span id="cb118-5"><a href="modelos-multinomiales.html#cb118-5" tabindex="-1"></a>caimanes</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="modelos-multinomiales.html#cb104-1" tabindex="-1"></a>caimanes <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&#39;caimanes.csv&#39;</span>)</span>
+<span id="cb104-2"><a href="modelos-multinomiales.html#cb104-2" tabindex="-1"></a>caimanes<span class="sc">$</span>lake <span class="ot">=</span> <span class="fu">as.factor</span>(caimanes<span class="sc">$</span>lake)</span>
+<span id="cb104-3"><a href="modelos-multinomiales.html#cb104-3" tabindex="-1"></a>caimanes<span class="sc">$</span>lake <span class="ot">=</span> <span class="fu">relevel</span>(caimanes<span class="sc">$</span>lake,<span class="at">ref =</span><span class="st">&#39;Hancock&#39;</span>)</span>
+<span id="cb104-4"><a href="modelos-multinomiales.html#cb104-4" tabindex="-1"></a>caimanes<span class="sc">$</span>size <span class="ot">=</span> <span class="fu">as.factor</span>(caimanes<span class="sc">$</span>size)</span>
+<span id="cb104-5"><a href="modelos-multinomiales.html#cb104-5" tabindex="-1"></a>caimanes</span></code></pre></div>
 <pre><code>##        lake  size fish invertebrate reptile bird other
 ## 1   Hancock small   23            4       2    2     8
 ## 2   Hancock large    7            0       1    3     5
@@ -493,9 +493,9 @@ respectivamente. Al igual que en el caso binario, cuando los datos están agruad
 \]</span>
 para <span class="math inline">\(j=1,2,3\)</span>, donde <span class="math inline">\(s_i=1\)</span> si el <span class="math inline">\(i\)</span>-ésimo caiman es pequeño, <span class="math inline">\(s_i=0\)</span> si lo contrario; <span class="math inline">\(z^{O}\)</span>, <span class="math inline">\(z^{T}\)</span> y <span class="math inline">\(z^{G}\)</span> son variables indicadoras asociadas a los lagos Ocklawaha, Trafford y Hancock, respectivamente. Además, vamos a considerar que <span class="math inline">\(\pi_{i4}\)</span> corresponde a la probabilidad asociada al consumo de peces (categoría de referencia).</p>
 <p>El ajuste en R lo podemos hacer utilizando la función</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="modelos-multinomiales.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(VGAM)</span>
-<span id="cb120-2"><a href="modelos-multinomiales.html#cb120-2" tabindex="-1"></a>fit.alligator <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> size <span class="sc">+</span> lake, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
-<span id="cb120-3"><a href="modelos-multinomiales.html#cb120-3" tabindex="-1"></a><span class="fu">summary</span>(fit.alligator)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="modelos-multinomiales.html#cb106-1" tabindex="-1"></a><span class="fu">library</span>(VGAM)</span>
+<span id="cb106-2"><a href="modelos-multinomiales.html#cb106-2" tabindex="-1"></a>fit.alligator <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> size <span class="sc">+</span> lake, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
+<span id="cb106-3"><a href="modelos-multinomiales.html#cb106-3" tabindex="-1"></a><span class="fu">summary</span>(fit.alligator)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## vglm(formula = cbind(invertebrate, reptile, bird, other, fish) ~ 
@@ -539,8 +539,8 @@ para <span class="math inline">\(j=1,2,3\)</span>, donde <span class="math inlin
 ## Reference group is level  5  of the response</code></pre>
 <p>Dado que se tiene un número grande de parámetros, el ajuste es complicado de leer. De aquí tenemos que la devianza es <span class="math inline">\(17.08\)</span>, realizando la prueba de bondad de ajuste (gl<span class="math inline">\(=12\)</span>) encontramos un valor-<span class="math inline">\(p\)</span> igual a <span class="math inline">\(0.147\)</span>, lo que indica que el modelo proporciona buen ajuste.
 Para evaluar el efecto del tamaño, podemos evaluar <span class="math inline">\(H_0: \beta_{j1}=0\)</span>, para <span class="math inline">\(j=1,\ldots,4\)</span>. Usando la prueba de razón de verosimilitud encontramos el siguiente resultado:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="modelos-multinomiales.html#cb122-1" tabindex="-1"></a>fit.alligator0 <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> lake, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
-<span id="cb122-2"><a href="modelos-multinomiales.html#cb122-2" tabindex="-1"></a><span class="fu">anova</span>(fit.alligator0,fit.alligator,<span class="at">type=</span><span class="dv">1</span>,<span class="at">test=</span><span class="st">&#39;LRT&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="modelos-multinomiales.html#cb108-1" tabindex="-1"></a>fit.alligator0 <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> lake, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
+<span id="cb108-2"><a href="modelos-multinomiales.html#cb108-2" tabindex="-1"></a><span class="fu">anova</span>(fit.alligator0,fit.alligator,<span class="at">type=</span><span class="dv">1</span>,<span class="at">test=</span><span class="st">&#39;LRT&#39;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: cbind(invertebrate, reptile, bird, other, fish) ~ lake
@@ -551,8 +551,8 @@ Para evaluar el efecto del tamaño, podemos evaluar <span class="math inline">\(
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Esto implica que el tamaño del caiman si influye de forma significativa sobre la dieta principal. De igual forma podemos determinar si el lago tiene un efecto significativo sobre la dieta:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="modelos-multinomiales.html#cb124-1" tabindex="-1"></a>fit.alligator0 <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> size, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
-<span id="cb124-2"><a href="modelos-multinomiales.html#cb124-2" tabindex="-1"></a><span class="fu">anova</span>(fit.alligator0,fit.alligator,<span class="at">type=</span><span class="dv">1</span>,<span class="at">test=</span><span class="st">&#39;LRT&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="modelos-multinomiales.html#cb110-1" tabindex="-1"></a>fit.alligator0 <span class="ot">&lt;-</span> <span class="fu">vglm</span>(<span class="fu">cbind</span>(invertebrate,reptile,bird,other,fish) <span class="sc">~</span> size, <span class="at">family=</span>multinomial, <span class="at">data=</span>caimanes)</span>
+<span id="cb110-2"><a href="modelos-multinomiales.html#cb110-2" tabindex="-1"></a><span class="fu">anova</span>(fit.alligator0,fit.alligator,<span class="at">type=</span><span class="dv">1</span>,<span class="at">test=</span><span class="st">&#39;LRT&#39;</span>)</span></code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: cbind(invertebrate, reptile, bird, other, fish) ~ size
@@ -578,8 +578,8 @@ A diferencia del caso anterior, los caimanes pequeños tiene probabilidad de ele
 \widehat{\pi}_{i2} =\frac{e^{-3.207+1.658}}{1 + e^{-3.207+1.658} + e^{-2.072-1.243} + e^{-1.398-0.695} + e^{-1.078-0.826}}= 0.14.
 \]</span>
 En R, estas se pueden encontrar de la siguiente forma:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="modelos-multinomiales.html#cb126-1" tabindex="-1"></a>prob.est <span class="ot">=</span> <span class="fu">fitted.values</span>(fit.alligator)</span>
-<span id="cb126-2"><a href="modelos-multinomiales.html#cb126-2" tabindex="-1"></a><span class="fu">cbind</span>(caimanes[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],prob.est)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="modelos-multinomiales.html#cb112-1" tabindex="-1"></a>prob.est <span class="ot">=</span> <span class="fu">fitted.values</span>(fit.alligator)</span>
+<span id="cb112-2"><a href="modelos-multinomiales.html#cb112-2" tabindex="-1"></a><span class="fu">cbind</span>(caimanes[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],prob.est)</span></code></pre></div>
 <pre><code>##        lake  size invertebrate    reptile        bird      other      fish
 ## 1   Hancock small   0.09309880 0.04745657 0.070401523 0.25373963 0.5353035
 ## 2   Hancock large   0.02307168 0.07182461 0.140896287 0.19400964 0.5701978
