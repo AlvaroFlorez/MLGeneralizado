@@ -1,4 +1,4 @@
-h1:modelo-lineal-geralizado Modelo lineal geralizado
+h1:modelo-lineal-generalizado Modelo lineal generalizado
 h2:datos-de-escarabajos Datos de escarabajos
 tab:TmortEsc Número de escarabajos expuestos y muertos a diferentes dosis (escala logarítmica) de disulfuro de carbono gaseoso.
 fig:grafMortEsc Datos de mortalidad de escarabajos. Relación entre la concentración de disulfuro de carbono gaseoso (en escala logarítmica) y la proporción de muertes (muertos/expuestos) de los escarabajos.

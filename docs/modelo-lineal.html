@@ -23,7 +23,7 @@
 <meta name="author" content="Alvaro J. Florez" />
 
 
-<meta name="date" content="2026-11-12" />
+<meta name="date" content="2026-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -350,7 +350,7 @@ div.csl-indent {
 <p>En la Figura <a href="modelo-lineal.html#fig:pesoNacerFigure1">1.1</a> se observa la relación entre el peso al nacer y la edad gestacional. Se puede observar que hay relación positiva entre las dos variables. Los recién nacidos en semanas de gestación mayores tienen pesos más grandes. Sin embargo, no se observa una diferencia muy marcada entre el peso al nacer entre niños y niñas.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="modelo-lineal.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(isdals)</span>
 <span id="cb1-2"><a href="modelo-lineal.html#cb1-2" tabindex="-1"></a><span class="fu">data</span>(birthweight)</span>
-<span id="cb1-3"><a href="modelo-lineal.html#cb1-3" tabindex="-1"></a><span class="fu">plot</span>(weight<span class="sc">~</span>age,<span class="at">data=</span>birthweight,<span class="at">xlab=</span><span class="st">&quot;edad gestacional (meses)&quot;</span>,</span>
+<span id="cb1-3"><a href="modelo-lineal.html#cb1-3" tabindex="-1"></a><span class="fu">plot</span>(weight<span class="sc">~</span>age,<span class="at">data=</span>birthweight,<span class="at">xlab=</span><span class="st">&quot;edad gestacional (semanas)&quot;</span>,</span>
 <span id="cb1-4"><a href="modelo-lineal.html#cb1-4" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&#39;peso al nacer (gramos)&#39;</span>,<span class="at">col=</span>sex)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:pesoNacerFigure1"></span>
 <img src="MLGeneralizado_files/figure-html/pesoNacerFigure1-1.png" alt="Gráfico de dispersion del la edad gestional y el peso al nacer. Punto rojos corresponden a niños y los negros a niñas." width="480" />
@@ -555,19 +555,19 @@ Note que es necesario que <span class="math inline">\(\boldsymbol X\)</span> sea
 La matriz <span class="math inline">\(\boldsymbol H= \boldsymbol X(\boldsymbol X&#39;\boldsymbol X)^{-1}\boldsymbol X&#39;\)</span> es llamada <strong>matriz hat</strong> (sombrero) y desempeña un papel importante en el análisis de regresión. Esta matriz es simétrica e idempotente (<span class="math inline">\(\boldsymbol H\boldsymbol H= \boldsymbol H\)</span>) y es de rango <span class="math inline">\((n-p)\)</span>. Además, se tiene que <span class="math inline">\(\boldsymbol H\boldsymbol X= \boldsymbol X\)</span>.</p>
 <p>La diferencia entre el valor observado <span class="math inline">\((y_i)\)</span> y el valor ajustado <span class="math inline">\((\widehat{y}_i)\)</span> en el punto <span class="math inline">\(\boldsymbol x_i\)</span> recibe el nombre de residuo del modelo <span class="math inline">\((e_{i}=y_{i}-\widehat{y}_{i})\)</span>. Este también se pueden expresar en forma matricial:
 <span class="math display">\[
-\boldsymbol e= \boldsymbol y- \boldsymbol X&#39;\widehat{\boldsymbol \beta}= \boldsymbol y- \boldsymbol X(\boldsymbol X&#39;\boldsymbol X)^{-1}\boldsymbol X&#39;\boldsymbol y= \boldsymbol y- \boldsymbol H\boldsymbol y= (\boldsymbol I_{n} - \boldsymbol H)\boldsymbol y.
+\boldsymbol e= \boldsymbol y- \boldsymbol X&#39;\widehat{\boldsymbol \beta}= \boldsymbol y- \boldsymbol X(\boldsymbol X&#39;\boldsymbol X)^{-1}\boldsymbol X&#39;\boldsymbol y= \boldsymbol y- \boldsymbol H\boldsymbol y= (\boldsymbol I- \boldsymbol H)\boldsymbol y.
 \]</span>
 A partir de los residuos se puede obtener la estimación de <span class="math inline">\(\sigma^2\)</span>. Este se obtiene a través de la suma de cuadrados de los residuos, definida como:
 <span class="math display">\[\begin{equation}
 \begin{split}
 SSE &amp;= \sum_{i=1}^{n}e^{2}_{i} = \boldsymbol e&#39;\boldsymbol e= (\boldsymbol y- \boldsymbol X\widehat{\boldsymbol \beta})&#39;(\boldsymbol y- \boldsymbol X\widehat{\boldsymbol \beta}) \\
-&amp;= (\boldsymbol y- \boldsymbol H\boldsymbol y)&#39;(\boldsymbol y- \boldsymbol H\boldsymbol y) = \boldsymbol y&#39;(\boldsymbol I_{n}-\boldsymbol H)&#39;(\boldsymbol I_{n}-\boldsymbol H)\boldsymbol y= \boldsymbol y&#39;(\boldsymbol I_{n} - \boldsymbol H)\boldsymbol y.
+&amp;= (\boldsymbol y- \boldsymbol H\boldsymbol y)&#39;(\boldsymbol y- \boldsymbol H\boldsymbol y) = \boldsymbol y&#39;(\boldsymbol I-\boldsymbol H)&#39;(\boldsymbol I-\boldsymbol H)\boldsymbol y= \boldsymbol y&#39;(\boldsymbol I- \boldsymbol H)\boldsymbol y.
 \end{split}
 \nonumber
 \end{equation}\]</span></p>
 <p>El valor esperado de esta cantidad es:
 <span class="math display">\[
-E(SSE) = E\left[\boldsymbol y&#39;(\boldsymbol I_{n} - \boldsymbol H)\boldsymbol y\right] = \sigma^{2}\mbox{tr}\left( \boldsymbol I_{n} - \boldsymbol H\right) + \boldsymbol \beta&#39;\boldsymbol X&#39;(\boldsymbol I_{n} - \boldsymbol H)\boldsymbol X\boldsymbol \beta= (n-p)\sigma^{2}.
+E(SSE) = E\left[\boldsymbol y&#39;(\boldsymbol I- \boldsymbol H)\boldsymbol y\right] = \sigma^{2}\mbox{tr}\left( \boldsymbol I- \boldsymbol H\right) + \boldsymbol \beta&#39;\boldsymbol X&#39;(\boldsymbol I- \boldsymbol H)\boldsymbol X\boldsymbol \beta= (n-p)\sigma^{2}.
 \]</span>
 Por lo tanto, un estimador insesgado de <span class="math inline">\(\sigma^2\)</span> es:
 <span class="math display">\[
@@ -597,7 +597,7 @@ Si <span class="math inline">\(\boldsymbol C=(\boldsymbol X&#39;\boldsymbol X)^{
 </div>
 <div id="teorema-de-gauss-markov" class="section level3 hasAnchor" number="1.2.2">
 <h3><span class="header-section-number">1.2.2</span> Teorema de Gauss-Markov<a href="modelo-lineal.html#teorema-de-gauss-markov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Si, <span class="math inline">\(E(\boldsymbol \varepsilon) = \boldsymbol 0\)</span> y <span class="math inline">\(V(\boldsymbol \varepsilon) = \sigma^{2}\boldsymbol I_{n}\)</span>, el estimador por MCO es el mejor estimador lineal insesgado de <span class="math inline">\(\boldsymbol \beta\)</span>. Esto quiere decir que es el estimador con menor varianza entre la clase de estimador insesgados que son combinaciones lineales de <span class="math inline">\(y\)</span>.</p>
+<p>Si, <span class="math inline">\(E(\boldsymbol \varepsilon) = \boldsymbol 0\)</span> y <span class="math inline">\(V(\boldsymbol \varepsilon) = \sigma^{2}\boldsymbol I\)</span>, el estimador por MCO es el mejor estimador lineal insesgado de <span class="math inline">\(\boldsymbol \beta\)</span>. Esto quiere decir que es el estimador con menor varianza entre la clase de estimador insesgados que son combinaciones lineales de <span class="math inline">\(y\)</span>.</p>
 <p>Para demostrarlo, consideremos otro estimador lineal de <span class="math inline">\(\boldsymbol \beta\)</span>:
 <span class="math display">\[
 \tilde{\boldsymbol \beta}= [ (\boldsymbol X&#39;\boldsymbol X)^{-1}\boldsymbol X&#39; + \boldsymbol D]\boldsymbol y+ \boldsymbol a,
@@ -627,7 +627,7 @@ y en consecuencia, <span class="math inline">\(V(\boldsymbol l&#39;\tilde{\bolds
 </div>
 <div id="estimador-de-máxima-verosimilitud" class="section level3 hasAnchor" number="1.2.3">
 <h3><span class="header-section-number">1.2.3</span> Estimador de máxima verosimilitud<a href="modelo-lineal.html#estimador-de-m%C3%A1xima-verosimilitud" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Dado que estamos asumiendo que <span class="math inline">\(\boldsymbol \varepsilon\sim N(\boldsymbol 0, \sigma^{2}\boldsymbol I_{n})\)</span>, entonces <span class="math inline">\(\boldsymbol y\sim N(\boldsymbol X\boldsymbol \beta,\sigma^2\boldsymbol I)\)</span>. Por lo tanto la función de log-verosimitud para <span class="math inline">\(\boldsymbol \theta= (\boldsymbol \beta&#39;,\sigma^2)&#39;\)</span> está dada por:
+<p>Dado que estamos asumiendo que <span class="math inline">\(\boldsymbol \varepsilon\sim N(\boldsymbol 0, \sigma^{2}\boldsymbol I)\)</span>, entonces <span class="math inline">\(\boldsymbol y\sim N(\boldsymbol X\boldsymbol \beta,\sigma^2\boldsymbol I)\)</span>. Por lo tanto la función de log-verosimitud para <span class="math inline">\(\boldsymbol \theta= (\boldsymbol \beta&#39;,\sigma^2)&#39;\)</span> está dada por:
 <span class="math display">\[
 \ell(\boldsymbol \theta) = -\frac{n}{2} \left[ \log(2\pi) - \log \sigma^2 \right] - \frac{1}{2\sigma^2}(\boldsymbol y- \boldsymbol X\boldsymbol \beta)&#39;(\boldsymbol y- \boldsymbol X\boldsymbol \beta).
 \]</span>
@@ -726,7 +726,7 @@ Figure 1.6: Media del peso al nacer según la edad gestacional para niños (lín
 <h4>Datos de grasa corporal<a href="modelo-lineal.html#datos-de-grasa-corporal-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Vamos a considerar el siguiente modelo:
 <span class="math display">\[
-\mbox{brozek}_{i} = \beta_{0} + \beta_{1}\mbox{abdom}_{i} + \beta_{2}\mbox{weigth}_{i}+\beta_{3}\mbox{age}_{i} + \beta_{3}\mbox{adipos}_{i} \varepsilon_{i},
+\mbox{brozek}_{i} = \beta_{0} + \beta_{1}\mbox{abdom}_{i} + \beta_{2}\mbox{age}_{i} + \beta_{3}\mbox{adipos}_{i} \varepsilon_{i},
 \]</span>
 donde <span class="math inline">\(\varepsilon_{i}\sim N(0,\sigma^{2})\)</span>, y <span class="math inline">\(cov(\varepsilon_{j},\varepsilon_{k})=0\)</span> para todo <span class="math inline">\(j\neq k\)</span>.</p>
 <p>La estimación en R la realizamos de la siguiente forma:</p>
@@ -755,13 +755,13 @@ Aquí vemos que la circunferencia del abdomen y la edad tienen un efecto positiv
 </div>
 <div id="inferencias-sobre-los-parámetros-del-modelo" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> Inferencias sobre los parámetros del modelo<a href="modelo-lineal.html#inferencias-sobre-los-par%C3%A1metros-del-modelo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Es posible hacer inferencias (pruebas de hipótesis e intervalos de confianza) para los coeficientes de regresión <span class="math inline">\((\boldsymbol \beta)\)</span> y el valor esperado de <span class="math inline">\(Y|\boldsymbol x\)</span>. Para que estos sean válidos, se requiere que se cumplan todos los supuestos del modelo, esto es <span class="math inline">\(\boldsymbol \varepsilon\sim N(\boldsymbol 0, \sigma^{2}\boldsymbol I_{n})\)</span>.</p>
+<p>Es posible hacer inferencias (pruebas de hipótesis e intervalos de confianza) para los coeficientes de regresión <span class="math inline">\((\boldsymbol \beta)\)</span> y el valor esperado de <span class="math inline">\(Y|\boldsymbol x\)</span>. Para que estos sean válidos, se requiere que se cumplan todos los supuestos del modelo, esto es <span class="math inline">\(\boldsymbol \varepsilon\sim N(\boldsymbol 0, \sigma^{2}\boldsymbol I)\)</span>.</p>
 <div id="análisis-de-varianza" class="section level3 hasAnchor" number="1.3.1">
 <h3><span class="header-section-number">1.3.1</span> Análisis de varianza<a href="modelo-lineal.html#an%C3%A1lisis-de-varianza" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para probar la significancia del modelo se plantean las siguientes hipótesis:</p>
 <p><span class="math display" id="eq:HANOVA">\[\begin{equation}
 \begin{split}
-H_{0}:&amp; \beta_{1}=\beta_{2}=\ldots=\beta_{p-1} = 0 \\
+H_{0}:&amp; \beta_{1}=\beta_{2}=\ldots=\beta_{p-1} = 0, \\
 H_{1}:&amp; \beta_{j}\neq 0 \mbox{ para al menos un }j.
 \end{split}
 \tag{1.2}
@@ -874,7 +874,7 @@ F_{0} = \frac{SSR(\boldsymbol \beta_{2}|\boldsymbol \beta_{1})/r}{MSE}.
 \]</span>
 Si <span class="math inline">\(H_{0}\)</span> es cierta entonces <span class="math inline">\(F_{0} \sim F_{r,n-p}\)</span>. Si <span class="math inline">\(H_{0}\)</span> no es cierta, entonces <span class="math inline">\(F_{0}\)</span> sigue una distribución <span class="math inline">\(F\)</span> no-central con parámetro de no centralidad igual a:
 <span class="math display">\[
-\lambda = \frac{1}{\sigma^{2}}\boldsymbol \beta_{2}&#39;\boldsymbol X_{2}&#39;\left[ \boldsymbol I_{n} - \boldsymbol X_{1}(\boldsymbol X_{1}&#39;\boldsymbol X_{1})^{-1}\boldsymbol X_{1}&#39;\right]\boldsymbol X_{2}\boldsymbol \beta_{2}.
+\lambda = \frac{1}{\sigma^{2}}\boldsymbol \beta_{2}&#39;\boldsymbol X_{2}&#39;\left[ \boldsymbol I- \boldsymbol X_{1}(\boldsymbol X_{1}&#39;\boldsymbol X_{1})^{-1}\boldsymbol X_{1}&#39;\right]\boldsymbol X_{2}\boldsymbol \beta_{2}.
 \]</span>
 Note que si hay una relación casi colineal entre <span class="math inline">\(\boldsymbol X_{1}\)</span> y <span class="math inline">\(\boldsymbol X_{2}\)</span> (multicolinealidad), <span class="math inline">\(\lambda\)</span> es cercano a cero pesar que <span class="math inline">\(\boldsymbol \beta_{2}\)</span> sea marcadamente distinto de cero. Es decir, que la prueba tiene poca capacidad de indicar diferencias (poco poder) en presencia de multicolinealidad. Caso contrario, el máximo poder se alcanza cuando <span class="math inline">\(\boldsymbol X_{1}\)</span> y <span class="math inline">\(\boldsymbol X_{2}\)</span> son ortogonales (es decir <span class="math inline">\(\boldsymbol X_{2}&#39;\boldsymbol X_{1} = \boldsymbol 0\)</span>).</p>
 <p>Entonces, si <span class="math inline">\(F_{0} &gt; F_{1-\alpha,r,n-p}\)</span> rechazamos <span class="math inline">\(H_{0}\)</span> y concluimos que al menos un coeficiente en <span class="math inline">\(\boldsymbol \beta_{2}\)</span> es diferente de cero. Consecuentemente, al menos una de las covariables en <span class="math inline">\(\boldsymbol X_{2}\)</span> tiene un aporte significativo dentro del modelo.</p>
@@ -988,7 +988,7 @@ V(\widehat{y}_0) = \sigma^{2}\left[ 1+ \boldsymbol x_{0}&#39;(\boldsymbol X&#39;
 <p>Aquí podemos observar las estimaciones de los coeficientes de regresión, el error estándar asociado y los resultados pruebas de hipótesis asociado a cada uno de ellos. La estimación de la desviación estándar es <span class="math inline">\(\widehat{\sigma}=180.6\)</span>. Además, se tiene que alrededor del <span class="math inline">\(64\)</span>% de la variabilidad del peso al nacer está siendo explicada por el modelo propuesto. Finalmente, la última linea de los resultados muestra el valor <span class="math inline">\(F_0\)</span> y el valor-<span class="math inline">\(p\)</span> asociado para el análisis de varianza. Dado que valor-<span class="math inline">\(p=0.000101\)</span>, podemos afirmar que al menos uno de las covariables del modelo tienen un efecto significativo sobre el peso al nacer.</p>
 <p>A partir de la prueba de hipótesis individual sobre el efecto interacción podemos afirmar que este no es significativo (valor<span class="math inline">\(_p=0.663\)</span>). Esto nos indica que el efecto de la edad gestacional sobre el peso al nacer es el mismo para los niños que para las niñas. También se tiene que el sexo no tiene un efecto significativo de acuerdo con la prueba de hipótesis individual. Sin embargo, no se puede afirmar que ambos efectos no sean significativos en conjunto. Para esto debemos realizar la siguiente prueba de hipótesis:
 <span class="math display">\[
-H_0: \beta_1 = \beta_3=0 \qquad H_1: \beta_1 \neq 0 \mbox{ o } \beta_3 \neq 0.
+H_0: \beta_1 = \beta_3=0, \qquad H_1: \beta_1 \neq 0 \mbox{ o } \beta_3 \neq 0.
 \]</span>
 En R, esto lo podemos hacer de la siguiente forma:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="modelo-lineal.html#cb13-1" tabindex="-1"></a>mod.br0 <span class="ot">=</span><span class="fu">lm</span>(weight <span class="sc">~</span> age, <span class="at">data =</span> birthweight)</span>
@@ -1065,7 +1065,7 @@ donde <span class="math inline">\(\varepsilon_i ~ N(0,\sigma^2)\)</span> y <span
 <span class="math display">\[
 \boldsymbol y= \boldsymbol X\boldsymbol \beta+ \boldsymbol \varepsilon=  \boldsymbol X_{1}\boldsymbol \beta_{1} + \boldsymbol X_{2}\boldsymbol \beta_{2} + \boldsymbol \varepsilon,
 \]</span>
-donde las columnas de la matriz <span class="math inline">\(n\times p\)</span> de covariables <span class="math inline">\(\boldsymbol X\)</span> está divida en dos submatrices <span class="math inline">\(\boldsymbol X_{1}\)</span> y <span class="math inline">\(\boldsymbol X_{2}\)</span> de dimensiones <span class="math inline">\(n \times (p-r)\)</span> y <span class="math inline">\(n\times r\)</span>, respectivamente. Además, asumimos que <span class="math inline">\(\boldsymbol \varepsilon\sim N(\boldsymbol 0, \sigma^{2}\boldsymbol I_{n})\)</span>.</p>
+donde las columnas de la matriz <span class="math inline">\(n\times p\)</span> de covariables <span class="math inline">\(\boldsymbol X\)</span> está divida en dos submatrices <span class="math inline">\(\boldsymbol X_{1}\)</span> y <span class="math inline">\(\boldsymbol X_{2}\)</span> de dimensiones <span class="math inline">\(n \times (p-r)\)</span> y <span class="math inline">\(n\times r\)</span>, respectivamente. Además, asumimos que <span class="math inline">\(\boldsymbol \varepsilon\sim N(\boldsymbol 0, \sigma^{2}\boldsymbol I)\)</span>.</p>
 <p>Ahora, consideramos estimar el siguiente modelo:
 <span class="math display">\[
 \boldsymbol y= \boldsymbol X_{1}\boldsymbol \beta_{1} + \boldsymbol \varepsilon^{*},
@@ -1076,7 +1076,7 @@ es decir estamos omitiendo las covariables contenidas en <span class="math inlin
 \]</span>
 y el estimador de <span class="math inline">\(\sigma^{2}\)</span> es:
 <span class="math display">\[
-\widehat{\sigma}^{2}_{1} = \frac{\boldsymbol y&#39;(\boldsymbol I_{n} - \boldsymbol H_{1})\boldsymbol y}{n-(p-r)}, \mbox{ donde }\boldsymbol H_{1} = \boldsymbol X_{1}(\boldsymbol X_{1}&#39;\boldsymbol X_{1})^{-1}\boldsymbol X_{1}&#39;.
+\widehat{\sigma}^{2}_{1} = \frac{\boldsymbol y&#39;(\boldsymbol I- \boldsymbol H_{1})\boldsymbol y}{n-(p-r)}, \mbox{ donde }\boldsymbol H_{1} = \boldsymbol X_{1}(\boldsymbol X_{1}&#39;\boldsymbol X_{1})^{-1}\boldsymbol X_{1}&#39;.
 \]</span>
 El valor esperado de <span class="math inline">\(\widehat{\boldsymbol \beta}_{1}\)</span> es:
 <span class="math display">\[\begin{equation}
@@ -1089,7 +1089,7 @@ E(\widehat{\boldsymbol \beta}_{1}) &amp;= E\left[(\boldsymbol X_{1}&#39;\boldsym
 Evidentemente, el sesgo de <span class="math inline">\(\widehat{\boldsymbol \beta}_{1}\)</span> depende de la magnitud de <span class="math inline">\(\boldsymbol \beta_{2}\)</span>. Entre más importantes sean los efectos asociados a las covariables omitidas <span class="math inline">\((\boldsymbol \beta_{2})\)</span>, mayor será el sesgo de <span class="math inline">\(\widehat{\boldsymbol \beta}_1\)</span>. Sin embargo, en caso particular que las columnas de <span class="math inline">\(\boldsymbol X_{1}\)</span> sean ortogonales a las columnas de <span class="math inline">\(\boldsymbol X_{2}\)</span>, tenemos que <span class="math inline">\(\boldsymbol X_{1}&#39;\boldsymbol X_{2} = \boldsymbol 0\)</span>, por lo tanto <span class="math inline">\(\widehat{\boldsymbol \beta}_{1}\)</span> es insesgado (así omitamos las covariables en <span class="math inline">\(\boldsymbol X_{2}\)</span>).</p>
 <p>El valor esperado de <span class="math inline">\(\widehat{\sigma}^{2}_{1}\)</span> está dado por:
 <span class="math display">\[
-E(\widehat{\sigma}^{2}_{1}) = \sigma^{2} + \frac{\boldsymbol \beta_{2}&#39;\boldsymbol X&#39;_{2}(\boldsymbol I_{n} - \boldsymbol H_{1})\boldsymbol X_{2}\boldsymbol \beta_{2}}{n-(p-r)}.
+E(\widehat{\sigma}^{2}_{1}) = \sigma^{2} + \frac{\boldsymbol \beta_{2}&#39;\boldsymbol X&#39;_{2}(\boldsymbol I- \boldsymbol H_{1})\boldsymbol X_{2}\boldsymbol \beta_{2}}{n-(p-r)}.
 \]</span>
 Dado que <span class="math inline">\((\boldsymbol I- \boldsymbol H_{1})\)</span> es idempotente y, por lo tanto, positiva semi-definida, entonces <span class="math inline">\(E(\widehat{\sigma}_{1}^{2}) &gt; \sigma^{2}\)</span>. Lo que quiere decir que <span class="math inline">\(\widehat{\sigma}^{2}_{1}\)</span> es un estimador postivamente sesgado de <span class="math inline">\(\sigma^{2}\)</span>.</p>
 <p>Ahora veamos el efecto sobre las predicciones de <span class="math inline">\(y\)</span> en el punto <span class="math inline">\(\boldsymbol x_{0} = (\boldsymbol x_{01}&#39;, \boldsymbol x_{02}&#39;)&#39;\)</span>. Tenemos que:
@@ -1104,7 +1104,7 @@ Por lo tanto las predicciones también son sesgadas, <span class="math inline">\
 </div>
 <div id="incorrecta-matriz-de-varianzas-de-los-errores" class="section level3 hasAnchor" number="1.5.2">
 <h3><span class="header-section-number">1.5.2</span> Incorrecta matriz de varianzas de los errores<a href="modelo-lineal.html#incorrecta-matriz-de-varianzas-de-los-errores" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Cuando <span class="math inline">\(V(\boldsymbol \varepsilon) = \sigma^{2}\boldsymbol V\)</span>, pero asumimos erroneamente que <span class="math inline">\(V(\boldsymbol \varepsilon) = \sigma^{2}\boldsymbol I_{n}\)</span>, el estimador <span class="math inline">\(\widehat{\boldsymbol \beta}\)</span> sigue siendo insesgado. Pero, tenemos que:
+<p>Cuando <span class="math inline">\(V(\boldsymbol \varepsilon) = \sigma^{2}\boldsymbol V\)</span>, pero asumimos erroneamente que <span class="math inline">\(V(\boldsymbol \varepsilon) = \sigma^{2}\boldsymbol I\)</span>, el estimador <span class="math inline">\(\widehat{\boldsymbol \beta}\)</span> sigue siendo insesgado. Pero, tenemos que:
 <span class="math display">\[\begin{equation}
 \begin{split}
 V(\widehat{\boldsymbol \beta}) &amp;= V\left[ (\boldsymbol X&#39;\boldsymbol X)^{-1}\boldsymbol X&#39;\boldsymbol y\right] = (\boldsymbol X&#39;\boldsymbol X)^{-1}\boldsymbol X&#39;V(\boldsymbol y)\boldsymbol X(\boldsymbol X&#39;\boldsymbol X)^{-1} \\
@@ -1145,10 +1145,10 @@ De la misma forma, los efectos negativos de la no normalidad dependen de que tan
 \boldsymbol e= \boldsymbol y- \widehat{\boldsymbol y}= (\boldsymbol I- \boldsymbol H)\boldsymbol y.
 \]</span>
 Los residuos representan las desviaciones entre las observaciones y el ajuste del modelo.</p>
-<p>Además, estos son combinaciones lineales de los errores, <span class="math inline">\((\boldsymbol I_{n} - \boldsymbol H)(\boldsymbol X\boldsymbol \beta+\boldsymbol \varepsilon) = (\boldsymbol I_{n} - \boldsymbol H)\boldsymbol \varepsilon\)</span>. Por lo tanto toda desviación de las premisas de los errores se debe reflejar en los residuos.</p>
-<p>Si <span class="math inline">\(\boldsymbol \varepsilon\sim N(\boldsymbol 0,\sigma^{2}\boldsymbol I_{n})\)</span>, entonces:
+<p>Además, estos son combinaciones lineales de los errores, <span class="math inline">\((\boldsymbol I- \boldsymbol H)(\boldsymbol X\boldsymbol \beta+\boldsymbol \varepsilon) = (\boldsymbol I- \boldsymbol H)\boldsymbol \varepsilon\)</span>. Por lo tanto toda desviación de las premisas de los errores se debe reflejar en los residuos.</p>
+<p>Si <span class="math inline">\(\boldsymbol \varepsilon\sim N(\boldsymbol 0,\sigma^{2}\boldsymbol I)\)</span>, entonces:
 <span class="math display">\[
-\boldsymbol e\sim N \left[ \boldsymbol 0, \sigma^{2}(\boldsymbol I_{n} - \boldsymbol H)  \right].
+\boldsymbol e\sim N \left[ \boldsymbol 0, \sigma^{2}(\boldsymbol I- \boldsymbol H)  \right].
 \]</span></p>
 <p>De aquí tenemos que <span class="math inline">\(V(e_{i}) = (1-h_{ii})\sigma^{2}\)</span> y <span class="math inline">\(Cov(e_{i},e_{j}) = - h_{ij}\sigma^{2}\)</span>, para todo <span class="math inline">\(i \neq j\)</span>. Lo que indica que, aún cuando los errores sean homogéneos en varianza e incorrelacionados, no implica que los residuos lo sean también. Sin embargo, cuando <span class="math inline">\(n-p\)</span> es grande, los residuos si reflejan a los errores en cuanto al comportamiento de su varianza y correlación. Esto se debe a que <span class="math inline">\(|h_{ij}| \leq 1\)</span>, <span class="math inline">\(\sum_{i=1}^{n}h_{ii} = n-p\)</span>, y <span class="math inline">\(\sum_{i=1}^{n}h_{ij}=\sum_{j=1}^{n}h_{ij}=1\)</span>. Por lo tanto, cuando <span class="math inline">\(n\rightarrow \infty\)</span>, <span class="math inline">\(V(e_{i}) = \sigma^{2}\)</span> y <span class="math inline">\(Cov(e_{i},e_{j}) = 0\)</span>.</p>
 <div id="residuos-estudentizados" class="section level3 hasAnchor" number="1.6.1">

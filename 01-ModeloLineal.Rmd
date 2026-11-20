@@ -17,7 +17,7 @@ En la Figura \@ref(fig:pesoNacerFigure1) se observa la relación entre el peso a
 ```{r pesoNacerFigure1, fig.height = 4, fig.width = 5,fig.align = "center",fig.cap = "Gráfico de dispersion del la edad gestional y el peso al nacer. Punto rojos corresponden a niños y los negros a niñas."}
 library(isdals)
 data(birthweight)
-plot(weight~age,data=birthweight,xlab="edad gestacional (meses)",
+plot(weight~age,data=birthweight,xlab="edad gestacional (semanas)",
      ylab='peso al nacer (gramos)',col=sex)
 ```
 
@@ -231,20 +231,20 @@ La matriz $\bH = \bX(\bX'\bX)^{-1}\bX'$ es llamada **matriz hat** (sombrero) y d
 
 La diferencia entre el valor observado $(y_i)$ y el valor ajustado $(\haty_i)$ en el punto $\bx_i$ recibe el nombre de residuo del modelo $(e_{i}=y_{i}-\haty_{i})$. Este también se pueden expresar en forma matricial:
 \[
-\be = \by - \bX'\hatbbeta = \by - \bX(\bX'\bX)^{-1}\bX'\by = \by - \bH\by = (\bI_{n} - \bH)\by.
+\be = \by - \bX'\hatbbeta = \by - \bX(\bX'\bX)^{-1}\bX'\by = \by - \bH\by = (\bI - \bH)\by.
 \]
 A partir de los residuos se puede obtener la estimación de $\sigma^2$. Este se obtiene a través de la suma de cuadrados de los residuos, definida como:
 \begin{equation}
 \begin{split}
 SSE &= \sum_{i=1}^{n}e^{2}_{i} = \be'\be = (\by - \bX\hatbbeta)'(\by - \bX\hatbbeta) \\
-&= (\by - \bH\by)'(\by - \bH\by) = \by'(\bI_{n}-\bH)'(\bI_{n}-\bH)\by = \by'(\bI_{n} - \bH)\by.
+&= (\by - \bH\by)'(\by - \bH\by) = \by'(\bI-\bH)'(\bI-\bH)\by = \by'(\bI - \bH)\by.
 \end{split}
 \nonumber
 \end{equation}
 
 El valor esperado de esta cantidad es:
 \[
-E(SSE) = E\left[\by'(\bI_{n} - \bH)\by\right] = \sigma^{2}\tr\left( \bI_{n} - \bH \right) + \bbeta'\bX'(\bI_{n} - \bH)\bX\bbeta = (n-p)\sigma^{2}.
+E(SSE) = E\left[\by'(\bI - \bH)\by\right] = \sigma^{2}\tr\left( \bI - \bH \right) + \bbeta'\bX'(\bI - \bH)\bX\bbeta = (n-p)\sigma^{2}.
 \]
 Por lo tanto, un estimador insesgado de $\sigma^2$ es:
 \[
@@ -274,7 +274,7 @@ V(\hatbbeta) &= V\left[ (\bX'\bX)^{-1}\bX'\by \right] = (\bX'\bX)^{-1}\bX'V(\by)
 Si $\bC=(\bX'\bX)^{-1}$, entonces $V(\hatbeta_{j}) = \sigma^{2}c_{jj}$ y $Cov(\hatbeta_{j},\hatbeta_{k})=\sigma^{2}c_{jk}$, donde $c_{jk}$ es la entrada $(j,k)$ de la matriz $\bC$.
 
 ### Teorema de Gauss-Markov
-Si, $E(\bvarepsi) = \bZERO$ y $V(\bvarepsi) = \sigma^{2}\bI_{n}$, el estimador por MCO es el mejor estimador lineal insesgado de $\bbeta$. Esto quiere decir que es el estimador con menor varianza entre la clase de estimador insesgados que son combinaciones lineales de $y$.
+Si, $E(\bvarepsi) = \bZERO$ y $V(\bvarepsi) = \sigma^{2}\bI$, el estimador por MCO es el mejor estimador lineal insesgado de $\bbeta$. Esto quiere decir que es el estimador con menor varianza entre la clase de estimador insesgados que son combinaciones lineales de $y$.
 
 Para demostrarlo, consideremos otro estimador lineal de $\bbeta$:
 \[
@@ -305,7 +305,7 @@ Si consideramos $\ba = \bD'\bl$, entonces $\ba'\ba = \sum_{i=1}^{p}a^{2}_i > 0$.
 y en consecuencia, $V(\bl'\tildebbeta) > V(\bl'\hatbbeta)$.
 
 ### Estimador de máxima verosimilitud
-Dado que estamos asumiendo que $\bvarepsi \sim N(\bZERO, \sigma^{2}\bI_{n})$, entonces $\by \sim N(\bX\bbeta,\sigma^2\bI)$. Por lo tanto la función de log-verosimitud para $\btheta = (\bbeta',\sigma^2)'$ está dada por:
+Dado que estamos asumiendo que $\bvarepsi \sim N(\bZERO, \sigma^{2}\bI)$, entonces $\by \sim N(\bX\bbeta,\sigma^2\bI)$. Por lo tanto la función de log-verosimitud para $\btheta = (\bbeta',\sigma^2)'$ está dada por:
 \[
 \ell(\btheta) = -\frac{n}{2} \left[ \log(2\pi) - \log \sigma^2 \right] - \frac{1}{2\sigma^2}(\by - \bX\bbeta)'(\by - \bX\bbeta).
 \]
@@ -392,7 +392,7 @@ De aquí podemos concluir que la diferencia media en peso al nacer entre niños 
 
 ```{r pesoNacerMedia, echo=F, fig.height = 6, fig.width = 9,fig.align = "center",fig.cap = "Media del peso al nacer según la edad gestacional para niños (línea roja) y niñas (línea negra). Punto rojos corresponden a niños y los negros a niñas."}
 library(isdals)
-plot(weight~age,data=birthweight,xlab="edad gestacional (meses)",
+plot(weight~age,data=birthweight,xlab="edad gestacional (semanas)",
      ylab='peso al nacer (gramos)',col=sex)
 abline(a = -2141.67,b=130.40, lwd=2)
 abline(a = -1268.68,b=111.98, lwd=2,col=2)
@@ -400,7 +400,7 @@ abline(a = -1268.68,b=111.98, lwd=2,col=2)
 #### Datos de grasa corporal {-}
 Vamos a considerar el siguiente modelo:
 \[
-\mbox{brozek}_{i} = \beta_{0} + \beta_{1}\mbox{abdom}_{i} + \beta_{2}\mbox{weigth}_{i}+\beta_{3}\mbox{age}_{i} + \beta_{3}\mbox{adipos}_{i} \varepsilon_{i},
+\mbox{brozek}_{i} = \beta_{0} + \beta_{1}\mbox{abdom}_{i} + \beta_{2}\mbox{age}_{i} + \beta_{3}\mbox{adipos}_{i} \varepsilon_{i},
 \]
 donde $\varepsilon_{i}\sim N(0,\sigma^{2})$, y $cov(\varepsilon_{j},\varepsilon_{k})=0$ para todo $j\neq k$.
 
@@ -425,14 +425,14 @@ La media del \% de grasa corporal de los individuos con estas características e
 
 ## Inferencias sobre los parámetros del modelo
 
-Es posible hacer inferencias (pruebas de hipótesis e intervalos de confianza) para los coeficientes de regresión $(\bbeta)$ y el valor esperado de $Y|\bx$. Para que estos sean válidos, se requiere que se cumplan todos los supuestos del modelo, esto es $\bvarepsi\sim N(\bZERO, \sigma^{2}\bI_{n})$.
+Es posible hacer inferencias (pruebas de hipótesis e intervalos de confianza) para los coeficientes de regresión $(\bbeta)$ y el valor esperado de $Y|\bx$. Para que estos sean válidos, se requiere que se cumplan todos los supuestos del modelo, esto es $\bvarepsi\sim N(\bZERO, \sigma^{2}\bI)$.
 
 ### Análisis de varianza
 Para probar la significancia del modelo se plantean las siguientes hipótesis:
 
 \begin{equation}
 \begin{split}
-H_{0}:& \beta_{1}=\beta_{2}=\ldots=\beta_{p-1} = 0 \\
+H_{0}:& \beta_{1}=\beta_{2}=\ldots=\beta_{p-1} = 0, \\
 H_{1}:& \beta_{j}\neq 0 \mbox{ para al menos un }j.
 \end{split}
 (\#eq:HANOVA)
@@ -556,7 +556,7 @@ F_{0} = \frac{SSR(\bbeta_{2}|\bbeta_{1})/r}{MSE}.
 \]
 Si $H_{0}$ es cierta entonces $F_{0} \sim F_{r,n-p}$. Si $H_{0}$ no es cierta, entonces $F_{0}$ sigue una distribución $F$ no-central con parámetro de no centralidad igual a:
 \[
-\lambda = \frac{1}{\sigma^{2}}\bbeta_{2}'\bX_{2}'\left[ \bI_{n} - \bX_{1}(\bX_{1}'\bX_{1})^{-1}\bX_{1}'\right]\bX_{2}\bbeta_{2}.
+\lambda = \frac{1}{\sigma^{2}}\bbeta_{2}'\bX_{2}'\left[ \bI - \bX_{1}(\bX_{1}'\bX_{1})^{-1}\bX_{1}'\right]\bX_{2}\bbeta_{2}.
 \]
 Note que si hay una relación casi colineal entre $\bX_{1}$ y $\bX_{2}$ (multicolinealidad), $\lambda$ es cercano a cero pesar que $\bbeta_{2}$ sea marcadamente distinto de cero. Es decir, que la prueba tiene poca capacidad de indicar diferencias (poco poder) en presencia de multicolinealidad. Caso contrario, el máximo poder se alcanza cuando $\bX_{1}$ y $\bX_{2}$ son ortogonales (es decir $\bX_{2}'\bX_{1} = \bZERO$).
 
@@ -656,7 +656,7 @@ Aquí podemos observar las estimaciones de los coeficientes de regresión, el er
 
 A partir de la prueba de hipótesis individual sobre el efecto interacción podemos afirmar que este no es significativo (valor$_p=0.663$). Esto nos indica que el efecto de la edad gestacional sobre el peso al nacer es el mismo para los niños que para las niñas. También se tiene que el sexo no tiene un efecto significativo de acuerdo con la prueba de hipótesis individual. Sin embargo, no se puede afirmar que ambos efectos no sean significativos en conjunto. Para esto debemos realizar la siguiente prueba de hipótesis:
 \[
-H_0: \beta_1 = \beta_3=0 \qquad H_1: \beta_1 \neq 0 \mbox{ o } \beta_3 \neq 0.
+H_0: \beta_1 = \beta_3=0, \qquad H_1: \beta_1 \neq 0 \mbox{ o } \beta_3 \neq 0.
 \]
 En R, esto lo podemos hacer de la siguiente forma:
 ```{r fitBirthweight3, echo=TRUE}
@@ -727,7 +727,7 @@ Si omitimos covariables relevantes dentro del modelo, las estimaciones serán se
 \[
 \by = \bX\bbeta + \bvarepsi =  \bX_{1}\bbeta_{1} + \bX_{2}\bbeta_{2} + \bvarepsi,
 \]
-donde las columnas de la matriz $n\times p$ de covariables $\bX$ está divida en dos submatrices $\bX_{1}$ y $\bX_{2}$ de dimensiones $n \times (p-r)$ y $n\times r$, respectivamente. Además, asumimos que $\bvarepsi \sim N(\bZERO, \sigma^{2}\bI_{n})$.
+donde las columnas de la matriz $n\times p$ de covariables $\bX$ está divida en dos submatrices $\bX_{1}$ y $\bX_{2}$ de dimensiones $n \times (p-r)$ y $n\times r$, respectivamente. Además, asumimos que $\bvarepsi \sim N(\bZERO, \sigma^{2}\bI)$.
 
 Ahora, consideramos estimar el siguiente modelo:
 \[
@@ -739,7 +739,7 @@ es decir estamos omitiendo las covariables contenidas en $\bX_{2}$. El estimador
 \]
 y el estimador de $\sigma^{2}$ es:
 \[
-\hatsigma^{2}_{1} = \frac{\by'(\bI_{n} - \bH_{1})\by}{n-(p-r)}, \mbox{ donde }\bH_{1} = \bX_{1}(\bX_{1}'\bX_{1})^{-1}\bX_{1}'.
+\hatsigma^{2}_{1} = \frac{\by'(\bI - \bH_{1})\by}{n-(p-r)}, \mbox{ donde }\bH_{1} = \bX_{1}(\bX_{1}'\bX_{1})^{-1}\bX_{1}'.
 \]
 El valor esperado de $\hatbbeta_{1}$ es:
 \begin{equation}
@@ -753,7 +753,7 @@ Evidentemente, el sesgo de $\hatbbeta_{1}$ depende de la magnitud de $\bbeta_{2}
 
 El valor esperado de $\hatsigma^{2}_{1}$ está dado por:
 \[
-E(\hatsigma^{2}_{1}) = \sigma^{2} + \frac{\bbeta_{2}'\bX'_{2}(\bI_{n} - \bH_{1})\bX_{2}\bbeta_{2}}{n-(p-r)}.
+E(\hatsigma^{2}_{1}) = \sigma^{2} + \frac{\bbeta_{2}'\bX'_{2}(\bI - \bH_{1})\bX_{2}\bbeta_{2}}{n-(p-r)}.
 \]
 Dado que $(\bI - \bH_{1})$ es idempotente y, por lo tanto, positiva semi-definida, entonces $E(\hatsigma_{1}^{2}) > \sigma^{2}$. Lo que quiere decir que $\hatsigma^{2}_{1}$ es un estimador postivamente sesgado de $\sigma^{2}$.
 
@@ -768,7 +768,7 @@ E(\hatby_{0}) = \bx_{01}'E(\hatbbeta_{1}) = \bx_{01}'\left[ \bbeta_{1} +  (\bX_{
 Por lo tanto las predicciones también son sesgadas, $E(\hatby_{0}) \neq \bx_{01}'\bbeta_{1} + \bx_{02}'\bbeta_{2}$.
 
 ### Incorrecta matriz de varianzas de los errores
-Cuando $V(\bvarepsi) = \sigma^{2}\bV$, pero asumimos erroneamente que $V(\bvarepsi) = \sigma^{2}\bI_{n}$, el estimador $\hatbbeta$ sigue siendo insesgado. Pero, tenemos que:
+Cuando $V(\bvarepsi) = \sigma^{2}\bV$, pero asumimos erroneamente que $V(\bvarepsi) = \sigma^{2}\bI$, el estimador $\hatbbeta$ sigue siendo insesgado. Pero, tenemos que:
 \begin{equation}
 \begin{split}
 V(\hatbbeta) &= V\left[ (\bX'\bX)^{-1}\bX'\by \right] = (\bX'\bX)^{-1}\bX'V(\by)\bX(\bX'\bX)^{-1} \\
@@ -811,11 +811,11 @@ Los residuos están definidos como $e_{i} = y_{i}- \haty_{i}$, o de forma matric
 \]
 Los residuos representan las desviaciones entre las observaciones y el ajuste del modelo. 
 
-Además, estos son combinaciones lineales de los errores, $(\bI_{n} - \bH)(\bX\bbeta +\bvarepsi) = (\bI_{n} - \bH)\bvarepsi$. Por lo tanto toda desviación de las premisas de los errores se debe reflejar en los residuos. 
+Además, estos son combinaciones lineales de los errores, $(\bI - \bH)(\bX\bbeta +\bvarepsi) = (\bI - \bH)\bvarepsi$. Por lo tanto toda desviación de las premisas de los errores se debe reflejar en los residuos. 
 
-Si $\bvarepsi \sim N(\bZERO,\sigma^{2}\bI_{n})$, entonces:
+Si $\bvarepsi \sim N(\bZERO,\sigma^{2}\bI)$, entonces:
 \[
-\be \sim N \left[ \bZERO , \sigma^{2}(\bI_{n} - \bH)  \right].
+\be \sim N \left[ \bZERO , \sigma^{2}(\bI - \bH)  \right].
 \]
 
 De aquí tenemos que $V(e_{i}) = (1-h_{ii})\sigma^{2}$ y $Cov(e_{i},e_{j}) = - h_{ij}\sigma^{2}$, para todo $i \neq j$. Lo que indica que, aún cuando los errores sean homogéneos en varianza e incorrelacionados, no implica que los residuos lo sean también. Sin embargo, cuando $n-p$ es grande, los residuos si reflejan a los errores en cuanto al comportamiento de su varianza y correlación. Esto se debe a que $|h_{ij}| \leq 1$, $\sum_{i=1}^{n}h_{ii} = n-p$, y $\sum_{i=1}^{n}h_{ij}=\sum_{j=1}^{n}h_{ij}=1$. Por lo tanto, cuando $n\rightarrow \infty$, $V(e_{i}) = \sigma^{2}$ y $Cov(e_{i},e_{j}) = 0$.
