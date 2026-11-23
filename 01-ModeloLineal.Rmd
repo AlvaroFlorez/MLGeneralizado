@@ -1234,7 +1234,7 @@ h_{ii} &= \frac{1}{n} + \frac{1}{n-1}(\bx_{i} - \bar{\bx})'\bS_{xx}(\bx_{i} - \b
 \end{split}
 \nonumber
 \end{equation}
-donde $\bS_{xx}$ es la matriz de covarianzas muestrales de $\bx$, y MD$_{i}$ es la concida como la \textit{distancia de Mahalanobis}. Es decir, $h_{ii}$ es una medida de que tan lejos está $\bx_i$ del centro de los datos de las covariables, $\bar{\bx} = (\bar{x}_1,\bar{x}_2, \ldots, \bar{x}_{p-1})'$.
+donde $\bS_{xx}$ es la matriz de covarianzas muestrales de $\bx$, y MD$_{i}$ es la concida como la distancia de Mahalanobis. Es decir, $h_{ii}$ es una medida de que tan lejos está $\bx_i$ del centro de los datos de las covariables, $\bar{\bx} = (\bar{x}_1,\bar{x}_2, \ldots, \bar{x}_{p-1})'$.
 
 ```{r puntosAIw, echo=F, fig.height = 5, fig.width = 9,fig.align = "center",fig.cap = "Efecto de los puntos inusuales. En cada gráfico, la línea continua es la estimación por MCO con todos los datos, mientras que la línea discontinua es la estimación por MCO omitiendo el punto inusual (circulo rojo). Izquierda: efecto de un punto atípico. Centro: efecto de un punto de balanceo. Derecha: efecto de un punto influyente.",warning=FALSE,message = FALSE}
 set.seed(2)
